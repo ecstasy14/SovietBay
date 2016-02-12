@@ -1,3 +1,5 @@
+/*
+<<<<<<< HEAD
 /turf/simulated/floor/airless
 	icon_state = "floor"
 	name = "airless floor"
@@ -13,7 +15,7 @@
 	icon_state = "rockvault"
 
 /turf/simulated/floor/light
-	name = "Light floor"
+	name = "light floor"
 	light_range = 5
 	icon_state = "light_on"
 	floor_type = /obj/item/stack/tile/light
@@ -39,81 +41,23 @@
 		icon_state = "[type]vault"
 
 /turf/simulated/wall/vault
-	icon_state = "rockvault"
+	icon = 'icons/turf/walls.dmi'
+	icon_state = "riveted"
 
-	New(location,type)
-		..()
-		icon_state = "[type]vault"
+	rockvault
+		icon_state = "rockvault"
+	sandstonevault
+		icon_state = "sandstonevault"
+	alienvault
+		icon_state = "alienvault"
+=======
+*/
+/turf/simulated/floor/diona
+	name = "biomass flooring"
+	icon_state = "diona"
 
-/turf/simulated/floor/engine
-	name = "reinforced floor"
-	icon_state = "engine"
-	thermal_conductivity = 0.025
-	heat_capacity = 325000
-	intact = 0
-
-/turf/simulated/floor/engine/nitrogen
-	oxygen = 0
-
-/turf/simulated/floor/engine/attackby(obj/item/weapon/C as obj, mob/user as mob)
-	if(!C)
-		return
-	if(!user)
-		return
-	if(istype(C, /obj/item/weapon/wrench))
-		user << "\blue Removing rods..."
-		playsound(src, 'sound/items/Ratchet.ogg', 80, 1)
-		if(do_after(user, 30))
-			PoolOrNew(/obj/item/stack/rods, list(loc, 2))
-			ChangeTurf(/turf/simulated/floor)
-			var/turf/simulated/floor/F = src
-			F.make_plating()
-			return
-
-/turf/simulated/floor/engine/cult
-	name = "engraved floor"
-	icon_state = "cult"
-
-/turf/simulated/floor/engine/cult/cultify()
+/turf/simulated/floor/diona/attackby()
 	return
-
-/turf/simulated/floor/engine/n20
-	New()
-		. = ..()
-		assume_gas("sleeping_agent", 2000)
-
-/turf/simulated/floor/engine/vacuum
-	name = "vacuum floor"
-	icon_state = "engine"
-	oxygen = 0
-	nitrogen = 0
-	temperature = TCMB
-
-/turf/simulated/floor/plating
-	name = "plating"
-	icon_state = "plating"
-	floor_type = null
-	intact = 0
-
-/turf/simulated/floor/plating/airless
-	icon_state = "plating"
-	name = "airless plating"
-	oxygen = 0
-	nitrogen = 0
-	temperature = TCMB
-
-	New()
-		..()
-		name = "plating"
-
-/turf/simulated/floor/bluegrid
-	icon = 'icons/turf/floors.dmi'
-	icon_state = "bcircuit"
-
-/turf/simulated/floor/greengrid
-	icon = 'icons/turf/floors.dmi'
-	icon_state = "gcircuit"
-
 
 /turf/simulated/shuttle
 	name = "shuttle"
@@ -137,35 +81,41 @@
 	name = "plating"
 	icon = 'icons/turf/floors.dmi'
 	icon_state = "plating"
+	level = 1
 
-/turf/simulated/shuttle/plating/vox	//Skipjack plating
+/turf/simulated/shuttle/plating/is_plating()
+	return 1
+
+/turf/simulated/shuttle/plating/vox //Skipjack plating
 	oxygen = 0
 	nitrogen = MOLES_N2STANDARD + MOLES_O2STANDARD
 
 /turf/simulated/shuttle/floor4 // Added this floor tile so that I have a seperate turf to check in the shuttle -- Polymorph
-	name = "Brig floor"        // Also added it into the 2x3 brig area of the shuttle.
+	name = "brig floor"        // Also added it into the 2x3 brig area of the shuttle.
 	icon_state = "floor4"
 
-/turf/simulated/shuttle/floor4/vox	//skipjack floors
+/turf/simulated/shuttle/floor4/vox //skipjack floors
 	name = "skipjack floor"
 	oxygen = 0
 	nitrogen = MOLES_N2STANDARD + MOLES_O2STANDARD
+/*
+<<<<<<< HEAD
 
 /turf/simulated/floor/beach
-	name = "Beach"
+	name = "beach"
 	icon = 'icons/misc/beach.dmi'
 
 /turf/simulated/floor/beach/sand
-	name = "Sand"
+	name = "sand"
 	icon_state = "sand"
 
 /turf/simulated/floor/beach/coastline
-	name = "Coastline"
+	name = "coastline"
 	icon = 'icons/misc/beach2.dmi'
 	icon_state = "sandwater"
 
 /turf/simulated/floor/beach/water
-	name = "Water"
+	name = "water"
 	icon_state = "water"
 
 /turf/simulated/floor/beach/water/New()
@@ -173,7 +123,7 @@
 	overlays += image("icon"='icons/misc/beach.dmi',"icon_state"="water5","layer"=MOB_LAYER+0.1)
 
 /turf/simulated/floor/grass
-	name = "Grass patch"
+	name = "grass patch"
 	icon_state = "grass1"
 	floor_type = /obj/item/stack/tile/grass
 
@@ -189,7 +139,7 @@
 						FF.update_icon() //so siding get updated properly
 
 /turf/simulated/floor/carpet
-	name = "Carpet"
+	name = "carpet"
 	icon_state = "carpet"
 	floor_type = /obj/item/stack/tile/carpet
 
@@ -207,10 +157,12 @@
 
 
 
-/turf/simulated/floor/plating/ironsand/New()
-	..()
-	name = "Iron Sand"
-	icon_state = "ironsand[rand(1,15)]"
+/turf/simulated/floor/plating/ironsand
+	name = "iron sand"
+
+	New()
+		..()
+		icon_state = "ironsand[rand(1,15)]"
 
 /turf/simulated/floor/plating/snow
 	name = "snow"
@@ -219,3 +171,6 @@
 
 /turf/simulated/floor/plating/snow/ex_act(severity)
 	return
+=======
+>>>>>>> ed932901a620cef0ec861c81ad7805468662f693
+*/

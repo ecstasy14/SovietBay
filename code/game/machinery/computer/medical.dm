@@ -3,10 +3,11 @@
 /obj/machinery/computer/med_data//TODO:SANITY
 	name = "medical records console"
 	desc = "Used to view, edit and maintain medical records."
-	icon_state = "medcomp"
+	icon_keyboard = "med_key"
+	icon_screen = "medcomp"
 	light_color = "#315ab4"
 	req_one_access = list(access_medical, access_forensics_lockers)
-	circuit = "/obj/item/weapon/circuitboard/med_data"
+	circuit = /obj/item/weapon/circuitboard/med_data
 	var/obj/item/weapon/card/id/scan = null
 	var/authenticated = null
 	var/rank = null
@@ -34,13 +35,13 @@
 		usr << "There is nothing to remove from the console."
 	return
 
-/obj/machinery/computer/med_data/attackby(obj/item/O as obj, user as mob)
-	if(istype(O, /obj/item/weapon/card/id) && !scan)
-		usr.drop_item()
+/obj/machinery/computer/med_data/attackby(var/obj/item/O, var/mob/user)
+	if(istype(O, /obj/item/weapon/card/id) && !scan && user.unEquip(O))
 		O.loc = src
 		scan = O
-		user << "You insert [O]."
-	..()
+		user << "You insert \the [O]."
+	else
+		..()
 
 /obj/machinery/computer/med_data/attack_ai(user as mob)
 	return src.attack_hand(user)
@@ -48,6 +49,9 @@
 /obj/machinery/computer/med_data/attack_hand(mob/user as mob)
 	if(..())
 		return
+	ui_interact(user)
+
+/obj/machinery/computer/med_data/ui_interact(mob/user)
 	var/dat
 	if (src.temp)
 		dat = text("<TT>[src.temp]</TT><BR><BR><A href='?src=\ref[src];temp=1'>Clear Screen</A>")
@@ -143,6 +147,7 @@
 				else
 		else
 			dat += text("<A href='?src=\ref[];login=1'>{Log In}</A>", src)
+	dat = sanitize_local(dat, SANITIZE_BROWSER)
 	user << browse(text("<HEAD><TITLE>Medical Records</TITLE></HEAD><TT>[]</TT>", dat), "window=med_rec")
 	onclose(user, "med_rec")
 	return
@@ -251,7 +256,7 @@
 				switch(href_list["field"])
 					if("fingerprint")
 						if (istype(src.active1, /datum/data/record))
-							var/t1 = sanitize(input("Please input fingerprint hash:", "Med. records", revert_ja(src.active1.fields["fingerprint"]), null)  as text)
+							var/t1 = sanitize(input("Please input fingerprint hash:", "Med. records", sanitize_local(src.active1.fields["fingerprint"], SANITIZE_TEMP), null)  as text)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active1 != a1))
 								return
 							src.active1.fields["fingerprint"] = t1
@@ -269,55 +274,55 @@
 							src.active1.fields["age"] = t1
 					if("mi_dis")
 						if (istype(src.active2, /datum/data/record))
-							var/t1 = sanitize(input("Please input minor disabilities list:", "Med. records", revert_ja(src.active2.fields["mi_dis"]), null)  as text, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please input minor disabilities list:", "Med. records", sanitize_local(src.active2.fields["mi_dis"], SANITIZE_TEMP), null)  as text)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active2 != a2))
 								return
 							src.active2.fields["mi_dis"] = t1
 					if("mi_dis_d")
 						if (istype(src.active2, /datum/data/record))
-							var/t1 = sanitize(input("Please summarize minor dis.:", "Med. records", revert_ja(src.active2.fields["mi_dis_d"]), null)  as message, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please summarize minor dis.:", "Med. records", sanitize_local(src.active2.fields["mi_dis_d"], SANITIZE_TEMP), null)  as message)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active2 != a2))
 								return
 							src.active2.fields["mi_dis_d"] = t1
 					if("ma_dis")
 						if (istype(src.active2, /datum/data/record))
-							var/t1 = sanitize(input("Please input major diabilities list:", "Med. records", revert_ja(src.active2.fields["ma_dis"]), null)  as text, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please input major diabilities list:", "Med. records", sanitize_local(src.active2.fields["ma_dis"], SANITIZE_TEMP), null)  as text)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active2 != a2))
 								return
 							src.active2.fields["ma_dis"] = t1
 					if("ma_dis_d")
 						if (istype(src.active2, /datum/data/record))
-							var/t1 = sanitize(input("Please summarize major dis.:", "Med. records", revert_ja(src.active2.fields["ma_dis_d"]), null)  as message, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please summarize major dis.:", "Med. records", sanitize_local(src.active2.fields["ma_dis_d"], SANITIZE_TEMP), null)  as message)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active2 != a2))
 								return
 							src.active2.fields["ma_dis_d"] = t1
 					if("alg")
 						if (istype(src.active2, /datum/data/record))
-							var/t1 = sanitize(input("Please state allergies:", "Med. records", revert_ja(src.active2.fields["alg"]), null)  as text, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please state allergies:", "Med. records", sanitize_local(src.active2.fields["alg"], SANITIZE_TEMP), null)  as text)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active2 != a2))
 								return
 							src.active2.fields["alg"] = t1
 					if("alg_d")
 						if (istype(src.active2, /datum/data/record))
-							var/t1 = sanitize(input("Please summarize allergies:", "Med. records", revert_ja(src.active2.fields["alg_d"]), null)  as message, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please summarize allergies:", "Med. records", sanitize_local(src.active2.fields["alg_d"], SANITIZE_TEMP), null)  as message)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active2 != a2))
 								return
 							src.active2.fields["alg_d"] = t1
 					if("cdi")
 						if (istype(src.active2, /datum/data/record))
-							var/t1 = sanitize(input("Please state diseases:", "Med. records", revert_ja(src.active2.fields["cdi"]), null)  as text, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please state diseases:", "Med. records", sanitize_local(src.active2.fields["cdi"], SANITIZE_TEMP), null)  as text)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active2 != a2))
 								return
 							src.active2.fields["cdi"] = t1
 					if("cdi_d")
 						if (istype(src.active2, /datum/data/record))
-							var/t1 = sanitize(input("Please summarize diseases:", "Med. records", revert_ja(src.active2.fields["cdi_d"]), null)  as message, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please summarize diseases:", "Med. records", sanitize_local(src.active2.fields["cdi_d"], SANITIZE_TEMP), null)  as message)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active2 != a2))
 								return
 							src.active2.fields["cdi_d"] = t1
 					if("notes")
 						if (istype(src.active2, /datum/data/record))
-							var/t1 = sanitize(input("Please summarize notes:", "Med. records", html_decode(revert_ja(src.active2.fields["notes"])), null)  as message, extra = 0, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please summarize notes:", "Med. records", lhtml_decode(sanitize_local(src.active2.fields["notes"], SANITIZE_TEMP)), null)  as message, extra = 0)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active2 != a2))
 								return
 							src.active2.fields["notes"] = t1
@@ -339,14 +344,14 @@
 					if("vir_name")
 						var/datum/data/record/v = locate(href_list["edit_vir"])
 						if (v)
-							var/t1 = sanitize(input("Please input pathogen name:", "VirusDB", revert_ja(v.fields["name"]), null)  as text, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please input pathogen name:", "VirusDB", sanitize_local(v.fields["name"], SANITIZE_TEMP), null)  as text)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active1 != a1))
 								return
 							v.fields["name"] = t1
 					if("vir_desc")
 						var/datum/data/record/v = locate(href_list["edit_vir"])
 						if (v)
-							var/t1 = sanitize(input("Please input information about pathogen:", "VirusDB", revert_ja(v.fields["description"]), null)  as message, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please input information about pathogen:", "VirusDB", sanitize_local(v.fields["description"], SANITIZE_TEMP), null)  as message)
 							if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active1 != a1))
 								return
 							v.fields["description"] = t1
@@ -451,13 +456,13 @@
 				if (!( istype(src.active2, /datum/data/record) ))
 					return
 				var/a2 = src.active2
-				var/t1 = sanitize(input("Add Comment:", "Med. records", null, null)  as message, ja_mode = POPUP)
+				var/t1 = sanitize(input("Add Comment:", "Med. records", null, null)  as message)
 				if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || src.active2 != a2))
 					return
 				var/counter = 1
 				while(src.active2.fields[text("com_[]", counter)])
 					counter++
-				src.active2.fields[text("com_[counter]")] = text("Made by [authenticated] ([rank]) on [time2text(world.realtime, "DDD MMM DD hh:mm:ss")], [game_year]<BR>[t1]")
+				src.active2.fields[text("com_[counter]")] = text("Made by [authenticated] ([rank]) on [time2text(world.realtime, "DDD MMM DD")] [worldtime2text()], [game_year]<BR>[t1]")
 
 			if (href_list["del_c"])
 				if ((istype(src.active2, /datum/data/record) && src.active2.fields[text("com_[]", href_list["del_c"])]))
@@ -551,5 +556,7 @@
 
 /obj/machinery/computer/med_data/laptop
 	name = "Medical Laptop"
-	desc = "Cheap Nanotrasen Laptop."
-	icon_state = "medlaptop"
+	desc = "A cheap laptop."
+	icon_state = "laptop"
+	icon_keyboard = "laptop_key"
+	icon_screen = "medlaptop"

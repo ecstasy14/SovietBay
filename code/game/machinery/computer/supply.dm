@@ -1,10 +1,11 @@
 /obj/machinery/computer/supplycomp
 	name = "supply control console"
 	icon = 'icons/obj/computer.dmi'
-	icon_state = "supply"
+	icon_keyboard = "tech_key"
+	icon_screen = "supply"
 	light_color = "#b88b2e"
 	req_access = list(access_cargo)
-	circuit = "/obj/item/weapon/circuitboard/supplycomp"
+	circuit = /obj/item/weapon/circuitboard/supplycomp
 	var/temp = null
 	var/reqtime = 0 //Cooldown for requisitions - Quarxink
 	var/hacked = 0
@@ -14,8 +15,8 @@
 /obj/machinery/computer/ordercomp
 	name = "supply ordering console"
 	icon = 'icons/obj/computer.dmi'
-	icon_state = "request"
-	circuit = "/obj/item/weapon/circuitboard/ordercomp"
+	icon_screen = "request"
+	circuit = /obj/item/weapon/circuitboard/ordercomp
 	var/temp = null
 	var/reqtime = 0 //Cooldown for requisitions - Quarxink
 	var/last_viewed_group = "categories"
@@ -44,7 +45,7 @@
 		<A href='?src=\ref[src];viewrequests=1'>View requests</A><BR><BR>
 		<A href='?src=\ref[user];mach_close=computer'>Close</A>"}
 
-	user << browse(dat, "window=computer;size=575x450")
+	user << browse(sanitize_local(dat, SANITIZE_BROWSER), "window=computer;size=575x450")
 	onclose(user, "computer")
 	return
 
@@ -150,7 +151,7 @@
 
 /obj/machinery/computer/supplycomp/attack_hand(var/mob/user as mob)
 	if(!allowed(user))
-		user << "\red Access Denied."
+		user << "<span class='warning'>Access Denied.</span>"
 		return
 
 	if(..())
@@ -203,18 +204,15 @@
 		\n<A href='?src=\ref[user];mach_close=computer'>Close</A>"}
 
 
-	user << browse(dat, "window=computer;size=575x450")
+	user << browse(sanitize_local(dat, SANITIZE_BROWSER), "window=computer;size=575x450")
 	onclose(user, "computer")
 	return
 
-/obj/machinery/computer/supplycomp/attackby(I as obj, user as mob)
-	if(istype(I,/obj/item/weapon/card/emag) && !hacked)
-		user << "\blue Special supplies unlocked."
+/obj/machinery/computer/supplycomp/emag_act(var/remaining_charges, var/mob/user)
+	if(!hacked)
+		user << "<span class='notice'>Special supplies unlocked.</span>"
 		hacked = 1
-		return
-	else
-		..()
-	return
+		return 1
 
 /obj/machinery/computer/supplycomp/Topic(href, href_list)
 	if(!supply_controller)

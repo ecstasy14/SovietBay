@@ -10,7 +10,7 @@ nanoui is used to open and update nano browser uis
 	// the user who opened this ui
 	var/mob/user
 	// the object this ui "belongs" to
-	var/atom/movable/src_object
+	var/datum/src_object
 	// the title of this ui
 	var/title
 	// the key of this ui, this is to allow multiple (different) uis for each src_object
@@ -140,7 +140,8 @@ nanoui is used to open and update nano browser uis
   * @return nothing
   */
 /datum/nanoui/proc/update_status(var/push_update = 0)
-	var/new_status = src_object.CanUseTopic(user, state)
+	var/obj/host = src_object.nano_host()
+	var/new_status = host.CanUseTopic(user, state)
 	if(master_ui)
 		new_status = min(new_status, master_ui.status)
 
@@ -176,7 +177,7 @@ nanoui is used to open and update nano browser uis
 /datum/nanoui/proc/get_config_data()
 	var/list/config_data = list(
 			"title" = title,
-			"srcObject" = list("name" = src_object.name),
+			"srcObject" = list("name" = "[src_object]"),
 			"stateKey" = state_key,
 			"status" = status,
 			"autoUpdateLayout" = auto_update_layout,
@@ -392,6 +393,11 @@ nanoui is used to open and update nano browser uis
 	if(!user.client)
 		return
 
+	// An attempted fix to UIs sometimes locking up spamming runtime errors due to src_object being null for whatever reason.
+	// This hard-deletes the UI, preventing the device that uses the UI from being locked up permanently.
+	if(!src_object)
+		del(src)
+
 	var/window_size = ""
 	if (width && height)
 		window_size = "size=[width]x[height];"
@@ -399,7 +405,7 @@ nanoui is used to open and update nano browser uis
 	if(status == STATUS_CLOSE)
 		return
 
-	user << browse(get_html(), "window=[window_id];[window_size][window_options]")
+	user << browse(sanitize_local(get_html(), SANITIZE_BROWSER), "window=[window_id];[window_size][window_options]")
 	winset(user, "mapwindow.map", "focus=true") // return keyboard focus to map
 	on_close_winset()
 	//onclose(user, window_id)
@@ -428,6 +434,9 @@ nanoui is used to open and update nano browser uis
 	user << browse(null, "window=[window_id]")
 	for(var/datum/nanoui/child in children)
 		child.close()
+	children.Cut()
+	state = null
+	master_ui = null
 
  /**
   * Set the UI window to call the nanoclose verb when the window is closed
@@ -479,7 +488,7 @@ nanoui is used to open and update nano browser uis
 		set_map_z_level(text2num(href_list["mapZLevel"]))
 		map_update = 1
 
-	if ((src_object && src_object.Topic(href, href_list, 0, state)) || map_update)
+	if ((src_object && src_object.Topic(href, href_list, state)) || map_update)
 		nanomanager.update_uis(src_object) // update all UIs attached to src_object
 
  /**

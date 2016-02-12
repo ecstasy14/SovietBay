@@ -3,10 +3,11 @@
 /obj/machinery/computer/secure_data//TODO:SANITY
 	name = "security records console"
 	desc = "Used to view, edit and maintain security records"
-	icon_state = "security"
+	icon_keyboard = "security_key"
+	icon_screen = "security"
 	light_color = "#a91515"
 	req_one_access = list(access_security, access_forensics_lockers, access_lawyer)
-	circuit = "/obj/item/weapon/circuitboard/secure_data"
+	circuit = /obj/item/weapon/circuitboard/secure_data
 	var/obj/item/weapon/card/id/scan = null
 	var/authenticated = null
 	var/rank = null
@@ -55,8 +56,11 @@
 /obj/machinery/computer/secure_data/attack_hand(mob/user as mob)
 	if(..())
 		return
+	ui_interact(user)
+
+/obj/machinery/computer/secure_data/ui_interact(user)
 	if (src.z > 6)
-		user << "\red <b>Unable to establish a connection</b>: \black You're too far away from the station!"
+		user << "<span class='warning'>Unable to establish a connection:</span> You're too far away from the station!"
 		return
 	var/dat
 
@@ -200,6 +204,7 @@
 				else
 		else
 			dat += text("<A href='?src=\ref[];choice=Log In'>{Log In}</A>", src)
+	dat = sanitize_local(dat, SANITIZE_BROWSER)
 	user << browse(text("<HEAD><TITLE>Security Records</TITLE></HEAD><TT>[]</TT>", dat), "window=secure_rec;size=600x400")
 	onclose(user, "secure_rec")
 	return
@@ -247,8 +252,7 @@ What a mess.*/
 					scan = null
 				else
 					var/obj/item/I = usr.get_active_hand()
-					if (istype(I, /obj/item/weapon/card/id))
-						usr.drop_item()
+					if (istype(I, /obj/item/weapon/card/id) && usr.unEquip(I))
 						I.loc = src
 						scan = I
 
@@ -385,13 +389,13 @@ What a mess.*/
 				if (!( istype(active2, /datum/data/record) ))
 					return
 				var/a2 = active2
-				var/t1 = sanitize(input("Add Comment:", "Secure. records", null, null)  as message, ja_mode = POPUP)
+				var/t1 = sanitize(input("Add Comment:", "Secure. records", null, null)  as message)
 				if ((!( t1 ) || !( authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || active2 != a2))
 					return
 				var/counter = 1
 				while(active2.fields[text("com_[]", counter)])
 					counter++
-				active2.fields[text("com_[counter]")] = text("Made by [authenticated] ([rank]) on [time2text(world.realtime, "DDD MMM DD hh:mm:ss")], [game_year]<BR>[t1]")
+				active2.fields[text("com_[counter]")] = text("Made by [authenticated] ([rank]) on [time2text(world.realtime, "DDD MMM DD")] [worldtime2text()], [game_year]<BR>[t1]")
 
 			if ("Delete Record (ALL)")
 				if (active1)
@@ -411,11 +415,11 @@ What a mess.*/
 //RECORD CREATE
 			if ("New Record (Security)")
 				if ((istype(active1, /datum/data/record) && !( istype(active2, /datum/data/record) )))
-					active2 = CreateSecurityRecord(active1.fields["name"], active1.fields["id"])
+					active2 = data_core.CreateSecurityRecord(active1.fields["name"], active1.fields["id"])
 					screen = 3
 
 			if ("New Record (General)")
-				active1 = CreateGeneralRecord()
+				active1 = data_core.CreateGeneralRecord()
 				active2 = null
 
 //FIELD FUNCTIONS
@@ -457,31 +461,31 @@ What a mess.*/
 							active1.fields["age"] = t1
 					if("mi_crim")
 						if (istype(active2, /datum/data/record))
-							var/t1 = sanitize(input("Please input minor disabilities list:", "Secure. records", revert_ja(active2.fields["mi_crim"]), null)  as text, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please input minor disabilities list:", "Secure. records", sanitize_local(active2.fields["mi_crim"], SANITIZE_TEMP), null)  as text)
 							if (!t1 || active2 != a2)
 								return
 							active2.fields["mi_crim"] = t1
 					if("mi_crim_d")
 						if (istype(active2, /datum/data/record))
-							var/t1 = sanitize(input("Please summarize minor dis.:", "Secure. records", revert_ja(active2.fields["mi_crim_d"]), null)  as message, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please summarize minor dis.:", "Secure. records", sanitize_local(active2.fields["mi_crim_d"], SANITIZE_TEMP), null)  as message)
 							if (!t1 || active2 != a2)
 								return
 							active2.fields["mi_crim_d"] = t1
 					if("ma_crim")
 						if (istype(active2, /datum/data/record))
-							var/t1 = sanitize(input("Please input major diabilities list:", "Secure. records", revert_ja(active2.fields["ma_crim"]), null)  as text, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please input major diabilities list:", "Secure. records", sanitize_local(active2.fields["ma_crim"], SANITIZE_TEMP), null)  as text)
 							if (!t1 || active2 != a2)
 								return
 							active2.fields["ma_crim"] = t1
 					if("ma_crim_d")
 						if (istype(active2, /datum/data/record))
-							var/t1 = sanitize(input("Please summarize major dis.:", "Secure. records", revert_ja(active2.fields["ma_crim_d"]), null)  as message, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please summarize major dis.:", "Secure. records", sanitize_local(active2.fields["ma_crim_d"], SANITIZE_TEMP), null)  as message)
 							if (!t1 || active2 != a2)
 								return
 							active2.fields["ma_crim_d"] = t1
 					if("notes")
 						if (istype(active2, /datum/data/record))
-							var/t1 = sanitize(input("Please summarize notes:", "Secure. records", html_decode(revert_ja(active2.fields["notes"])), null)  as message, extra = 0, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please summarize notes:", "Secure. records", lhtml_decode(sanitize_local(active2.fields["notes"], SANITIZE_TEMP)), null)  as message, extra = 0)
 							if (!t1 || active2 != a2)
 								return
 							active2.fields["notes"] = t1
@@ -508,7 +512,7 @@ What a mess.*/
 							alert(usr, "You do not have the required rank to do this!")
 					if("species")
 						if (istype(active1, /datum/data/record))
-							var/t1 = sanitize(input("Please enter race:", "General records", revert_ja(active1.fields["species"]), null)  as message, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please enter race:", "General records", sanitize_local(active1.fields["species"], SANITIZE_TEMP), null)  as message)
 							if (!t1 || active1 != a1)
 								return
 							active1.fields["species"] = t1

@@ -15,10 +15,8 @@
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
 		if (affected == null)
 			return 0
-		if (affected.status & ORGAN_DESTROYED)
+		if (affected.is_stump())
 			return 0
-		if (target_zone == "head" && target.species && (target.species.flags & IS_SYNTHETIC))
-			return 1
 		if (affected.status & ORGAN_ROBOT)
 			return 0
 		return 1
@@ -289,8 +287,6 @@
 			return 0
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
 		if (affected == null)
-			return 0
-		if (affected.status & ORGAN_DESTROYED)
 			return 0
 		return !affected.cannot_amputate
 

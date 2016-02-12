@@ -130,8 +130,7 @@
 
 /obj/item/weapon/storage/firstaid/surgery
 	name = "surgery kit"
-	desc = "Contains tools for surgery."
-	storage_slots = 10
+	desc = "Contains tools for surgery. Has precise foam fitting for safe transport."
 
 /obj/item/weapon/storage/firstaid/surgery/New()
 	..()
@@ -146,7 +145,8 @@
 	new /obj/item/weapon/bonegel(src)
 	new /obj/item/weapon/FixOVein(src)
 	new /obj/item/stack/medical/advanced/bruise_pack(src)
-	return
+
+	make_exact_fit()
 
 /*
  * Pill Bottles
@@ -161,7 +161,6 @@
 	can_hold = list(/obj/item/weapon/reagent_containers/pill,/obj/item/weapon/dice,/obj/item/weapon/paper)
 	allow_quick_gather = 1
 	use_to_pickup = 1
-	storage_slots = 14
 	use_sound = null
 
 /obj/item/weapon/storage/pill_bottle/antitox

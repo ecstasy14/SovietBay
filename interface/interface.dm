@@ -8,7 +8,7 @@
 			return
 		src << link(config.wikiurl)
 	else
-		src << "\red The wiki URL is not set in the server configuration."
+		src << "<span class='warning'>The wiki URL is not set in the server configuration.</span>"
 	return
 
 /client/verb/forum()
@@ -20,7 +20,7 @@
 			return
 		src << link(config.forumurl)
 	else
-		src << "\red The forum URL is not set in the server configuration."
+		src << "<span class='warning'>The forum URL is not set in the server configuration.</span>"
 	return
 
 #define RULES_FILE "config/rules.html"
@@ -44,18 +44,24 @@
 	set name = "github"
 	set desc = "GitHub."
 	set hidden = 1
-	if(alert("This will open the GitHub page in your browser. Are you sure?",,"Yes","No")=="No")
-		return
-	src << link("https://github.com/Reynevanie/SovietBay")
+	if(config.githuburl)
+		if(alert("This will open the GitHub page in your browser. Are you sure?",,"Yes","No")=="No")
+			return
+		src << link(config.githuburl)
+	else
+		src << "\red The GitHub URL is not set in the server configuration."
 	return
 
 /client/verb/bugreport()
 	set name = "Bug Report"
 	set desc = "GitHub."
 	set hidden = 1
-	if(alert("This will open the GitHub page in your browser. Are you sure?",,"Yes","No")=="No")
-		return
-	src << link("https://github.com/Reynevanie/SovietBay/issues/new")
+	if(config.githuburl)
+		if(alert("This will open the GitHub bugtracker page in your browser. Are you sure?",,"Yes","No")=="No")
+			return
+		src << link("[config.githuburl]/issues/new")
+	else
+		src << "\red The GitHub bugtracker URL is not set in the server configuration."
 	return
 
 /client/verb/hotkeys_help()

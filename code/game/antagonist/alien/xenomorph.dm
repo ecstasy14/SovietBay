@@ -2,7 +2,6 @@ var/datum/antagonist/xenos/xenomorphs
 
 /datum/antagonist/xenos
 	id = MODE_XENOMORPH
-	role_type = BE_ALIEN
 	role_text = "Xenomorph"
 	role_text_plural = "Xenomorphs"
 	mob_path = /mob/living/carbon/alien/larva
@@ -10,6 +9,11 @@ var/datum/antagonist/xenos/xenomorphs
 	flags = ANTAG_OVERRIDE_MOB | ANTAG_RANDSPAWN | ANTAG_OVERRIDE_JOB | ANTAG_VOTABLE
 	welcome_text = "Hiss! You are a larval alien. Hide and bide your time until you are ready to evolve."
 	antaghud_indicator = "hudalien"
+
+	faction_role_text = "Xenomorph Thrall"
+	faction_descriptor = "Hive"
+	faction_welcome = "Your will is ripped away as your humanity merges with the xenomorph overmind. You are now \
+		a thrall to the queen and her brood. Obey their instructions without question. Serve the hive."
 
 	hard_cap = 5
 	hard_cap_round = 8
@@ -44,4 +48,4 @@ var/datum/antagonist/xenos/xenomorphs
 	player.objectives += new /datum/objective/escape()
 
 /datum/antagonist/xenos/place_mob(var/mob/living/player)
-	player.loc = get_turf(pick(get_vents()))
+	player.forceMove(get_turf(pick(get_vents())))

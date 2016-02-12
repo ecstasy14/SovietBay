@@ -63,7 +63,7 @@ datum/borrowbook // Datum used to keep track of who has borrowed what when and f
 					dat += "<tr><td>[author]</td><td>[title]</td><td>[category]</td><td>[id]</td></tr>"
 				dat += "</table><BR>"
 			dat += "<A href='?src=\ref[src];back=1'>\[Go Back\]</A><BR>"
-	user << browse(dat, "window=publiclibrary")
+	user << browse(sanitize_local(dat, SANITIZE_BROWSER), "window=publiclibrary")
 	onclose(user, "publiclibrary")
 
 /obj/machinery/librarypubliccomp/Topic(href, href_list)
@@ -75,7 +75,7 @@ datum/borrowbook // Datum used to keep track of who has borrowed what when and f
 	if(href_list["settitle"])
 		var/newtitle = input("Enter a title to search for:") as text|null
 		if(newtitle)
-			title = sanitize(newtitle)//todo: rubay
+			title = sanitize(newtitle)
 		else
 			title = null
 		title = sanitizeSQL(title)
@@ -89,7 +89,7 @@ datum/borrowbook // Datum used to keep track of who has borrowed what when and f
 	if(href_list["setauthor"])
 		var/newauthor = input("Enter an author to search for:") as text|null
 		if(newauthor)
-			author = sanitize(newauthor)//todo: rubay
+			author = sanitize(newauthor)
 		else
 			author = null
 		author = sanitizeSQL(author)
@@ -122,6 +122,7 @@ datum/borrowbook // Datum used to keep track of who has borrowed what when and f
 	density = 1
 	var/arcanecheckout = 0
 	var/screenstate = 0 // 0 - Main Menu, 1 - Inventory, 2 - Checked Out, 3 - Check Out a Book
+	var/sortby = "author"
 	var/buffer_book
 	var/buffer_mob
 	var/upload_category = "Fiction"
@@ -195,9 +196,8 @@ datum/borrowbook // Datum used to keep track of who has borrowed what when and f
 			else
 				dat += {"<A href='?src=\ref[src];orderbyid=1'>(Order book by SS<sup>13</sup>BN)</A><BR><BR>
 				<table>
-				<tr><td>AUTHOR</td><td>TITLE</td><td>CATEGORY</td><td></td></tr>"}
-
-				var/DBQuery/query = dbcon_old.NewQuery("SELECT id, author, title, category FROM library")
+				<tr><td><A href='?src=\ref[src];sort=author>AUTHOR</A></td><td><A href='?src=\ref[src];sort=title>TITLE</A></td><td><A href='?src=\ref[src];sort=category>CATEGORY</A></td><td></td></tr>"}
+				var/DBQuery/query = dbcon_old.NewQuery("SELECT id, author, title, category FROM library ORDER BY [sortby]")
 				query.Execute()
 
 				while(query.NextRow())
@@ -234,12 +234,15 @@ datum/borrowbook // Datum used to keep track of who has borrowed what when and f
 			<A href='?src=\ref[src];switchscreen=0'>No.</A><BR>"}
 
 	//dat += "<A HREF='?src=\ref[user];mach_close=library'>Close</A><br><br>"
-	user << browse(dat, "window=library")
+	user << browse(sanitize_local(dat, SANITIZE_BROWSER), "window=library")
 	onclose(user, "library")
 
-/obj/machinery/librarycomp/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if (src.density && istype(W, /obj/item/weapon/card/emag))
+/obj/machinery/librarycomp/emag_act(var/remaining_charges, var/mob/user)
+	if (src.density && !src.emagged)
 		src.emagged = 1
+		return 1
+
+/obj/machinery/librarycomp/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(istype(W, /obj/item/weapon/barcodescanner))
 		var/obj/item/weapon/barcodescanner/scanner = W
 		scanner.computer = src
@@ -302,7 +305,7 @@ datum/borrowbook // Datum used to keep track of who has borrowed what when and f
 	if(href_list["editbook"])
 		buffer_book = sanitizeSafe(input("Enter the book's title:") as text|null)
 	if(href_list["editmob"])
-		buffer_mob = sanitize(input("Enter the recipient's name:") as text|null, MAX_NAME_LEN, ja_mode = POPUP)
+		buffer_mob = sanitize(input("Enter the recipient's name:") as text|null, MAX_NAME_LEN)
 	if(href_list["checkout"])
 		var/datum/borrowbook/b = new /datum/borrowbook
 		b.bookname = sanitizeSafe(buffer_book)
@@ -317,7 +320,7 @@ datum/borrowbook // Datum used to keep track of who has borrowed what when and f
 		var/obj/item/weapon/book/b = locate(href_list["delbook"])
 		inventory.Remove(b)
 	if(href_list["setauthor"])
-		var/newauthor = sanitize(input("Enter the author's name: ") as text|null, ja_mode = POPUP)
+		var/newauthor = sanitize(input("Enter the author's name: ") as text|null)
 		if(newauthor)
 			scanner.cache.author = newauthor
 	if(href_list["setcategory"])
@@ -350,6 +353,7 @@ datum/borrowbook // Datum used to keep track of who has borrowed what when and f
 							if(!query.Execute())
 								usr << query.ErrorMsg()
 							else
+								log_and_message_admins("has uploaded the book titled [scanner.cache.name], [length(scanner.cache.dat)] signs")
 								log_game("[usr.name]/[usr.key] has uploaded the book titled [scanner.cache.name], [length(scanner.cache.dat)] signs")
 								alert("Upload Complete.")
 
@@ -386,6 +390,8 @@ datum/borrowbook // Datum used to keep track of who has borrowed what when and f
 			if(isnum(orderid))
 				var/nhref = "src=\ref[src];targetid=[orderid]"
 				spawn() src.Topic(nhref, params2list(nhref), src)
+	if(href_list["sort"] in list("author", "title", "category"))
+		sortby = href_list["sort"]
 	src.add_fingerprint(usr)
 	src.updateUsrDialog()
 	return

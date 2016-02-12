@@ -2,31 +2,6 @@
 
 var/list/preferences_datums = list()
 
-var/global/list/special_roles = list( //keep synced with the defines BE_* in setup.dm --rastaf
-//some autodetection here.
-// TODO: Update to new antagonist system.
-	"traitor" = IS_MODE_COMPILED("traitor"),             // 0
-	"operative" = IS_MODE_COMPILED("nuclear"),           // 1
-	"changeling" = IS_MODE_COMPILED("changeling"),       // 2
-	"wizard" = IS_MODE_COMPILED("wizard"),               // 3
-	"malf AI" = IS_MODE_COMPILED("malfunction"),         // 4
-	"revolutionary" = IS_MODE_COMPILED("revolution"),    // 5
-	"alien candidate" = 1, //always show                 // 6
-	"positronic brain" = 1,                              // 7
-	"cultist" = IS_MODE_COMPILED("cult"),                // 8
-	"infested monkey" = IS_MODE_COMPILED("monkey"),      // 9
-	"ninja" = "true",                                    // 10
-	"raider" = IS_MODE_COMPILED("heist"),                // 11
-	"diona" = 1,                                         // 12
-	"loyalist" = IS_MODE_COMPILED("revolution"),         // 13
-	"pAI candidate" = 1, // -- TLE                       // 14
-)
-
-//used for alternate_option
-#define GET_RANDOM_JOB 0
-#define BE_ASSISTANT 1
-#define RETURN_TO_LOBBY 2
-
 datum/preferences
 	//doohickeys for savefiles
 	var/path
@@ -42,11 +17,12 @@ datum/preferences
 	//game-preferences
 	var/lastchangelog = ""				//Saved changlog filesize to detect if there was a change
 	var/ooccolor = "#010000"			//Whatever this is set to acts as 'reset' color and is thus unusable as an actual custom color
-	var/be_special = 0					//Special role selection
+	var/list/be_special_role = list()		//Special role selection
 	var/UI_style = "Midnight"
 	var/toggles = TOGGLES_DEFAULT
 	var/UI_style_color = "#ffffff"
 	var/UI_style_alpha = 255
+	var/interface_lang = "main"
 
 	//character preferences
 	var/real_name						//our character's name
@@ -75,7 +51,8 @@ datum/preferences
 	var/b_eyes = 0						//Eye color
 	var/species = "Human"               //Species datum to use.
 	var/species_preview                 //Used for the species selection window.
-	var/language = "None"				//Secondary language
+	var/list/alternate_languages = list() //Secondary language(s)
+	var/list/language_prefixes = list() //Kanguage prefix keys
 	var/list/gear						//Custom/fluff item loadout.
 
 		//Some faction information.
@@ -128,22 +105,35 @@ datum/preferences
 
 	var/uplinklocation = "PDA"
 
-		// OOC Metadata:
+	// OOC Metadata:
 	var/metadata = ""
-	var/slot_name = ""
+
+	var/client/client = null
+
+	var/savefile/loaded_preferences
+	var/savefile/loaded_character
+	var/datum/category_collection/player_setup_collection/player_setup
 
 /datum/preferences/New(client/C)
-	b_type = pick(4;"O-", 36;"O+", 3;"A-", 28;"A+", 1;"B-", 20;"B+", 1;"AB-", 5;"AB+")
-	if(istype(C))
-		if(!IsGuestKey(C.key))
-			load_path(C.ckey)
-			if(load_preferences())
-				if(load_character())
-					return
+	player_setup = new(src)
 	gender = pick(MALE, FEMALE)
 	real_name = random_name(gender,species)
+	b_type = pick(4;"O-", 36;"O+", 3;"A-", 28;"A+", 1;"B-", 20;"B+", 1;"AB-", 5;"AB+")
 
 	gear = list()
+
+	if(istype(C))
+		client = C
+		if(!IsGuestKey(C.key))
+			load_path(C.ckey)
+			load_preferences()
+			load_and_update_character()
+
+/datum/preferences/proc/load_and_update_character(var/slot)
+	load_character(slot)
+	if(update_setup(loaded_preferences, loaded_character))
+		save_preferences()
+		save_character()
 
 /datum/preferences/proc/ZeroSkills(var/forced = 0)
 	for(var/V in SKILLS) for(var/datum/skill/S in SKILLS[V])
@@ -197,69 +187,25 @@ datum/preferences
 		if(24 to 1000)
 			return "God"
 
-/datum/preferences/proc/SetSkills(mob/user)
-	if(SKILLS == null)
-		setup_skills()
-
-	if(skills.len == 0)
-		ZeroSkills()
-
-
-	var/HTML = "<body>"
-	HTML += "<b>Select your Skills</b><br>"
-	HTML += "Current skill level: <b>[GetSkillClass(used_skillpoints)]</b> ([used_skillpoints])<br>"
-	HTML += "<a href=\"byond://?src=\ref[user];preference=skills;preconfigured=1;\">Use preconfigured skillset</a><br>"
-	HTML += "<table>"
-	for(var/V in SKILLS)
-		HTML += "<tr><th colspan = 5><b>[V]</b>"
-		HTML += "</th></tr>"
-		for(var/datum/skill/S in SKILLS[V])
-			var/level = skills[S.ID]
-			HTML += "<tr style='text-align:left;'>"
-			HTML += "<th><a href='byond://?src=\ref[user];preference=skills;skillinfo=\ref[S]'>[S.name]</a></th>"
-			HTML += "<th><a href='byond://?src=\ref[user];preference=skills;setskill=\ref[S];newvalue=[SKILL_NONE]'><font color=[(level == SKILL_NONE) ? "red" : "black"]>\[Untrained\]</font></a></th>"
-			// secondary skills don't have an amateur level
-			if(S.secondary)
-				HTML += "<th></th>"
-			else
-				HTML += "<th><a href='byond://?src=\ref[user];preference=skills;setskill=\ref[S];newvalue=[SKILL_BASIC]'><font color=[(level == SKILL_BASIC) ? "red" : "black"]>\[Amateur\]</font></a></th>"
-			HTML += "<th><a href='byond://?src=\ref[user];preference=skills;setskill=\ref[S];newvalue=[SKILL_ADEPT]'><font color=[(level == SKILL_ADEPT) ? "red" : "black"]>\[Trained\]</font></a></th>"
-			HTML += "<th><a href='byond://?src=\ref[user];preference=skills;setskill=\ref[S];newvalue=[SKILL_EXPERT]'><font color=[(level == SKILL_EXPERT) ? "red" : "black"]>\[Professional\]</font></a></th>"
-			HTML += "</tr>"
-	HTML += "</table>"
-	HTML += "<a href=\"byond://?src=\ref[user];preference=skills;cancel=1;\">\[Done\]</a>"
-
-	user << browse(null, "window=preferences")
-	user << browse(HTML, "window=show_skills;size=600x800")
-	return
-
 /datum/preferences/proc/ShowChoices(mob/user)
 	if(!user || !user.client)	return
-	update_preview_icon()
-	if(preview_icon_front && preview_icon_side)
-		user << browse_rsc(preview_icon_front, "previewicon.png")
-		user << browse_rsc(preview_icon_side, "previewicon2.png")
 	var/dat = "<html><body><center>"
 
 	if(path)
-		dat += "<center>"
-		dat += "Slot <b>[slot_name]</b> - "
-		dat += "<a href=\"byond://?src=\ref[user];preference=open_load_dialog\">Load slot</a> - "
-		dat += "<a href=\"byond://?src=\ref[user];preference=save\">Save slot</a> - "
-		dat += "<a href=\"byond://?src=\ref[user];preference=reload\">Reload slot</a>"
-		dat += "</center>"
+		dat += "Slot - "
+		dat += "<a href='?src=\ref[src];load=1'>Load slot</a> - "
+		dat += "<a href='?src=\ref[src];save=1'>Save slot</a> - "
+		dat += "<a href='?src=\ref[src];reload=1'>Reload slot</a>"
 
 	else
 		dat += "Please create an account to save your preferences."
 
-	dat += "</center><hr><table><tr><td width='340px' height='320px'>"
-
-	dat += "<b>Name:</b> "
-	dat += "<a href='?_src_=prefs;preference=name;task=input'><b>[real_name]</b></a><br>"
-	dat += "(<a href='?_src_=prefs;preference=name;task=random'>Random Name</A>) "
-	dat += "(<a href='?_src_=prefs;preference=name'>Always Random Name: [be_random_name ? "Yes" : "No"]</a>)"
 	dat += "<br>"
-
+	dat += player_setup.header()
+	dat += "<br><HR></center>"
+	dat += player_setup.content(user)
+/*
+<<<<<<< HEAD
 	dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'><b>[gender == MALE ? "Male" : "Female"]</b></a><br>"
 	dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[age]</a><br>"
 	dat += "<b>Spawn Point</b>: <a href='byond://?src=\ref[user];preference=spawnpoint;task=input'>[spawnpoint]</a>"
@@ -274,6 +220,7 @@ datum/preferences
 	dat += "<b>Ghost ears:</b> <a href='?_src_=prefs;preference=ghost_ears'><b>[(toggles & CHAT_GHOSTEARS) ? "All Speech" : "Nearest Creatures"]</b></a><br>"
 	dat += "<b>Ghost sight:</b> <a href='?_src_=prefs;preference=ghost_sight'><b>[(toggles & CHAT_GHOSTSIGHT) ? "All Emotes" : "Nearest Creatures"]</b></a><br>"
 	dat += "<b>Ghost radio:</b> <a href='?_src_=prefs;preference=ghost_radio'><b>[(toggles & CHAT_GHOSTRADIO) ? "All Chatter" : "Nearest Speakers"]</b></a><br>"
+	dat += "<b>Language:</b> <a href='?_src_=prefs;preference=interface_lang'><b>[interface_lang]</b></a><br>"
 
 	if(config.allow_Metadata)
 		dat += "<b>OOC Notes:</b> <a href='?_src_=prefs;preference=metadata;task=input'> Edit </a><br>"
@@ -453,7 +400,7 @@ datum/preferences
 	dat += "<a href='?_src_=prefs;preference=reset_all'>Reset Setup</a>"
 	dat += "</center></body></html>"
 
-	user << browse(dat, "window=preferences;size=560x736")
+	user << browse(sanitize_local(dat, SANITIZE_BROWSER), "window=preferences;size=560x736")
 
 /datum/preferences/proc/SetChoices(mob/user, limit = 16, list/splitJobs = list("Chief Medical Officer"), width = 550, height = 660)
 	if(!job_master)
@@ -593,7 +540,7 @@ datum/preferences
 	HTML += "</center></tt>"
 
 	user << browse(null, "window=preferences")
-	user << browse(HTML, "window=records;size=350x300")
+	user << browse(sanitize_local(HTML, SANITIZE_BROWSER), "window=records;size=350x300")
 	return
 
 /datum/preferences/proc/SetSpecies(mob/user)
@@ -684,7 +631,7 @@ datum/preferences
 	HTML += "</center></tt>"
 
 	user << browse(null, "window=preferences")
-	user << browse(HTML, "window=antagoptions")
+	user << browse(sanitize_local(HTML, SANITIZE_BROWSER), "window=antagoptions")
 	return
 
 /datum/preferences/proc/SetFlavorText(mob/user)
@@ -723,7 +670,7 @@ datum/preferences
 	HTML +="<a href='?src=\ref[user];preference=flavor_text;task=done'>\[Done\]</a>"
 	HTML += "<tt>"
 	user << browse(null, "window=preferences")
-	user << browse(HTML, "window=flavor_text;size=430x300")
+	user << browse(sanitize_local(HTML, SANITIZE_BROWSER), "window=flavor_text;size=430x300")
 	return
 
 /datum/preferences/proc/SetFlavourTextRobot(mob/user)
@@ -742,7 +689,7 @@ datum/preferences
 	HTML +="<a href='?src=\ref[user];preference=flavour_text_robot;task=done'>\[Done\]</a>"
 	HTML += "<tt>"
 	user << browse(null, "window=preferences")
-	user << browse(HTML, "window=flavour_text_robot;size=430x300")
+	user << browse(sanitize_local(HTML, SANITIZE_BROWSER), "window=flavour_text_robot;size=430x300")
 	return
 
 /datum/preferences/proc/GetPlayerAltTitle(datum/job/job)
@@ -876,6 +823,10 @@ datum/preferences
 				else
 					job_engsec_low |= job.flag
 	return 1
+=======
+*/
+	dat += "</html></body>"
+	user << browse(dat, "window=preferences;size=625x736")
 
 /datum/preferences/proc/process_link(mob/user, list/href_list)
 	if(!user)	return
@@ -888,7 +839,10 @@ datum/preferences
 		else
 			user << "<span class='danger'>The forum URL is not set in the server configuration.</span>"
 			return
-
+	ShowChoices(usr)
+	return 1
+/*
+<<<<<<< HEAD
 	if(href_list["preference"] == "job")
 		switch(href_list["task"])
 			if("close")
@@ -1005,10 +959,10 @@ datum/preferences
 				ShowChoices(user)
 				return
 			if("general")
-				var/msg = sanitize(input(usr,"Give a general description of your character. This will be shown regardless of clothing, and may include OOC notes and preferences.","Flavor Text",html_decode(revert_ja(flavor_texts[href_list["task"]]))) as message, extra = 0, ja_mode = POPUP)
+				var/msg = sanitize(input(usr,"Give a general description of your character. This will be shown regardless of clothing, and may include OOC notes and preferences.","Flavor Text",lhtml_decode(flavor_texts[href_list["task"]])) as message, extra = 0)
 				flavor_texts[href_list["task"]] = msg
 			else
-				var/msg = sanitize(input(usr,"Set the flavor text for your [href_list["task"]].","Flavor Text",html_decode(revert_ja(flavor_texts[href_list["task"]]))) as message, extra = 0, ja_mode = POPUP)
+				var/msg = sanitize(input(usr,"Set the flavor text for your [href_list["task"]].","Flavor Text",lhtml_decode(flavor_texts[href_list["task"]])) as message, extra = 0)
 				flavor_texts[href_list["task"]] = msg
 		SetFlavorText(user)
 		return
@@ -1023,10 +977,10 @@ datum/preferences
 				ShowChoices(user)
 				return
 			if("Default")
-				var/msg = sanitize(input(usr,"Set the default flavour text for your robot. It will be used for any module without individual setting.","Flavour Text",html_decode(revert_ja(flavour_texts_robot["Default"]))) as message, extra = 0, ja_mode = POPUP)
+				var/msg = sanitize(input(usr,"Set the default flavour text for your robot. It will be used for any module without individual setting.","Flavour Text",lhtml_decode(flavour_texts_robot["Default"])) as message, extra = 0)
 				flavour_texts_robot[href_list["task"]] = msg
 			else
-				var/msg = sanitize(input(usr,"Set the flavour text for your robot with [href_list["task"]] module. If you leave this empty, default flavour text will be used for this module.","Flavour Text",html_decode(revert_ja(flavour_texts_robot[href_list["task"]]))) as message, extra = 0, ja_mode = POPUP)
+				var/msg = sanitize(input(usr,"Set the flavour text for your robot with [href_list["task"]] module. If you leave this empty, default flavour text will be used for this module.","Flavour Text",lhtml_decode(flavour_texts_robot[href_list["task"]])) as message, extra = 0)
 				flavour_texts_robot[href_list["task"]] = msg
 		SetFlavourTextRobot(user)
 		return
@@ -1042,24 +996,24 @@ datum/preferences
 		else
 			user << browse(null, "window=records")
 		if(href_list["task"] == "med_record")
-			var/medmsg = sanitize(input(usr,"Set your medical notes here.","Medical Records",html_decode(revert_ja(med_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0, ja_mode = POPUP)
+			var/medmsg = sanitize(input(usr,"Set your medical notes here.","Medical Records",lhtml_decode(med_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
 			if(medmsg != null)
 				med_record = medmsg
 				SetRecords(user)
 
 		if(href_list["task"] == "sec_record")
-			var/secmsg = sanitize(input(usr,"Set your security notes here.","Security Records",html_decode(revert_ja(sec_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0, ja_mode = POPUP)
+			var/secmsg = sanitize(input(usr,"Set your security notes here.","Security Records",lhtml_decode(sec_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
 			if(secmsg != null)
 				sec_record = secmsg
 				SetRecords(user)
 		if(href_list["task"] == "gen_record")
-			var/genmsg = sanitize(input(usr,"Set your employment notes here.","Employment Records",html_decode(revert_ja(gen_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0, ja_mode = POPUP)
+			var/genmsg = sanitize(input(usr,"Set your employment notes here.","Employment Records",lhtml_decode(gen_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
 			if(genmsg != null)
 				gen_record = genmsg
 				SetRecords(user)
 
 		if(href_list["task"] == "exploitable_record")
-			var/exploitmsg = sanitize(input(usr,"Set exploitable information about you here.","Exploitable Information",html_decode(revert_ja(exploit_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0, ja_mode = POPUP)
+			var/exploitmsg = sanitize(input(usr,"Set exploitable information about you here.","Exploitable Information",lhtml_decode(exploit_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
 			if(exploitmsg != null)
 				exploit_record = exploitmsg
 				SetAntagoptions(user)
@@ -1079,34 +1033,29 @@ datum/preferences
 		if (href_list["antagtask"] == "done")
 			user << browse(null, "window=antagoptions")
 			ShowChoices(user)
+=======
+*/
+/datum/preferences/Topic(href, list/href_list)
+	if(..())
 		return 1
 
-	else if (href_list["preference"] == "loadout")
-
-		if(href_list["task"] == "input")
-
-			var/list/valid_gear_choices = list()
-
-			for(var/gear_name in gear_datums)
-				var/datum/gear/G = gear_datums[gear_name]
-				if(G.whitelisted && !is_alien_whitelisted(user, G.whitelisted))
-					continue
-				valid_gear_choices += gear_name
-
-			var/choice = input(user, "Select gear to add: ") as null|anything in valid_gear_choices
-
-			if(choice && gear_datums[choice])
-
-				var/total_cost = 0
-
-				if(isnull(gear) || !islist(gear)) gear = list()
-
-				if(gear && gear.len)
-					for(var/gear_name in gear)
-						if(gear_datums[gear_name])
-							var/datum/gear/G = gear_datums[gear_name]
-							total_cost += G.cost
-
+	if(href_list["save"])
+		save_preferences()
+		save_character()
+	else if(href_list["reload"])
+		load_preferences()
+		load_character()
+	else if(href_list["load"])
+		if(!IsGuestKey(usr.key))
+			open_load_dialog(usr)
+			return 1
+	else if(href_list["changeslot"])
+		load_character(text2num(href_list["changeslot"]))
+		close_load_dialog(usr)
+	else
+		return 0
+/*
+<<<<<<< HEAD
 				var/datum/gear/C = gear_datums[choice]
 				total_cost += C.cost
 				if(C && total_cost <= MAX_GEAR_COST)
@@ -1273,7 +1222,7 @@ datum/preferences
 				if("metadata")
 					var/new_metadata = input(user, "Enter any information you'd like others to see, such as Roleplay-preferences:", "Game Preference" , metadata)  as message|null
 					if(new_metadata)
-						metadata = sanitize(new_metadata, ja_mode = POPUP)
+						metadata = sanitize(new_metadata)
 
 				if("b_type")
 					var/new_b_type = input(user, "Choose your character's blood-type:", "Character Preference") as null|anything in list( "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" )
@@ -1496,7 +1445,7 @@ datum/preferences
 					if(choice == "Other")
 						var/raw_choice = input(user, "Please enter a home system.")  as text|null
 						if(raw_choice)
-							home_system = sanitize(raw_choice, ja_mode = POPUP)
+							home_system = sanitize(raw_choice)
 						return
 					home_system = choice
 				if("citizenship")
@@ -1506,7 +1455,7 @@ datum/preferences
 					if(choice == "Other")
 						var/raw_choice = input(user, "Please enter your current citizenship.", "Character Preference") as text|null
 						if(raw_choice)
-							citizenship = sanitize(raw_choice, ja_mode = POPUP)
+							citizenship = sanitize(raw_choice)
 						return
 					citizenship = choice
 				if("faction")
@@ -1516,7 +1465,7 @@ datum/preferences
 					if(choice == "Other")
 						var/raw_choice = input(user, "Please enter a faction.")  as text|null
 						if(raw_choice)
-							faction = sanitize(raw_choice, ja_mode = POPUP)
+							faction = sanitize(raw_choice)
 						return
 					faction = choice
 				if("religion")
@@ -1526,7 +1475,7 @@ datum/preferences
 					if(choice == "Other")
 						var/raw_choice = input(user, "Please enter a religon.")  as text|null
 						if(raw_choice)
-							religion = sanitize(raw_choice, ja_mode = POPUP)
+							religion = sanitize(raw_choice)
 						return
 					religion = choice
 		else
@@ -1590,6 +1539,11 @@ datum/preferences
 				if("ghost_radio")
 					toggles ^= CHAT_GHOSTRADIO
 
+				if("interface_lang")
+					interface_lang = input(usr, "Select a language form list") in interface_languages
+					if(!interface_lang)
+						interface_lang = "main"
+
 				if("save")
 					save_preferences()
 					save_character()
@@ -1610,9 +1564,14 @@ datum/preferences
 					close_load_dialog(user)
 
 	ShowChoices(user)
+=======
+*/
+	ShowChoices(usr)
 	return 1
 
 /datum/preferences/proc/copy_to(mob/living/carbon/human/character, safety = 0)
+	// Sanitizing rather than saving as someone might still be editing when copy_to occurs.
+	player_setup.sanitize_setup()
 	if(be_random_name)
 		real_name = random_name(gender,species)
 
@@ -1734,10 +1693,9 @@ datum/preferences
 			if(!name)	name = "Character[i]"
 			if(i==default_slot)
 				name = "<b>[name]</b>"
-			dat += "<a href='?_src_=prefs;preference=changeslot;num=[i];'>[name]</a><br>"
+			dat += "<a href='?src=\ref[src];changeslot=[i]'>[name]</a><br>"
 
 	dat += "<hr>"
-	dat += "<a href='byond://?src=\ref[user];preference=close_load_dialog'>Close</a><br>"
 	dat += "</center></tt>"
 	user << browse(dat, "window=saves;size=300x390")
 

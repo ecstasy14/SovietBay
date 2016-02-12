@@ -33,6 +33,15 @@ datum/track/New(var/title_name, var/audio)
 		new/datum/track("Part A", 'sound/misc/TestLoop1.ogg'),
 		new/datum/track("Scratch", 'sound/music/title1.ogg'),
 		new/datum/track("Trai`Tor", 'sound/music/traitor.ogg'),
+		new/datum/track("Jawa Bar", 'sound/music/jukebox/Cantina_Band_Jawa_Bar_Tatooine_Mos_Eisly.ogg'),
+		new/datum/track("Down With The Sickness", 'sound/music/jukebox/down_with_the_sickness.ogg'),
+		new/datum/track("In The Mood", 'sound/music/jukebox/GlennMiller-InTheMood.ogg'),
+		new/datum/track("Le Noir", 'sound/music/jukebox/L.A.NoireSoundtrack.ogg'),
+		new/datum/track("Onizuka's Blues", 'sound/music/jukebox/Onizukas_Blues.ogg'),
+		new/datum/track("Assistant's life", 'sound/music/jukebox/Wizards_assistant.ogg'),
+		new/datum/track("Night Shift", 'sound/music/jukebox/mus_industrialist_03.ogg'),
+		new/datum/track("Stayin Alive", 'sound/music/jukebox/Stayin_Alive.ogg'),
+		new/datum/track("Bad Man", 'sound/music/jukebox/One_bad_man.ogg'),
 	)
 
 
@@ -174,16 +183,15 @@ datum/track/New(var/title_name, var/audio)
 		power_change()
 		update_icon()
 		return
-	if(istype(W, /obj/item/weapon/card/emag))
-		if(!emagged)
-			emagged = 1
-			StopPlaying()
-			visible_message("<span class='danger'>\the [src] makes a fizzling sound.</span>")
-			log_and_message_admins("emagged \the [src]")
-			update_icon()
-			return
-
 	return ..()
+
+/obj/machinery/media/jukebox/emag_act(var/remaining_charges, var/mob/user)
+	if(!emagged)
+		emagged = 1
+		StopPlaying()
+		visible_message("<span class='danger'>\The [src] makes a fizzling sound.</span>")
+		update_icon()
+		return 1
 
 /obj/machinery/media/jukebox/proc/StopPlaying()
 	var/area/main_area = get_area(src)

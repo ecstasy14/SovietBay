@@ -3,10 +3,11 @@
 /obj/machinery/computer/prisoner
 	name = "prisoner management console"
 	icon = 'icons/obj/computer.dmi'
-	icon_state = "explosive"
+	icon_keyboard = "security_key"
+	icon_screen = "explosive"
 	light_color = "#a91515"
 	req_access = list(access_armory)
-	circuit = "/obj/item/weapon/circuitboard/prisoner"
+	circuit = /obj/item/weapon/circuitboard/prisoner
 	var/id = 0.0
 	var/temp = null
 	var/status = 0
@@ -55,7 +56,7 @@
 				dat += "********************************<BR>"
 			dat += "<HR><A href='?src=\ref[src];lock=1'>Lock Console</A>"
 
-		user << browse(dat, "window=computer;size=400x500")
+		user << browse(sanitize_local(dat, SANITIZE_BROWSER), "window=computer;size=400x500")
 		onclose(user, "computer")
 		return
 
@@ -96,7 +97,7 @@
 				var/obj/item/weapon/implant/I = locate(href_list["warn"])
 				if((I)&&(I.imp_in))
 					var/mob/living/carbon/R = I.imp_in
-					R << "\green You hear a voice in your head saying: '[warning]'"
+					R << "<span class='notice'>You hear a voice in your head saying: '[warning]'</span>"
 
 			src.add_fingerprint(usr)
 		src.updateUsrDialog()

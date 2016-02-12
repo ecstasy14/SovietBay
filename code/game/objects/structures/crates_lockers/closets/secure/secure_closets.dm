@@ -41,7 +41,7 @@
 				open()
 			else
 				src.req_access = list()
-				src.req_access += pick(get_all_accesses())
+				src.req_access += pick(get_all_station_access())
 	..()
 
 /obj/structure/closet/secure_closet/proc/togglelock(mob/user as mob)
@@ -65,6 +65,8 @@
 
 /obj/structure/closet/secure_closet/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(src.opened)
+		if(istype(W, /obj/item/weapon/storage/laundry_basket))
+			return ..(W,user)
 		if(istype(W, /obj/item/weapon/grab))
 			var/obj/item/weapon/grab/G = W
 			if(src.large)
@@ -78,27 +80,53 @@
 		user.drop_item()
 		if(W)
 			W.forceMove(src.loc)
-	else if((istype(W, /obj/item/weapon/card/emag)||istype(W, /obj/item/weapon/melee/energy/blade)) && !src.broken)
-		broken = 1
-		locked = 0
-		desc = "It appears to be broken."
-		icon_state = icon_off
-		flick(icon_broken, src)
-		if(istype(W, /obj/item/weapon/melee/energy/blade))
+	else if(istype(W, /obj/item/weapon/melee/energy/blade))
+		if(emag_act(INFINITY, user, "<span class='danger'>The locker has been sliced open by [user] with \an [W]</span>!", "<span class='danger'>You hear metal being sliced and sparks flying.</span>"))
 			var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
 			spark_system.set_up(5, 0, src.loc)
 			spark_system.start()
 			playsound(src.loc, 'sound/weapons/blade1.ogg', 50, 1)
 			playsound(src.loc, "sparks", 50, 1)
-			for(var/mob/O in viewers(user, 3))
-				O.show_message("<span class='warning'>The locker has been sliced open by [user] with an energy blade!</span>", 1, "You hear metal being sliced and sparks flying.", 2)
-		else
-			for(var/mob/O in viewers(user, 3))
-				O.show_message("<span class='warning'>The locker has been broken by [user] with an electromagnetic card!</span>", 1, "You hear a faint electrical spark.", 2)
+	else if(istype(W, /obj/item/device/multitool))
+		var/obj/item/device/multitool/multi = W
+		if(multi.in_use)
+			user << "<span class='warning'>This multitool is already in use!</span>"
+			return
+		multi.in_use = 1
+		var/i
+		for(i=0, i<6, i++)
+			user.visible_message("<span class='warning'>[user] picks in wires of the [src.name] with a multitool.</span>",
+			"<span class='warning'>Resetting circuitry ([i]/6)...</span>")
+			if(!do_after(user,500)||opened)
+				multi.in_use=0
+				world << "test"
+				return
+		src.locked=!src.locked
+		src.update_icon()
+		multi.in_use=0
+		user.visible_message("<span class='warning'>[user] [src.locked?"locks":"unlocks"] [name] with a multitool.</span>",
+		"<span class='warning'>You [src.locked?"enable":"disable"] the locking modules.</span>")
+		return
 	else if(istype(W,/obj/item/weapon/packageWrap) || istype(W,/obj/item/weapon/weldingtool))
 		return ..(W,user)
 	else
 		togglelock(user)
+
+/obj/structure/closet/secure_closet/emag_act(var/remaining_charges, var/mob/user, var/emag_source, var/visual_feedback = "", var/audible_feedback = "")
+	if(!broken)
+		broken = 1
+		locked = 0
+		desc = "It appears to be broken."
+		icon_state = icon_off
+		flick(icon_broken, src)
+
+		if(visual_feedback)
+			visible_message(visual_feedback, audible_feedback)
+		else if(user && emag_source)
+			visible_message("<span class='warning'>\The [src] has been broken by \the [user] with \an [emag_source]!</span>", "You hear a faint electrical spark.")
+		else
+			visible_message("<span class='warning'>\The [src] sparks and breaks open!</span>", "You hear a faint electrical spark.")
+		return 1
 
 /obj/structure/closet/secure_closet/attack_hand(mob/user as mob)
 	src.add_fingerprint(user)

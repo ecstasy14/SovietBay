@@ -3,10 +3,12 @@
 /obj/machinery/computer/skills//TODO:SANITY
 	name = "employment records console"
 	desc = "Used to view, edit and maintain employment records."
-	icon_state = "medlaptop"
+	icon_state = "laptop"
+	icon_keyboard = "laptop_key"
+	icon_screen = "medlaptop"
 	light_color = "#00b000"
 	req_one_access = list(access_heads)
-	circuit = "/obj/item/weapon/circuitboard/skills"
+	circuit = /obj/item/weapon/circuitboard/skills
 	var/obj/item/weapon/card/id/scan = null
 	var/authenticated = null
 	var/rank = null
@@ -22,14 +24,13 @@
 	var/sortBy = "name"
 	var/order = 1 // -1 = Descending - 1 = Ascending
 
-
-/obj/machinery/computer/skills/attackby(obj/item/O as obj, user as mob)
-	if(istype(O, /obj/item/weapon/card/id) && !scan)
-		usr.drop_item()
+/obj/machinery/computer/skills/attackby(obj/item/O as obj, var/mob/user)
+	if(istype(O, /obj/item/weapon/card/id) && !scan && user.unEquip(O))
 		O.loc = src
 		scan = O
 		user << "You insert [O]."
-	..()
+	else
+		..()
 
 /obj/machinery/computer/skills/attack_ai(mob/user as mob)
 	return attack_hand(user)
@@ -38,8 +39,11 @@
 /obj/machinery/computer/skills/attack_hand(mob/user as mob)
 	if(..())
 		return
+	ui_interact(user)
+
+/obj/machinery/computer/skills/ui_interact(mob/user as mob)
 	if (src.z > 6)
-		user << "\red <b>Unable to establish a connection</b>: \black You're too far away from the station!"
+		user << "<span class='danger'>Unable to establish a connection:</span> You're too far away from the station!"
 		return
 	var/dat
 
@@ -140,7 +144,7 @@
 				else
 		else
 			dat += text("<A href='?src=\ref[];choice=Log In'>{Log In}</A>", src)
-	user << browse(text("<HEAD><TITLE>Employment Records</TITLE></HEAD><TT>[]</TT>", dat), "window=secure_rec;size=600x400")
+	user << browse(text("<HEAD><TITLE>Employment Records</TITLE></HEAD><TT>[]</TT>", sanitize_local(dat, SANITIZE_BROWSER)), "window=secure_rec;size=600x400")
 	onclose(user, "secure_rec")
 	return
 
@@ -184,8 +188,7 @@ What a mess.*/
 					scan = null
 				else
 					var/obj/item/I = usr.get_active_hand()
-					if (istype(I, /obj/item/weapon/card/id))
-						usr.drop_item()
+					if (istype(I, /obj/item/weapon/card/id) && usr.unEquip(I))
 						I.loc = src
 						scan = I
 
@@ -306,7 +309,7 @@ What a mess.*/
 			if ("New Record (General)")
 				if(PDA_Manifest.len)
 					PDA_Manifest.Cut()
-				active1 = CreateGeneralRecord()
+				active1 = data_core.CreateGeneralRecord()
 
 //FIELD FUNCTIONS
 			if ("Edit Field")
@@ -355,7 +358,7 @@ What a mess.*/
 							alert(usr, "You do not have the required rank to do this!")
 					if("species")
 						if (istype(active1, /datum/data/record))
-							var/t1 = sanitize(input("Please enter race:", "General records", revert_ja(active1.fields["species"]), null)  as message, ja_mode = POPUP)
+							var/t1 = sanitize(input("Please enter race:", "General records", sanitize_local(active1.fields["species"], SANITIZE_TEMP), null)  as message)
 							if ((!( t1 ) || !( authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || active1 != a1))
 								return
 							active1.fields["species"] = t1
