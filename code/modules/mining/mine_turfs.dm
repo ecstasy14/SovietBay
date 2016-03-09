@@ -39,6 +39,12 @@
 	spawn(2)
 		updateMineralOverlays(1)
 
+/turf/simulated/mineral/can_build_cable()
+	return !density
+
+/turf/simulated/mineral/is_plating()
+	return 1
+
 /turf/simulated/mineral/proc/updateMineralOverlays(var/update_neighbors)
 	var/list/step_overlays = list("s" = NORTH, "n" = SOUTH, "w" = EAST, "e" = WEST)
 	for(var/direction in step_overlays)
@@ -129,7 +135,7 @@
 	if (istype(W, /obj/item/device/measuring_tape))
 		var/obj/item/device/measuring_tape/P = W
 		user.visible_message("\blue[user] extends [P] towards [src].","\blue You extend [P] towards [src].", translation = list("object"=src,"name"="tape","args"=list("user"=user,"P"=P)))
-		if(do_after(user,25))
+		if(do_after(user,25, src))
 			user << "\blue [translation(src,"tape",list("P"=P, "excavation_level"=excavation_level))]"
 		return
 
@@ -163,7 +169,7 @@
 				if(prob(50))
 					artifact_debris()
 
-		if(do_after(user,P.digspeed))
+		if(do_after(user,P.digspeed, src))
 			user << "\blue [translation(src,"finish_drill",P)]"
 
 			if(finds && finds.len)
@@ -237,7 +243,7 @@
 				O.geologic_data = geologic_data
 
 	else
-		return attack_hand(user)
+		return ..()
 
 /turf/simulated/mineral/proc/clear_ore_effects()
 	for(var/obj/effect/mineral/M in contents)
@@ -460,7 +466,7 @@
 		user << "\red [translation(src,"digging")]"
 		playsound(user.loc, 'sound/effects/rustle1.ogg', 50, 1)
 
-		if(!do_after(user,40)) return
+		if(!do_after(user,40, src)) return
 
 		user << "\blue [translation(src,"dug")]"
 		gets_dug()

@@ -260,6 +260,10 @@ macro "borghotkeymode"
 		command = "Invisimin"
 		is-disabled = false
 	elem 
+		name = "F9"
+		command = "msay"
+		is-disabled = false
+	elem 
 		name = "F12"
 		command = "F12"
 		is-disabled = false
@@ -456,6 +460,10 @@ macro "macro"
 	elem 
 		name = "F8"
 		command = "Invisimin"
+		is-disabled = false
+	elem 
+		name = "F9"
+		command = "msay"
 		is-disabled = false
 	elem 
 		name = "F12"
@@ -740,6 +748,10 @@ macro "hotkeymode"
 		command = "Invisimin"
 		is-disabled = false
 	elem 
+		name = "F9"
+		command = "msay"
+		is-disabled = false
+	elem 
 		name = "F12"
 		command = "F12"
 		is-disabled = false
@@ -930,6 +942,10 @@ macro "borgmacro"
 		command = "Invisimin"
 		is-disabled = false
 	elem 
+		name = "F9"
+		command = "msay"
+		is-disabled = false
+	elem 
 		name = "F12"
 		command = "F12"
 		is-disabled = false
@@ -966,6 +982,15 @@ menu "menu"
 	elem 
 		name = ""
 		command = ""
+		category = "&File"
+		is-checked = false
+		can-check = false
+		group = ""
+		is-disabled = false
+		saved-params = "is-checked"
+	elem 
+		name = "&Reconnect"
+		command = ".reconnect"
 		category = "&File"
 		is-checked = false
 		can-check = false
@@ -2088,7 +2113,7 @@ window "rpane"
 		right-click = false
 		saved-params = "is-checked"
 		on-size = ""
-		text = "Github"
+		text = "GitHub"
 		image = ""
 		command = "Github"
 		is-flat = false

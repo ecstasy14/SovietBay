@@ -100,7 +100,7 @@
 	wires = new(src)
 	spawn(4)
 		if(src.product_slogans)
-			src.slogan_list += text2list(src.product_slogans, ";")
+			src.slogan_list += splittext(src.product_slogans, ";")
 
 			// So not all machines speak at the exact same time.
 			// The first time this machine says something will be at slogantime + this random value,
@@ -108,7 +108,7 @@
 			src.last_slogan = world.time + rand(0, slogan_delay)
 
 		if(src.product_ads)
-			src.ads_list += text2list(src.product_ads, ";")
+			src.ads_list += splittext(src.product_ads, ";")
 
 		src.build_inventory()
 		power_change()
@@ -188,9 +188,9 @@
 			var/obj/item/weapon/spacecash/ewallet/C = W
 			paid = pay_with_ewallet(C)
 			handled = 1
-		else if (istype(W, /obj/item/weapon/spacecash))
-			var/obj/item/weapon/spacecash/C = W
-			paid = pay_with_cash(C, user)
+		else if (istype(W, /obj/item/weapon/spacecash/bundle))
+			var/obj/item/weapon/spacecash/bundle/C = W
+			paid = pay_with_cash(C)
 			handled = 1
 
 		if(paid)
@@ -231,7 +231,7 @@
 		else
 			user.visible_message("[user] begins securing \the [src] to the floor.", "You start securing \the [src] to the floor.")
 
-		if(do_after(user, 20))
+		if(do_after(user, 20, src))
 			if(!src) return
 			user << "<span class='notice'>You [anchored? "un" : ""]secured \the [src]!</span>"
 			anchored = !anchored
@@ -241,49 +241,28 @@
 
 		for(var/datum/data/vending_product/R in product_records)
 			if(istype(W, R.product_path))
-				stock(R, user)
-				qdel(W)
-				return
+				stock(W, R, user)
+				return 1
 		..()
 
 /**
  *  Receive payment with cashmoney.
- *
- *  usr is the mob who gets the change.
  */
-/obj/machinery/vending/proc/pay_with_cash(var/obj/item/weapon/spacecash/cashmoney, mob/user)
+/obj/machinery/vending/proc/pay_with_cash(var/obj/item/weapon/spacecash/bundle/cashmoney)
 	if(currently_vending.price > cashmoney.worth)
-
 		// This is not a status display message, since it's something the character
 		// themselves is meant to see BEFORE putting the money in
 		usr << "\icon[cashmoney] <span class='warning'>That is not enough money.</span>"
 		return 0
 
-	if(istype(cashmoney, /obj/item/weapon/spacecash/bundle))
-		// Bundles can just have money subtracted, and will work
+	visible_message("<span class='info'>\The [usr] inserts some cash into \the [src].</span>")
+	cashmoney.worth -= currently_vending.price
 
-		visible_message("<span class='info'>\The [usr] inserts some cash into \the [src].</span>")
-		var/obj/item/weapon/spacecash/bundle/cashmoney_bundle = cashmoney
-		cashmoney_bundle.worth -= currently_vending.price
-
-		if(cashmoney_bundle.worth <= 0)
-			usr.drop_from_inventory(cashmoney_bundle)
-			qdel(cashmoney_bundle)
-		else
-			cashmoney_bundle.update_icon()
-	else
-		// Bills (banknotes) cannot really have worth different than face value,
-		// so we have to eat the bill and spit out change in a bundle
-		// This is really dirty, but there's no superclass for all bills, so we
-		// just assume that all spacecash that's not something else is a bill
-
-		visible_message("<span class='info'>\The [usr] inserts a bill into \the [src].</span>")
-		var/left = cashmoney.worth - currently_vending.price
+	if(cashmoney.worth <= 0)
 		usr.drop_from_inventory(cashmoney)
 		qdel(cashmoney)
-
-		if(left)
-			spawn_money(left, src.loc, user)
+	else
+		cashmoney.update_icon()
 
 	// Vending machines have no idea who paid with cash
 	credit_purchase("(cash)")
@@ -547,10 +526,17 @@
 		currently_vending = null
 		nanomanager.update_uis(src)
 
-/obj/machinery/vending/proc/stock(var/datum/data/vending_product/R, var/mob/user)
-	if(src.panel_open)
-		user << "<span class='notice'>You insert \the [src] in the product receptor.</span>"
-		R.amount++
+/**
+ * Add item to the machine
+ *
+ * Checks if item is vendable in this machine should be performed before
+ * calling. W is the item being inserted, R is the associated vending_product entry.
+ */	
+/obj/machinery/vending/proc/stock(obj/item/weapon/W, var/datum/data/vending_product/R, var/mob/user)
+
+	user << "<span class='notice'>You insert \the [W] in the product receptor.</span>"
+	R.amount++
+	qdel(W)
 
 	nanomanager.update_uis(src)
 
@@ -895,7 +881,6 @@
 	vend_reply = "Have an enchanted evening!"
 	product_ads = "FJKLFJSD;AJKFLBJAKL;1234 LOONIES LOL!;>MFW;Kill them fuckers!;GET DAT FUKKEN DISK;HONK!;EI NATH;Destroy the station!;Admin conspiracies since forever!;Space-time bending hardware!"
 	products = list(/obj/item/clothing/head/wizard = 1,/obj/item/clothing/suit/wizrobe = 1,/obj/item/clothing/head/wizard/red = 1,/obj/item/clothing/suit/wizrobe/red = 1,/obj/item/clothing/shoes/sandal = 1,/obj/item/weapon/staff = 2)
-	contraband = list(/obj/item/weapon/reagent_containers/glass/bottle/wizarditis = 1)	//No one can get to the machine to hack it anyways; for the lulz - Microwave
 
 /obj/machinery/vending/dinnerware
 	name = "Dinnerware"
