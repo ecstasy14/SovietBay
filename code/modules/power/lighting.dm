@@ -160,7 +160,7 @@
 	icon_state = "bulb1"
 	base_state = "bulb"
 	fitting = "bulb"
-	brightness_range = 4
+	brightness_range = 6
 	brightness_power = 2
 	brightness_color = "#a0a080"
 	desc = "A small lighting fixture."
