@@ -2,8 +2,8 @@
 	name = "igniter"
 	desc = "A small electronic device able to ignite combustable substances."
 	icon_state = "igniter"
+	origin_tech = list(TECH_MAGNET = 1)
 	matter = list(DEFAULT_WALL_MATERIAL = 500, "glass" = 50, "waste" = 10)
-	origin_tech = "magnets=1"
 
 	secured = 1
 	wires = WIRE_RECEIVE
@@ -25,7 +25,8 @@
 						tank.explode()
 
 			var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-			s.set_up(3, 1, src)
+			s.set_up(5, 0, src)
+			s.attach(src)
 			s.start()
 
 		return 1

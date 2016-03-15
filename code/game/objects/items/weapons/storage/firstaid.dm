@@ -161,8 +161,21 @@
 	can_hold = list(/obj/item/weapon/reagent_containers/pill,/obj/item/weapon/dice,/obj/item/weapon/paper)
 	allow_quick_gather = 1
 	use_to_pickup = 1
-	storage_slots = 14
 	use_sound = null
+
+/obj/item/weapon/storage/pill_bottle/alkysine
+	name = "bottle of Alkysine pills"
+	desc = "Contains pills used to treat brain damage."
+
+	New()
+		..()
+		new /obj/item/weapon/reagent_containers/pill/alkysine( src )
+		new /obj/item/weapon/reagent_containers/pill/alkysine( src )
+		new /obj/item/weapon/reagent_containers/pill/alkysine( src )
+		new /obj/item/weapon/reagent_containers/pill/alkysine( src )
+		new /obj/item/weapon/reagent_containers/pill/alkysine( src )
+		new /obj/item/weapon/reagent_containers/pill/alkysine( src )
+		new /obj/item/weapon/reagent_containers/pill/alkysine( src )
 
 /obj/item/weapon/storage/pill_bottle/antitox
 	name = "bottle of Dylovene pills"
