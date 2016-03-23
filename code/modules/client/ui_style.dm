@@ -1,11 +1,14 @@
 
 
 /var/all_ui_styles = list(
-	"Midnight"     = 'icons/mob/screen/midnight.dmi',
-	"Orange"       = 'icons/mob/screen/orange.dmi',
-	"old"          = 'icons/mob/screen/old.dmi',
-	"White"        = 'icons/mob/screen/white.dmi',
-	"old-noborder" = 'icons/mob/screen/old-noborder.dmi'
+	"Midnight"     			= 'icons/mob/screen/midnight.dmi',
+	"Midnight-noborder"     = 'icons/mob/screen/midnight-noborder.dmi',
+	"Orange"       			= 'icons/mob/screen/orange.dmi',
+	"Orange-noborder"       = 'icons/mob/screen/orange-noborder.dmi',
+	"White"        			= 'icons/mob/screen/white.dmi',
+	"White-noborder"		= 'icons/mob/screen/white-noborder.dmi',
+	"old"					= 'icons/mob/screen/old.dmi',
+	"old-noborder" 			= 'icons/mob/screen/old-noborder.dmi'
 	)
 
 /proc/ui_style2icon(ui_style)

@@ -11,28 +11,28 @@
 
 /datum/malf_research_ability/networking/basic_hack
 	ability = new/datum/game_mode/malfunction/verb/basic_encryption_hack()
-	price = 25
+	price = 10
 	next = new/datum/malf_research_ability/networking/advanced_hack()
 	name = "Basic Encryption Hack"
 
 
 /datum/malf_research_ability/networking/advanced_hack
 	ability = new/datum/game_mode/malfunction/verb/advanced_encryption_hack()
-	price = 400
+	price = 200
 	next = new/datum/malf_research_ability/networking/elite_hack()
 	name = "Advanced Encryption Hack"
 
 
 /datum/malf_research_ability/networking/elite_hack
 	ability = new/datum/game_mode/malfunction/verb/elite_encryption_hack()
-	price = 1000
+	price = 500
 	next = new/datum/malf_research_ability/networking/system_override()
 	name = "Elite Encryption Hack"
 
 
 /datum/malf_research_ability/networking/system_override
 	ability = new/datum/game_mode/malfunction/verb/system_override()
-	price = 2750
+	price = 1750
 	name = "System Override"
 
 // END RESEARCH DATUMS
@@ -67,11 +67,11 @@
 
 	user.hacking = 1
 	user << "Beginning APC system override..."
-	sleep(300)
-	user << "APC hack completed. Uploading modified operation software.."
 	sleep(200)
-	user << "Restarting APC to apply changes.."
+	user << "APC hack completed. Uploading modified operation software.."
 	sleep(100)
+	user << "Restarting APC to apply changes.."
+	sleep(50)
 	if(A)
 		A.ai_hack(user)
 		if(A.hacker == user)
@@ -86,8 +86,8 @@
 /datum/game_mode/malfunction/verb/advanced_encryption_hack()
 	set category = "Software"
 	set name = "Advanced Encryption Hack"
-	set desc = "75 CPU - Attempts to bypass encryption on the Command Quantum Relay, giving you ability to fake legitimate messages. Has chance of failing."
-	var/price = 75
+	set desc = "50 CPU - Attempts to bypass encryption on the Command Quantum Relay, giving you ability to fake legitimate messages. Has chance of failing."
+	var/price = 50
 	var/mob/living/silicon/ai/user = usr
 
 	if(!ability_prechecks(user, price))
@@ -111,8 +111,8 @@
 /datum/game_mode/malfunction/verb/elite_encryption_hack()
 	set category = "Software"
 	set name = "Elite Encryption Hack"
-	set desc = "200 CPU - Allows you to hack station's ALERTCON system, changing alert level. Has high chance of failing."
-	var/price = 200
+	set desc = "100 CPU - Allows you to hack station's ALERTCON system, changing alert level. Has high chance of failing."
+	var/price = 100
 	var/mob/living/silicon/ai/user = usr
 	if(!ability_prechecks(user, price))
 		return
@@ -135,7 +135,7 @@
 	set category = "Software"
 	set name = "System Override"
 	set desc = "500 CPU - Begins hacking station's primary firewall, quickly overtaking remaining APC systems. When completed grants access to station's self-destruct mechanism. Network administrators will probably notice this."
-	var/price = 500
+	var/price = 250
 	var/mob/living/silicon/ai/user = usr
 	if (alert(user, "Begin system override? This cannot be stopped once started. The network administrators will probably notice this.", "System Override:", "Yes", "No") != "Yes")
 		return
