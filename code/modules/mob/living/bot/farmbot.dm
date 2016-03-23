@@ -47,7 +47,7 @@
 	else
 		dat += "Error: Watertank not found"
 	dat += "<br>Behaviour controls are [locked ? "locked" : "unlocked"]<hr>"
-	if(!locked)
+	if(!locked || issilicon(usr) || usr == src)
 		dat += "<TT>Watering controls:<br>"
 		dat += "Water plants : <A href='?src=\ref[src];water=1'>[waters_trays ? "Yes" : "No"]</A><BR>"
 		dat += "Refill watertank : <A href='?src=\ref[src];refill=1'>[refills_water ? "Yes" : "No"]</A><BR>"
@@ -59,6 +59,8 @@
 		dat += "Collect produce: <A href='?src=\ref[src];collect=1'>[collects_produce ? "Yes" : "No"]</A><BR>"
 		dat += "Remove dead plants: <A href='?src=\ref[src];removedead=1'>[removes_dead ? "Yes" : "No"]</A><BR>"
 		dat += "</TT>"
+		if(istype(user, /mob/living/silicon/ai))
+			dat += "<BR><A href='?src=\ref[src];ai_assume=1'>Assume AI control</A><BR>"
 
 	user << browse("<HEAD><TITLE>Farmbot v1.0 controls</TITLE></HEAD>[dat]", "window=autofarm")
 	onclose(user, "autofarm")
@@ -85,7 +87,7 @@
 		else
 			turn_on()
 
-	if(locked)
+	if(locked && !issilicon(usr) && !usr == src)
 		return
 
 	if(href_list["water"])
@@ -100,6 +102,10 @@
 		collects_produce = !collects_produce
 	else if(href_list["removedead"])
 		removes_dead = !removes_dead
+	else if(href_list["ai_assume"])
+		if(istype(usr, /mob/living/silicon/ai))
+			var/mob/living/silicon/ai/AI = usr
+			assume_ai(AI)
 
 	attack_hand(usr)
 	return
