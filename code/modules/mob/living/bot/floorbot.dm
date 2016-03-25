@@ -221,23 +221,14 @@
 		repairing = 1
 		update_icons()
 		visible_message("<span class='notice'>[src] begins to repair the hole.</span>")
-		world << "BEGIN"
 		if(do_after(src, 50, S))
-			world << "DO_AFTER PASSED"
 			if(S && (locate(/obj/structure/lattice, S) && building == 1 || !locate(/obj/structure/lattice, S) && building == 2)) // Make sure that it still needs repairs
-				world << "REPAIR REQUIRING TEST PASSED"
 				var/obj/item/I
 				if(building == 1)
 					I = new /obj/item/stack/tile/floor(src)
-					world << "CREATING [I]"
 				else
 					I = PoolOrNew(/obj/item/stack/rods, src)
-					world << "CREATING [I]"
-				if(usr)
-					world << "USER DETECTED"
 				S.attackby(I, src)
-				world << "[S] ATTACKED BY [I]"
-		world << "TARGET RESET"
 		target = null
 		repairing = 0
 		update_icons()
