@@ -41,9 +41,12 @@ proc/translation(var/obj, var/v = null, var/procArgs = null, var/language = null
 	if(!v)
 		v = "name"										//calling without var arg will always return translated name
 
+	if(!usr)
+		return 0
+
 	var/result = null
-	var/P = null										//language arg uses only if we should force language, for example, in remaked visible_message()
-	var/lang = language ? language : usr.client.prefs.interface_lang
+	var/P = null
+	var/lang = language ? language : usr.client.prefs.interface_lang //language arg uses only if we should force language, for example, in remaked visible_message()
 
 	P = LangPath(obj:type, lang)						//checking lang path
 	if(!P)

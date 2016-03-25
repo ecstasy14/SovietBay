@@ -15,7 +15,6 @@
 	var/light_strength = 3
 	var/obj/machinery/camera/botcam = null //Now all bots has cameras
 	var/mob/living/silicon/ai/c_ai = null
-
 	var/obj/access_scanner = null
 	var/list/req_access = list()
 	var/list/req_one_access = list()
@@ -62,7 +61,9 @@
 		return
 	src << "\blue [src] disconnected. All AI function has been restored."
 	src.c_ai.client = src.client
-	src.c_ai = null
+	spawn(2)
+		src.c_ai.eyeobj.setLoc(src.loc)
+		src.c_ai = null
 
 
 /mob/living/bot/Life()

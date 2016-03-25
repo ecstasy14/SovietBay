@@ -184,7 +184,7 @@
 		step_to(src, path[1])
 		path -= path[1]
 
-/mob/living/bot/floorbot/UnarmedAttack(var/atom/A, var/proximity)
+/mob/living/bot/floorbot/UnarmedAttack(var/atom/A, var/proximity = 0)
 	if(!..())
 		return
 
@@ -200,34 +200,44 @@
 		update_icons()
 		if(F.is_plating())
 			visible_message("<span class='warning'>[src] begins to tear the floor tile from the floor!</span>")
-			spawn(50)
+			if(do_after(src, 50, F))
 				F.break_tile_to_plating()
 				addTiles(1)
 		else
 			visible_message("<span class='danger'>[src] begins to tear through the floor!</span>")
-			spawn(150) // Extra time because this can and will kill.
+			if(do_after(src, 150, F)) // Extra time because this can and will kill.
 				F.ReplaceWithLattice()
 				addTiles(1)
 		target = null
 		repairing = 0
 		update_icons()
 	else if(istype(A, /turf/space))
+		var/turf/space/S = A
 		var/building = 2
-		if(locate(/obj/structure/lattice, A))
+		if(locate(/obj/structure/lattice, S))
 			building = 1
 		if(amount < building)
 			return
 		repairing = 1
 		update_icons()
 		visible_message("<span class='notice'>[src] begins to repair the hole.</span>")
-		spawn(50)
-			if(A && (locate(/obj/structure/lattice, A) && building == 1 || !locate(/obj/structure/lattice, A) && building == 2)) // Make sure that it still needs repairs
+		world << "BEGIN"
+		if(do_after(src, 50, S))
+			world << "DO_AFTER PASSED"
+			if(S && (locate(/obj/structure/lattice, S) && building == 1 || !locate(/obj/structure/lattice, S) && building == 2)) // Make sure that it still needs repairs
+				world << "REPAIR REQUIRING TEST PASSED"
 				var/obj/item/I
 				if(building == 1)
 					I = new /obj/item/stack/tile/floor(src)
+					world << "CREATING [I]"
 				else
 					I = PoolOrNew(/obj/item/stack/rods, src)
-				A.attackby(I, src)
+					world << "CREATING [I]"
+				if(usr)
+					world << "USER DETECTED"
+				S.attackby(I, src)
+				world << "[S] ATTACKED BY [I]"
+		world << "TARGET RESET"
 		target = null
 		repairing = 0
 		update_icons()
@@ -237,7 +247,7 @@
 			repairing = 1
 			update_icons()
 			visible_message("<span class='notice'>[src] begins to improve the floor.</span>")
-			spawn(50)
+			if(do_after(src, 50, F))
 				if(!F.flooring)
 					F.set_flooring(get_flooring_data(floor_build_type))
 					addTiles(-1)
@@ -249,7 +259,7 @@
 		visible_message("<span class='notice'>\The [src] begins to collect tiles.</span>")
 		repairing = 1
 		update_icons()
-		spawn(20)
+		if(do_after(src, 20, T))
 			if(T)
 				var/eaten = min(maxAmount - amount, T.get_amount())
 				T.use(eaten)
@@ -263,7 +273,7 @@
 			visible_message("<span class='notice'>\The [src] begins to make tiles.</span>")
 			repairing = 1
 			update_icons()
-			spawn(50)
+			if(do_after(src, 50, M))
 				if(M)
 					M.use(1)
 					addTiles(4)
