@@ -637,7 +637,7 @@
 		else
 			E << "\blue <b><i>You hear soft and powerful voice in your head...</i></b> \italic \bold [msg]"
 
-		for(var/mob/dead/observer/G in player_list)
+		for(var/mob/observer/ghost/G in player_list)
 			G << "\bold TELEPATHY([src] --> [E]): [msg]"
 
 		src << {"\blue You project "[msg]" into [E] mind"}
@@ -1157,7 +1157,7 @@
 		if(istype(P, /mob/living/silicon))
 			continue
 		P << "\blue <b><i>You hear echoing, powerful voice in your head...</i></b> \italic \bold [msg]"
-	for(var/mob/dead/observer/G in player_list)
+	for(var/mob/observer/ghost/G in player_list)
 		G << "\bold GLOBAL TELEPATHY: [msg]"
 	log_say("Global Telepathy: [key_name(usr)] : [msg]")
 	src << {"\blue You project "[msg]" into mind of every living creature"}
@@ -1407,7 +1407,7 @@
 				user << "\red The stone stops flickering..."
 
 /obj/item/device/jirachistone/proc/request_player()
-	for(var/mob/dead/observer/O in player_list)
+	for(var/mob/observer/ghost/O in player_list)
 		if(O.client)
 			question(O.client)
 
