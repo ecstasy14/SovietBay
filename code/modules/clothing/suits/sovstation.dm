@@ -648,12 +648,15 @@
 
 //Mint
 
-/obj/item/clothing/mask/bandana/mint
-	name = "black bandana"
-	desc = "From BSX with love."
-	icon_state = "mintbandana"
+/obj/item/clothing/mask/mintbandana
+	name = "Mint's Bandana"
+	desc = "Just dark bandana."
+	icon_state = "mintband"
+	body_parts_covered = FACE
 
 //Mint
+
+// Custom-Items Garments
 
 /obj/item/clothing/mask/happy
 	name = "Happiest Mask"
