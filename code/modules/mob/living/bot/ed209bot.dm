@@ -56,7 +56,7 @@
 		return
 
 	last_shot = world.time
-	var/projectile = /obj/item/projectile/beam/stun
+	var/projectile = /obj/item/projectile/energy/electrode
 	if(emagged)
 		projectile = /obj/item/projectile/beam
 

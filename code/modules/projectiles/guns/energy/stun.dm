@@ -17,6 +17,15 @@
 	max_shots = 6
 	recharge_time = 10 //Time it takes for shots to recharge (in ticks)
 
+/obj/item/weapon/gun/energy/taserbay
+	name = "experimental taser gun"
+	desc = "Experimental taser gun developed by NT"
+	icon_state = "taservg"
+	item_state = null
+	fire_sound = 'sound/weapons/taser2.ogg'
+	max_shots = 5
+	projectile_type = /obj/item/projectile/beam/stun
+
 
 /obj/item/weapon/gun/energy/stunrevolver
 	name = "stun revolver"

@@ -146,6 +146,7 @@
 		var/dtype = O.damtype
 		var/throw_damage = O.throwforce*(speed/THROWFORCE_SPEED_DIVISOR)
 
+/*      // Fuck this shit - SOVIET STATION EDIT.
 		var/miss_chance = 15
 		if (O.throw_source)
 			var/distance = get_dist(O.throw_source, loc)
@@ -154,7 +155,7 @@
 		if (prob(miss_chance))
 			visible_message("\blue \The [O] misses [src] narrowly!")
 			return
-
+*/
 		src.visible_message("\red [src] has been hit by [O].")
 		var/armor = run_armor_check(null, "melee")
 

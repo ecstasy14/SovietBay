@@ -531,3 +531,4 @@
 	icon_state = "franklin_pullover"
 	item_state = "franklin_pullover_s"
 	worn_state = "franklin_pullover"
+

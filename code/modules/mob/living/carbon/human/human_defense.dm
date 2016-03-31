@@ -166,11 +166,11 @@ meteor_act
 		return target_zone
 
 	var/hit_zone = get_zone_with_miss_chance(target_zone, src)
-
+/*
 	if(!hit_zone)
 		visible_message("<span class='danger'>\The [user] misses [src] with \the [I]!</span>")
 		return null
-
+*/
 	if(check_shields(I.force, I, user, target_zone, "the [I.name]"))
 		return null
 
@@ -298,11 +298,11 @@ meteor_act
 			zone = ran_zone("chest",75)	//Hits a random part of the body, geared towards the chest
 
 		//check if we hit
-		var/miss_chance = 15
+/*		var/miss_chance = 15
 		if (O.throw_source)
 			var/distance = get_dist(O.throw_source, loc)
-			miss_chance = max(15*(distance-2), 0)
-		zone = get_zone_with_miss_chance(zone, src, miss_chance, ranged_attack=1)
+		miss_chance = max(15*(distance-2), 0)*/
+		zone = get_zone_with_miss_chance(zone, src,/*miss_chance,*/ ranged_attack=1)
 
 		if(zone && O.thrower != src)
 			var/shield_check = check_shields(throw_damage, O, thrower, zone, "[O]")
@@ -310,10 +310,11 @@ meteor_act
 				zone = null
 			else if(shield_check)
 				return
-
-		if(!zone)
+/*
+	if(!zone)
 			visible_message("<span class='notice'>\The [O] misses [src] narrowly!</span>")
 			return
+*/
 
 		O.throwing = 0		//it hit, so stop moving
 

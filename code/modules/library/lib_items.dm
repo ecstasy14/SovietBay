@@ -31,31 +31,17 @@
 		O.loc = src
 		update_icon()
 	else if(istype(O, /obj/item/weapon/pen))
-		var/newname = sanitizeSafe(input("What would you like to title this bookshelf?"), MAX_NAME_LEN)
+		var/newname = sanitize(input(usr, "What would you like to title this bookshelf?"))
 		if(!newname)
 			return
 		else
-			name = ("bookcase ([newname])")
-	else if(istype(O,/obj/item/weapon/wrench))
-		playsound(src.loc, 'sound/items/Ratchet.ogg', 100, 1)
-		user << (anchored ? "<span class='notice'>You unfasten \the [src] from the floor.</span>" : "<span class='notice'>You secure \the [src] to the floor.</span>")
-		anchored = !anchored
-	else if(istype(O,/obj/item/weapon/screwdriver))
-		playsound(loc, 'sound/items/Screwdriver.ogg', 75, 1)
-		user << "<span class='notice'>You begin dismantling \the [src].</span>"
-		if(do_after(user,25,src))
-			user << "<span class='notice'>You dismantle \the [src].</span>"
-			new /obj/item/stack/material/wood(get_turf(src), amount = 3)
-			for(var/obj/item/weapon/book/b in contents)
-				b.loc = (get_turf(src))
-			qdel(src)
-
+			name = ("bookcase ([sanitize(newname)])")
 	else
 		..()
 
 /obj/structure/bookcase/attack_hand(var/mob/user as mob)
 	if(contents.len)
-		var/obj/item/weapon/book/choice = input("Which book would you like to remove from the shelf?") as null|obj in contents
+		var/obj/item/weapon/book/choice = input("Which book would you like to remove from the shelf?") in contents as obj|null
 		if(choice)
 			if(!usr.canmove || usr.stat || usr.restrained() || !in_range(loc, usr))
 				return
@@ -70,20 +56,20 @@
 	switch(severity)
 		if(1.0)
 			for(var/obj/item/weapon/book/b in contents)
-				qdel(b)
-			qdel(src)
+				del(b)
+			del(src)
 			return
 		if(2.0)
 			for(var/obj/item/weapon/book/b in contents)
 				if (prob(50)) b.loc = (get_turf(src))
-				else qdel(b)
-			qdel(src)
+				else del(b)
+			del(src)
 			return
 		if(3.0)
 			if (prob(50))
 				for(var/obj/item/weapon/book/b in contents)
 					b.loc = (get_turf(src))
-				qdel(src)
+				del(src)
 			return
 		else
 	return
@@ -95,16 +81,12 @@
 		icon_state = "book-5"
 
 
-
 /obj/structure/bookcase/manuals/medical
 	name = "Medical Manuals bookcase"
 
 	New()
 		..()
 		new /obj/item/weapon/book/manual/medical_cloning(src)
-		new /obj/item/weapon/book/manual/medical_diagnostics_manual(src)
-		new /obj/item/weapon/book/manual/medical_diagnostics_manual(src)
-		new /obj/item/weapon/book/manual/medical_diagnostics_manual(src)
 		update_icon()
 
 
@@ -117,9 +99,8 @@
 		new /obj/item/weapon/book/manual/engineering_particle_accelerator(src)
 		new /obj/item/weapon/book/manual/engineering_hacking(src)
 		new /obj/item/weapon/book/manual/engineering_guide(src)
-		new /obj/item/weapon/book/manual/atmospipes(src)
 		new /obj/item/weapon/book/manual/engineering_singularity_safety(src)
-		new /obj/item/weapon/book/manual/evaguide(src)
+		new /obj/item/weapon/book/manual/robotics_cyborgs(src)
 		update_icon()
 
 /obj/structure/bookcase/manuals/research_and_development
@@ -161,7 +142,7 @@
 			user << "<span class='notice'>The pages of [title] have been cut out!</span>"
 			return
 	if(src.dat)
-		user << browse(sanitize_local("<TT><I>Penned by [author].</I></TT> <BR>" + "[dat]", SANITIZE_BROWSER), "window=book")
+		user << browse("<TT><I>Penned by [author].</I></TT> <BR>" + "[dat]", "window=book")
 		user.visible_message("[user] opens a book titled \"[src.title]\" and begins reading intently.")
 		onclose(user, "book")
 	else
@@ -189,7 +170,7 @@
 		var/choice = input("What would you like to change?") in list("Title", "Contents", "Author", "Cancel")
 		switch(choice)
 			if("Title")
-				var/newtitle = reject_bad_text(sanitizeSafe(input("Write a new title:")))
+				var/newtitle = reject_bad_text(sanitizeSafe(usr, "Write a new title:"))
 				if(!newtitle)
 					usr << "The title is invalid."
 					return
@@ -197,12 +178,34 @@
 					src.name = newtitle
 					src.title = newtitle
 			if("Contents")
-				var/content = sanitize(input("Write your book's contents (HTML NOT allowed):") as message|null, MAX_BOOK_MESSAGE_LEN)
+				var/content = sanitize(input(usr, "Write your book's contents (HTML NOT allowed):"),8192) as message|null
 				if(!content)
 					usr << "The content is invalid."
 					return
 				else
-					src.dat += content
+					var/obj/item/weapon/pen/P=W
+
+					/*Parsing*/
+					content = replacetext(content, "\[center\]", "<center>")
+					content = replacetext(content, "\[/center\]", "</center>")
+					content = replacetext(content, "\[br\]", "<BR>")
+					content = replacetext(content, "\[b\]", "<B>")
+					content = replacetext(content, "\[/b\]", "</B>")
+					content = replacetext(content, "\[i\]", "<I>")
+					content = replacetext(content, "\[/i\]", "</I>")
+					content = replacetext(content, "\[u\]", "<U>")
+					content = replacetext(content, "\[/u\]", "</U>")
+					content = replacetext(content, "\[large\]", "<font size=\"4\">")
+					content = replacetext(content, "\[/large\]", "</font>")
+					content = replacetext(content, "\[sign\]", "<font face=\"Times New Roman\"><i>[user.real_name]</i></font>")
+					content = replacetext(content, "\[hr\]", "<HR>")
+					content = replacetext(content, "\[small\]", "<font size = \"1\">")
+					content = replacetext(content, "\[/small\]", "</font>")
+					content = replacetext(content, "\[*\]", "<li>")
+					content = replacetext(content, "\[list\]", "<ul>")
+					content = replacetext(content, "\[/list\]", "</ul>")
+					src.dat +="<font face=\"Verdana\" color=[P.colour]>[content]</font>"
+
 			if("Author")
 				var/newauthor = sanitize(input(usr, "Write the author's name:"))
 				if(!newauthor)
@@ -244,19 +247,13 @@
 	else if(istype(W, /obj/item/weapon/material/knife) || istype(W, /obj/item/weapon/wirecutters))
 		if(carved)	return
 		user << "<span class='notice'>You begin to carve out [title].</span>"
-		if(do_after(user, 30, src))
+		if(do_after(user, 30))
 			user << "<span class='notice'>You carve out the pages from [title]! You didn't want to read it anyway.</span>"
 			carved = 1
 			return
 	else
 		..()
 
-/obj/item/weapon/book/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
-	if(user.zone_sel.selecting == "eyes")
-		user.visible_message("<span class='notice'>You open up the book and show it to [M]. </span>", \
-			"<span class='notice'> [user] opens up a book and shows it to [M]. </span>")
-		M << browse(sanitize_local("<TT><I>Penned by [author].</I></TT> <BR>" + "[dat]", SANITIZE_BROWSER), "window=book")
-		user.setClickCooldown(DEFAULT_QUICK_COOLDOWN) //to prevent spam
 
 /*
  * Barcode Scanner
@@ -267,7 +264,7 @@
 	icon_state ="scanner"
 	throw_speed = 1
 	throw_range = 5
-	w_class = 2.0
+	w_class = 1.0
 	var/obj/machinery/librarycomp/computer // Associated computer - Modes 1 to 3 use this
 	var/obj/item/weapon/book/book	 //  Currently scanned book
 	var/mode = 0 					// 0 - Scan only, 1 - Scan and Set Buffer, 2 - Scan and Attempt to Check In, 3 - Scan and Attempt to Add to Inventory

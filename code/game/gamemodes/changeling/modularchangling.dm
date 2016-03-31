@@ -109,7 +109,7 @@ var/list/datum/power/changeling/powerinstances = list()
 /datum/power/changeling/paralysis_sting
 	name = "Paralysis Sting"
 	desc = "We silently sting a human, paralyzing them for a short time."
-	genomecost = 8
+	genomecost = 5
 	verbpath = /mob/proc/changeling_paralysis_sting
 
 /datum/power/changeling/LSDSting

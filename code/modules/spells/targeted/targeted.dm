@@ -26,6 +26,8 @@ Targeted spells have two useful flags: INCLUDEUSER and SELECTABLE. These are exp
 	var/amt_eye_blind = 0
 	var/amt_eye_blurry = 0
 
+	var/destroys = "none"
+
 	var/list/compatible_mobs = list()
 
 
@@ -120,6 +122,17 @@ Targeted spells have two useful flags: INCLUDEUSER and SELECTABLE. These are exp
 
 /spell/targeted/cast(var/list/targets, mob/user)
 	for(var/mob/living/target in targets)
+		switch(destroys)
+			if("gib")
+				target.gib()
+			if("gib_brain")
+				var/mob/living/carbon/C = target
+				if(!C.has_brain()) // Their brain is already taken out
+					var/obj/item/organ/brain/B = new(C.loc)
+					B.transfer_identity(C)
+				target.gib()
+			if("disintegrate")
+				target.dust()
 		if(range >= 0)
 			if(!(target in view_or_range(range, holder, selection_type))) //filter at time of casting
 				targets -= target

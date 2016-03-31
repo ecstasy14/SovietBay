@@ -1,15 +1,16 @@
-//This file was auto-corrected by findeclaration.exe on 29/05/2012 15:03:04
-
-/datum/game_mode/var/list/memes = list()
+/datum/game_mode
+	var/list/datum/mind/memes = list()
 
 /datum/game_mode/meme
 	name = "Memetic Anomaly"
 	config_tag = "meme"
 	required_players = 3
+	required_players_secret = 8
 	restricted_jobs = list("AI", "Cyborg")
 	recommended_enemies = 2 // need at least a meme and a host
 	votable = 0 // temporarily disable this mode for voting
-	end_on_antag_death = 1
+
+
 
 	var/var/list/datum/mind/first_hosts = list()
 	var/var/list/assigned_hosts = list()
@@ -59,6 +60,9 @@
 
 		var/datum/mind/first_host = pick(possible_memes)
 		possible_memes.Remove(first_host)
+
+		modePlayer += meme
+		modePlayer += first_host
 		memes += meme
 		first_hosts += first_host
 
@@ -92,7 +96,7 @@
 		M.enter_host(first_host.current)
 		forge_meme_objectives(meme, first_host)
 
-		qdel(original)
+		del original
 
 	log_admin("Created [memes.len] memes.")
 
@@ -103,9 +107,6 @@
 
 
 /datum/game_mode/proc/forge_meme_objectives(var/datum/mind/meme, var/datum/mind/first_host)
-	if (config.objectives_disabled)
-		return
-
 	// meme always needs to attune X hosts
 	var/datum/objective/meme_attune/attune_objective = new
 	attune_objective.owner = meme
@@ -113,20 +114,16 @@
 	meme.objectives += attune_objective
 
 	// generate some random objectives, use standard traitor objectives
-	var/job = first_host.assigned_role
-
-	for(var/datum/objective/o in SelectObjectives(job, meme))
-		o.owner = meme
-		meme.objectives += o
-
-	greet_meme(meme)
-
-	return
+	return (ticker.mode.forge_traitor_objectives(meme))
 
 /datum/game_mode/proc/greet_meme(var/datum/mind/meme, var/you_are=1)
 	if (you_are)
-		meme.current << "<span class='danger'>You are a meme!</span>"
-	show_objectives(meme)
+		meme.current << "<B>\red You are a meme!</B>"
+
+	var/obj_count = 1
+	for(var/datum/objective/objective in meme.objectives)
+		meme.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
+		obj_count++
 	return
 
 /datum/game_mode/meme/check_finished()
@@ -142,3 +139,34 @@
 		return ..()
 	else
 		return 1
+
+/datum/game_mode/proc/auto_declare_completion_meme()
+	for(var/datum/mind/meme in memes)
+		var/memewin = 1
+		var/attuned = 0
+		if((meme.current) && istype(meme.current,/mob/living/parasite/meme))
+			world << "<B>The meme was [meme.current.key].</B>"
+			world << "<B>The last host was [meme.current:host.key].</B>"
+			world << "<B>Hosts attuned: [attuned]</B>"
+
+			var/count = 1
+			for(var/datum/objective/objective in meme.objectives)
+				if(objective.check_completion())
+					world << "<B>Objective #[count]</B>: [objective.explanation_text] \green <B>Success</B>"
+					feedback_add_details("meme_objective","[objective.type]|SUCCESS")
+				else
+					world << "<B>Objective #[count]</B>: [objective.explanation_text] \red Failed"
+					feedback_add_details("meme_objective","[objective.type]|FAIL")
+					memewin = 0
+				count++
+
+		else
+			memewin = 0
+
+		if(memewin)
+			world << "<B>The meme was successful!<B>"
+			feedback_add_details("meme_success","SUCCESS")
+		else
+			world << "<B>The meme has failed!<B>"
+			feedback_add_details("meme_success","FAIL")
+	return 1
