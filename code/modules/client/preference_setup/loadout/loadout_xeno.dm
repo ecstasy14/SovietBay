@@ -39,21 +39,27 @@
 /datum/gear/uniform/resomi/rainbow
 	display_name = "uniform, rainbow (Resomi)"
 	path = /obj/item/clothing/under/resomi/rainbow
+	whitelisted = "Resomi"
 
 /datum/gear/uniform/resomi/white
 	display_name = "uniform, white (Resomi)"
 	path = /obj/item/clothing/under/resomi/white
+	whitelisted = "Resomi"
 
 /datum/gear/uniform/resomi/eng
 	display_name = "uniform, Engineering (Resomi)"
 	path = /obj/item/clothing/under/resomi/yellow
-	allowed_roles = list("Chief Engineer","Station Engineer","Atmospherics Technician")
+	whitelisted = "Resomi"
+	allowed_roles = list("Chief Engineer","Station Engineer","Atmospheric Technician")
 
 /datum/gear/uniform/resomi/sec
 	display_name = "uniform, Security (Resomi)"
 	path = /obj/item/clothing/under/resomi/red
+	whitelisted = "Resomi"
 	allowed_roles = list("Security Officer","Head of Security","Warden")
 
 /datum/gear/uniform/resomi/med
 	display_name = "uniform, Medical (Resomi)"
 	path = /obj/item/clothing/under/resomi/medical
+	allowed_roles = list("Medical Doctor", "Chemist", "Geneticist", "Psychiatrist", "Paramedic", "Chief Medical Officer")
+	whitelisted = "Resomi"
