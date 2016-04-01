@@ -254,3 +254,13 @@
 	name = "emergency response team medical backpack"
 	desc = "A spacious backpack with lots of pockets, worn by medical members of an Emergency Response Team."
 	icon_state = "ert_medical"
+
+//Spec Ops backpacks.
+/obj/item/weapon/storage/backpack/specops
+	name = "spec ops backpack"
+	desc = "A spacious backpack with lots of pockets, used by highly dangerous units."
+	icon_state = "specopspack"
+	item_state_slots = list(
+		slot_l_hand_str = "securitypack",
+		slot_r_hand_str = "securitypack",
+		)

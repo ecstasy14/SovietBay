@@ -280,6 +280,14 @@ area/space/atmosalert()
 /area/shuttle/syndicate_elite/station
 	icon_state = "shuttlered2"
 
+/area/shuttle/breach/centcom
+	name = "\improper Breach Shuttle Centcom"
+	icon_state = "shuttlered"
+
+/area/shuttle/breach/station
+	name = "\improper Breach Shuttle"
+	icon_state = "shuttlered2"
+
 /area/shuttle/administration
 	flags = RAD_SHIELDED
 
@@ -377,6 +385,9 @@ area/space/atmosalert()
 
 /area/centcom/holding
 	name = "\improper Holding Facility"
+
+/area/centcom/breach
+	name = "\improper Breach Facility"
 
 //SYNDICATES
 

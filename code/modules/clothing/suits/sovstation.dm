@@ -1,10 +1,9 @@
 /*
-Там, где мечты становятся явью.
-Расположение спрайтов Советской Станции.
+Location of Barsik's Sprites
 */
 
-// Раздел Хоса
-// Шинель Хоса. Основа - labcoat
+// Head of Shitcurity
+// HoS's Coat. Original - labcoat.
 
 /obj/item/clothing/suit/armor/hoscoat
 	name = "Formal Greatcoat"
@@ -42,7 +41,7 @@
 	. = ..()
 	update_icon()
 
-//Формальная одежда
+//Formal HOS
 
 /obj/item/clothing/under/rank/head_of_security/hosformal
 	desc = "You never asked for anything that stylish."
@@ -52,7 +51,7 @@
 	worn_state = "hosformal"
 	siemens_coefficient = 0.6
 
-//Фуражки Хоса
+//HoS's caps
 
 /obj/item/clothing/head/helmet/HoS/formal
 	name = "head of security's formal cap"
@@ -67,8 +66,7 @@
 	siemens_coefficient = 0.6
 
 
-//Коммисарская одежда. Украдено с Анимуса, спасибо за кражу.
-
+//Comissar
 
 /obj/item/clothing/head/helmet/commisarcap
 	name = "commisar's cap"
@@ -85,7 +83,7 @@
 	armor = list(melee = 65, bullet = 30, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0)
 	siemens_coefficient = 0.6
 
-//Феска. Специально для Kirillwars.
+//Fez
 
 /obj/item/clothing/head/fez
 	name = "Fez"
@@ -93,7 +91,7 @@
 	icon_state = "feska"
 	siemens_coefficient = 0.9
 
-// Военная одежда.
+// Sort of military clothing
 
 /obj/item/clothing/suit/armor/vest/military
 	name = "military armor"
@@ -115,6 +113,7 @@
 	desc = "An olive colored helmet. Belongs to Solar Republic, government type of armor."
 	icon_state = "m10hlm"
 	item_state = "helmet"
+	body_parts_covered = HEAD
 	armor = list(melee = 80, bullet = 45, laser = 35 ,energy = 35, bomb = 10, bio = 2, rad = 0)
 	flags_inv = HIDEEARS
 	siemens_coefficient = 0.7
@@ -147,7 +146,7 @@
 	siemens_coefficient = 0.7
 
 
-// Одежда спецвойск Солнечной Республики
+// SolGov
 
 /obj/item/clothing/suit/armor/vest/earthgov
 	name = "enchanced helmet"
@@ -192,7 +191,7 @@
 	siemens_coefficient = 0.6
 
 
-// Звёздные войны: Война Смоллгеев
+// Shit Wars: Smallgays Returns
 
 /obj/item/clothing/suit/armor/vader
 	name = "dark-colored suit"
@@ -236,7 +235,7 @@
 	allowed = list(/obj/item/weapon/gun,/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/weapon/melee/baton)
 	siemens_coefficient = 0.7
 
-// Викторианская эпоха
+// Victorian Age
 
 /obj/item/clothing/suit/redcoat
 	name = "Redcoat Suit"
@@ -272,7 +271,7 @@
 	desc = "Russian hussar hat, approved by Tsar."
 	icon_state = "gusarhat"
 
-// Одежда гражданской обороны
+// DO YOU WANT THAT FUCKING STUNBATON IN YOU, CITIZEN?
 
 /obj/item/clothing/under/metrocop
 	desc = "Strange jumpsuit, seems have many injecting ports and implants."
@@ -289,7 +288,7 @@
 	icon_state = "mpfmask"
 	siemens_coefficient = 0.7
 
-// Барни!
+// Barney!
 
 /obj/item/clothing/suit/armor/vest/blackmesa
 	name = "blue armor"
@@ -383,7 +382,7 @@
 	update_icon()
 
 
-// Прочее
+// Other shit.
 
 /obj/item/clothing/mask/gas/joker
 	name = "joker mask"
@@ -391,7 +390,7 @@
 	icon_state = "jokermask"
 	siemens_coefficient = 0.7
 
-// Перенос с VG
+// VG Transfer
 
 // Sov-Nazi Rigs
 
@@ -591,7 +590,7 @@
 	desc = "Cyka blyat."
 	icon_state = "squatteroutfit"
 	item_state = "squatteroutfit"
-	worn_state = "squatteroutfir"
+	worn_state = "squatteroutfit"
 
 /obj/item/clothing/under/russobluecamooutfit
 	name = "russian blue camo"
@@ -650,7 +649,7 @@
 
 /obj/item/clothing/mask/mintbandana
 	name = "Mint's Bandana"
-	desc = "Just dark bandana."
+	desc = "Dark bandana."
 	icon_state = "mintband"
 	body_parts_covered = FACE
 
