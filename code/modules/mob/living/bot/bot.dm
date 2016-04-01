@@ -13,7 +13,8 @@
 	var/locked = 1
 	var/emagged = 0
 	var/light_strength = 3
-
+	var/obj/machinery/camera/botcam = null //Now all bots has cameras
+	var/mob/living/silicon/ai/c_ai = null
 	var/obj/access_scanner = null
 	var/list/req_access = list()
 	var/list/req_one_access = list()
@@ -29,6 +30,42 @@
 	access_scanner.req_access = req_access.Copy()
 	access_scanner.req_one_access = req_one_access.Copy()
 
+	botcam = new /obj/machinery/camera(src)
+	botcam.c_tag = "[name]'s camera"
+	botcam.anchored = 0
+
+/mob/living/bot/Destroy()
+	kick_ai()
+	..()
+
+/mob/living/bot/proc/assume_ai(var/mob/living/silicon/ai/M)
+
+	M << "\blue Assuming control of [src]..."
+
+	if(src.c_ai || src.client)
+		M << "\red [src] already occupied by [src.c_ai]"
+		return
+	if(!src.on)
+		M << "\red Connection timed out."
+		return
+	if(src.emagged)
+		M << "\red Error. [src] control functions unavaliable."
+		return
+
+	src.client = M.client
+	src.c_ai = M
+	src << "\blue [src] assuming successful. AI functions will be temporarily unavailable."
+
+/mob/living/bot/proc/kick_ai()
+	if(!src.c_ai || !src.client)
+		return
+	src << "\blue [src] disconnected. All AI function has been restored."
+	src.c_ai.client = src.client
+	spawn(2)
+		src.c_ai.eyeobj.setLoc(src.loc)
+		src.c_ai = null
+
+
 /mob/living/bot/Life()
 	..()
 	if(health <= 0)
@@ -37,6 +74,24 @@
 	weakened = 0
 	stunned = 0
 	paralysis = 0
+
+	botcam.update_coverage()
+
+/mob/living/bot/verb/Disconnect()
+	set name="Disconnect"
+	set category="Bot"
+	kick_ai()
+
+/mob/living/bot/verb/panel()
+	set name="Control panel"
+	set category="Bot"
+	return attack_hand(usr)
+
+/mob/living/bot/verb/self_destruct()
+	set name="Self destruct"
+	set category="Bot"
+	if(alert("You sure?","Self destruct","Yes","No")=="Yes")
+		explode()
 
 /mob/living/bot/updatehealth()
 	if(status_flags & GODMODE)
@@ -105,6 +160,7 @@
 		..()
 
 /mob/living/bot/emag_act(var/remaining_charges, var/mob/user)
+	kick_ai()
 	return 0
 
 /mob/living/bot/proc/turn_on()
@@ -118,8 +174,10 @@
 /mob/living/bot/proc/turn_off()
 	on = 0
 	set_light(0)
+	kick_ai()
 	update_icons()
 
 /mob/living/bot/proc/explode()
+	kick_ai()
 	qdel(src)
 

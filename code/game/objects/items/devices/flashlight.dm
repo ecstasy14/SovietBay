@@ -196,7 +196,7 @@ obj/item/device/flashlight/lamp/bananalamp
 
 /obj/item/device/flashlight/flare/attack_self(mob/user)
 	if(turn_on(user))
-		user.visible_message("<span class='notice'>\The [user] activates \the [src].</span>", "<span class='notice'>You pull the cord on the flare, activating it!</span>")
+		user.visible_message("<span class='notice'>[user] activates the [src].</span>", "<span class='notice'>You pull the cord on the [src], activating it!</span>")
 
 /obj/item/device/flashlight/flare/proc/turn_on(var/mob/user)
 	if(on)
@@ -206,11 +206,11 @@ obj/item/device/flashlight/lamp/bananalamp
 			user << "<span class='notice'>It's out of fuel.</span>"
 		return FALSE
 	on = TRUE
-	user.visible_message("<span class='notice'>[user] activates the [src].</span>", "<span class='notice'>You pull the cord on the [src], activating it!</span>")
 	force = on_damage
 	damtype = "fire"
 	item_state = "[initial(item_state)]-on"
 	processing_objects += src
+	update_icon()
 	return 1
 
 /obj/item/device/flashlight/flare/torch

@@ -35,14 +35,14 @@ proc/LangPath(var/path, var/lang = "main")
 	return 0
 
 proc/translation(var/obj, var/v = null, var/procArgs = null, var/language = null)
-	if(!obj || !obj:vars)								//vars is default for any class in byond
+	if(!obj || !obj:vars || !usr)						//vars is default for any class in byond
 		return 0										//so it`s true for classes, but not for num/string/image/file/etc, and also null
 
 	if(!v)
 		v = "name"										//calling without var arg will always return translated name
 
 	var/result = null
-	var/P = null										//language arg uses only if we should force language, for example, in remaked visible_message()
+	var/P = null 										//language arg uses only if we should force language, for example, in remaked visible_message()
 	var/lang = language ? language : usr.client.prefs.interface_lang
 
 	P = LangPath(obj:type, lang)						//checking lang path
