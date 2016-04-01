@@ -33,7 +33,7 @@
 	dat += "Maintenance panel is [open ? "opened" : "closed"]<BR>"
 	//dat += "Tiles left: [amount]<BR>"
 	dat += "Behvaiour controls are [locked ? "locked" : "unlocked"]<BR>"
-	if(!locked || issilicon(user))
+	if(!locked || issilicon(usr) || usr == src)
 		dat += "Improves floors: <A href='?src=\ref[src];operation=improve'>[improvefloors ? "Yes" : "No"]</A><BR>"
 		dat += "Finds tiles: <A href='?src=\ref[src];operation=tiles'>[eattiles ? "Yes" : "No"]</A><BR>"
 		dat += "Make singles pieces of metal into tiles when empty: <A href='?src=\ref[src];operation=make'>[maketiles ? "Yes" : "No"]</A><BR>"
@@ -42,8 +42,9 @@
 			bmode = dir2text(targetdirection)
 		else
 			bmode = "Disabled"
-		dat += "<BR><BR>Bridge Mode : <A href='?src=\ref[src];operation=bridgemode'>[bmode]</A><BR>"
-
+		dat += "<BR>Bridge Mode : <A href='?src=\ref[src];operation=bridgemode'>[bmode]</A><BR>"
+	if(istype(user, /mob/living/silicon/ai))
+		dat += "<BR><A href='?src=\ref[src];operation=ai_assume'>Assume AI control</A><BR>"
 	user << browse("<HEAD><TITLE>Repairbot v1.0 controls</TITLE></HEAD>[dat]", "window=autorepair")
 	onclose(user, "autorepair")
 	return
@@ -87,6 +88,11 @@
 					targetdirection = null
 				else
 					targetdirection = null
+		if("ai_assume")
+			if(istype(usr, /mob/living/silicon/ai))
+				var/mob/living/silicon/ai/AI = usr
+				assume_ai(AI)
+
 	attack_hand(usr)
 
 /mob/living/bot/floorbot/turn_off()
@@ -178,7 +184,7 @@
 		step_to(src, path[1])
 		path -= path[1]
 
-/mob/living/bot/floorbot/UnarmedAttack(var/atom/A, var/proximity)
+/mob/living/bot/floorbot/UnarmedAttack(var/atom/A, var/proximity = 0)
 	if(!..())
 		return
 
@@ -206,22 +212,23 @@
 		repairing = 0
 		update_icons()
 	else if(istype(A, /turf/space))
+		var/turf/space/S = A
 		var/building = 2
-		if(locate(/obj/structure/lattice, A))
+		if(locate(/obj/structure/lattice, S))
 			building = 1
 		if(amount < building)
 			return
 		repairing = 1
 		update_icons()
 		visible_message("<span class='notice'>[src] begins to repair the hole.</span>")
-		if(do_after(src, 50, A))
-			if(A && (locate(/obj/structure/lattice, A) && building == 1 || !locate(/obj/structure/lattice, A) && building == 2)) // Make sure that it still needs repairs
+		if(do_after(src, 50, S))
+			if(S && (locate(/obj/structure/lattice, S) && building == 1 || !locate(/obj/structure/lattice, S) && building == 2)) // Make sure that it still needs repairs
 				var/obj/item/I
 				if(building == 1)
 					I = new /obj/item/stack/tile/floor(src)
 				else
 					I = PoolOrNew(/obj/item/stack/rods, src)
-				A.attackby(I, src)
+				S.attackby(I, src)
 		target = null
 		repairing = 0
 		update_icons()
@@ -243,7 +250,7 @@
 		visible_message("<span class='notice'>\The [src] begins to collect tiles.</span>")
 		repairing = 1
 		update_icons()
-		if(do_after(src, 20))
+		if(do_after(src, 20, T))
 			if(T)
 				var/eaten = min(maxAmount - amount, T.get_amount())
 				T.use(eaten)
@@ -257,7 +264,7 @@
 			visible_message("<span class='notice'>\The [src] begins to make tiles.</span>")
 			repairing = 1
 			update_icons()
-			if(do_after(src, 50))
+			if(do_after(src, 50, M))
 				if(M)
 					M.use(1)
 					addTiles(4)
