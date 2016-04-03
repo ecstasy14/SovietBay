@@ -1,21 +1,24 @@
+//----------------------------------------------------------------------
 /mob/living/bot/mrgutsy
-	name = "Mister Gutsy"
+//----------------------------------------------------------------------
+	name = "Mr. Gutsy"
+	icon = 'icons/obj/mrgutsy.dmi'
 	desc = "This robot is wonderful. I hope."
 	icon_state = "mrgutsy"
 	maxHealth = 100
 	health = 100
 	req_one_access = list(access_security, access_forensics_lockers)
 	botcard_access = list(access_security, access_sec_doors, access_forensics_lockers, access_morgue, access_maint_tunnels)
-
+//----------------------------------------------------------------------
 	var/mob/target
-
+//----------------------------------------------------------------------
 	var/idcheck = 0 // If true, arrests for having weapons without authorization.
 	var/check_records = 0 // If true, arrests people without a record.
 	var/check_arrest = 1 // If true, arrests people who are set to arrest.
 	var/arrest_type = 0 // If true, doesn't handcuff. You monster.
 	var/declare_arrests = 0 // If true, announces arrests over sechuds.
 	var/auto_patrol = 0 // If true, patrols on its own
-
+//----------------------------------------------------------------------
 	var/mode = 0
 #define mrgutsy_IDLE 		0		// idle
 #define mrgutsy_HUNT 		1		// found target, hunting
@@ -27,7 +30,7 @@
 	var/is_attacking = 0
 	var/is_ranged = 0
 	var/awaiting_surrender = 0
-
+//----------------------------------------------------------------------
 	var/obj/mrgutsy_listener/listener = null
 	var/beacon_freq = 1445			// Navigation beacon frequency
 	var/control_freq = BOT_FREQ		// Bot control frequency
@@ -38,27 +41,27 @@
 	var/destination = "__nearest__"	// This is the current beacon's ID
 	var/next_destination = "__nearest__"	// This is the next beacon's ID
 	var/nearest_beacon				// Tag of the beakon that we assume to be the closest one
-
+//----------------------------------------------------------------------
 	var/bot_version = 1.6
 	var/list/threat_found_sounds = new('sound/voice/bcriminal.ogg', 'sound/voice/bjustice.ogg', 'sound/voice/bfreeze.ogg')
 	var/list/preparing_arrest_sounds = new('sound/voice/bgod.ogg', 'sound/voice/biamthelaw.ogg', 'sound/voice/bsecureday.ogg', 'sound/voice/bradio.ogg', 'sound/voice/binsult.ogg', 'sound/voice/bcreep.ogg')
-
+//----------------------------------------------------------------------
 /mob/living/bot/mrgutsy/New()
 	..()
 	listener = new /obj/mrgutsy_listener(src)
 	listener.mrgutsy = src
-
+//----------------------------------------------------------------------
 	spawn(5) // Since beepsky is made on the start... this delay is necessary
 		if(radio_controller)
 			//radio_controller.add_object(listener, control_freq, filter = RADIO_secbot)
 			radio_controller.add_object(listener, beacon_freq, filter = RADIO_NAVBEACONS)
-
+//----------------------------------------------------------------------
 /mob/living/bot/mrgutsy/turn_off()
 	..()
 	target = null
 	frustration = 0
 	mode = mrgutsy_IDLE
-
+//----------------------------------------------------------------------
 /mob/living/bot/mrgutsy/update_icons()
 	if(on && is_attacking)
 		icon_state = "mrgutsy-roll"
@@ -68,7 +71,7 @@
 		set_light(2, 1, "#FF6A00")
 	else
 		set_light(0)
-
+//----------------------------------------------------------------------
 /mob/living/bot/mrgutsy/attack_hand(var/mob/user)
 	user.set_machine(src)
 	var/dat
@@ -474,16 +477,16 @@
 			mrgutsy.patrol_target = mrgutsy.nearest_beacon
 			mrgutsy.next_destination = signal.data["next_patrol"]
 			mrgutsy.closest_dist = dist
-
-//mrgutsy Construction
-
+//----------------------------------------------------------------------
+// Mr. Gutsy Construction //--------------------------------------------
+//----------------------------------------------------------------------
 /obj/item/weapon/flame/lighter/zippo/attackby(var/obj/item/device/assembly/signaler/S, mob/user as mob)
 	..()
 	if(!issignaler(S))
 		..()
 		return
 
-	if(type != /obj/item/weapon/flame/lighter/zippo) //Eh, but we don't want people making mrgutsys out of space helmets.
+	if(type != /obj/item/weapon/flame/lighter/zippo)
 		return
 
 	if(S.secured)
@@ -545,3 +548,6 @@
 		if(!in_range(src, usr) && loc != usr)
 			return
 		created_name = t
+//----------------------------------------------------------------------
+// End of file mrgutsy.dm //--------------------------------------------
+//----------------------------------------------------------------------
