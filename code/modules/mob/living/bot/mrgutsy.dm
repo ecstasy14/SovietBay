@@ -477,30 +477,30 @@
 
 //mrgutsy Construction
 
-/obj/item/clothing/head/helmet/attackby(var/obj/item/device/assembly/signaler/S, mob/user as mob)
+/obj/item/weapon/flame/lighter/zippo/attackby(var/obj/item/device/assembly/signaler/S, mob/user as mob)
 	..()
 	if(!issignaler(S))
 		..()
 		return
 
-	if(type != /obj/item/clothing/head/helmet) //Eh, but we don't want people making mrgutsys out of space helmets.
+	if(type != /obj/item/weapon/flame/lighter/zippo) //Eh, but we don't want people making mrgutsys out of space helmets.
 		return
 
 	if(S.secured)
 		qdel(S)
 		var/obj/item/weapon/mrgutsy_assembly/A = new /obj/item/weapon/mrgutsy_assembly
 		user.put_in_hands(A)
-		user << "You add the signaler to the helmet."
+		user << "You add the signaler to the zippo."
 		user.drop_from_inventory(src)
 		qdel(src)
 	else
 		return
 
 /obj/item/weapon/mrgutsy_assembly
-	name = "helmet/signaler assembly"
+	name = "Mr. Gutsyes head"
 	desc = "Some sort of bizarre assembly."
 	icon = 'icons/obj/aibots.dmi'
-	icon_state = "helmet_signaler"
+	icon_state = "mrgutsy_signaler"
 	item_state = "helmet"
 	var/build_step = 0
 	var/created_name = "Mister Gutsy"
@@ -518,7 +518,7 @@
 		user.drop_item()
 		build_step = 2
 		user << "You add \the [O] to [src]."
-		overlays += image('icons/obj/aibots.dmi', "hs_eye")
+		overlays += image('icons/obj/aibots.dmi', "eyes-mrgutsy")
 		name = "helmet/signaler/prox sensor assembly"
 		qdel(O)
 
@@ -532,7 +532,7 @@
 
 	else if(istype(O, /obj/item/weapon/melee/baton) && build_step == 3)
 		user.drop_item()
-		user << "You complete the Securitron! Beep boop."
+		user << "You complete the Mr. Gutsy! War never changes."
 		var/mob/living/bot/mrgutsy/S = new /mob/living/bot/mrgutsy(get_turf(src))
 		S.name = created_name
 		qdel(O)
