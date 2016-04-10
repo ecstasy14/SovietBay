@@ -131,7 +131,7 @@ var/global/photo_count = 0
 	var/icon_on = "camera"
 	var/icon_off = "camera_off"
 	var/size = 3
-
+/* LAGSHIT
 /obj/item/device/camera/verb/change_size()
 	set name = "Set Photo Focus"
 	set category = "Object"
@@ -139,7 +139,7 @@ var/global/photo_count = 0
 	if(nsize)
 		size = nsize
 		usr << "<span class='notice'>Camera will now take [size]x[size] photos.</span>"
-
+*/
 /obj/item/device/camera/attack(mob/living/carbon/human/M as mob, mob/user as mob)
 	return
 

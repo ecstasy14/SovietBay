@@ -389,6 +389,8 @@ area/space/atmosalert()
 /area/centcom/breach
 	name = "\improper Breach Facility"
 
+//MARINES (copypasta from syndicates)
+
 //SYNDICATES
 
 /area/syndicate_mothership

@@ -170,7 +170,7 @@
 		var/choice = input("What would you like to change?") in list("Title", "Contents", "Author", "Cancel")
 		switch(choice)
 			if("Title")
-				var/newtitle = reject_bad_text(sanitizeSafe(usr, "Write a new title:"))
+				var/newtitle = reject_bad_text(sanitizeSafe(input(usr, "Write a new title:")))
 				if(!newtitle)
 					usr << "The title is invalid."
 					return
