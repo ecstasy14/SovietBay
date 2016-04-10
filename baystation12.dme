@@ -1260,6 +1260,7 @@
 #include "code\modules\mob\living\bot\farmbot.dm"
 #include "code\modules\mob\living\bot\floorbot.dm"
 #include "code\modules\mob\living\bot\medbot.dm"
+#include "code\modules\mob\living\bot\mrgutsy.dm"
 #include "code\modules\mob\living\bot\secbot.dm"
 #include "code\modules\mob\living\carbon\breathe.dm"
 #include "code\modules\mob\living\carbon\carbon.dm"
