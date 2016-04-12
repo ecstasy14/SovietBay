@@ -26,6 +26,7 @@ a:visited				{color: #0000ff;}
 .ooc .moderator			{color: #184880;}
 .ooc .developer			{color: #1b521f;}
 .ooc .admin				{color: #b82e00;}
+.ooc .aooc				{color: #960018;}
 
 /* Admin: Private Messages */
 .pm  .howto				{color: #ff0000;	font-weight: bold;		font-size: 200%;}
