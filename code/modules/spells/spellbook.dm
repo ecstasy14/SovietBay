@@ -106,8 +106,7 @@ var/list/artefact_feedback = list(/obj/structure/closet/wizard/armor = 		"HS",
 /obj/item/weapon/spellbook/Topic(href,href_list)
 	..()
 
-			<A href='byond://?src=\ref[src];spell_choice=disintegrate'>Disintegrate</A> (60)<BR>
-			<I>This spell instantly kills somebody adjacent to you with the vilest of magick. It has a long cooldown.</I><BR>
+
 	var/mob/living/carbon/human/H = usr
 
 	if(H.stat || H.restrained())
@@ -116,10 +115,6 @@ var/list/artefact_feedback = list(/obj/structure/closet/wizard/armor = 		"HS",
 	if(!istype(H))
 		return
 
-						if("disintegrate")
-							feedback_add_details("wizard_spell_learned","DG") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
-							H.add_spell(new/spell/targeted/disintegrate)
-							temp = "You have learned disintegrate."
 	if(H.mind && spellbook.book_flags & LOCKED && H.mind.special_role == "apprentice") //make sure no scrubs get behind the lock
 		return
 
