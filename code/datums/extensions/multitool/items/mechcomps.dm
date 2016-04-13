@@ -1,45 +1,40 @@
-/obj/item/mechcomp/New()
-	set_extension(src, /datum/extension/multitool, /datum/extension/multitool/items/mechcomp)
-	..()
-
 /datum/extension/multitool/items/mechcomp/get_interact_window(var/obj/item/device/multitool/M, var/mob/user)
-	var/obj/item/mechcomp/component = holder
-	. += "<B>[component]</B>"
-	if(component.inputConnections)
+	//var/obj/component = holder
+
+	if(!holder.vars.Find("mechcomp"))
+		return
+
+	var/datum/mechcomp/mechcomp = holder.vars["mechcomp"]
+
+	. += "<B>[holder] - Component ID: \ref[holder]</B><HR>"
+
+	. += "Send signal: <A href='src=\ref[src];change=send>[mechcomp.send_signal]</A><BR>"
+
+	. += "Trigger signal: <A href='src=\ref[src];change=trigger>[mechcomp.trigger_signal]</A><BR>"
+
+	if(mechcomp.inputs)
 		. += "<HR>Inputs : <BR>"
-		for (var/input_name in component.inputConnections)
-			var/shown = component.inputConnections[input_name]
-			if(shown == null)
-				shown = "null"
-			. += "[input_name] = <A href='?src=\ref[src];input=[input_name];MT=\ref[M]'>[shown]</A>"
-			. += "<A href='?src=\ref[src];purgeInput=[input_name]'>Remove</A><BR>"
-	if(component.outputs.len > 0)
+		for (var/input_name in mechcomp.inputs)
+			. += "<B>[input_name]</B><BR>"
+
+	if(mechcomp.outputs.len > 0)
 		. += "<HR>"
 		. += "Outputs:"
-		for (var/outputName in component.outputs)
-			. += "[outputName]<BR>"
-	. += "<HR>"
-	. += "<A href='?src=\ref[src];store=true;MT=\ref[M]'>Store the component.</A><BR>"
-	. += buffer(M)
+		for (var/outputName in mechcomp.outputs)
+			. += "[outputName] - Component ID: <B>\ref[holder]</B> on input <B>[mechcomp.outputs[outputName]]</B><BR>"
 
 /datum/extension/multitool/items/mechcomp/on_topic(href, href_list, user)
-	var/obj/item/mechcomp/component = holder
-	//Sounds like a bad idea, but I can't find any other way to pass the multitool in
-	var/obj/item/device/multitool/MT = locate(href_list["MT"])
-	if(href_list["input"])
-		var/obj/item/mechcomp/buffer = MT.buffer_object
-		if(buffer && buffer.addOutput(component))
-			component.inputConnections[href_list["input"]] = buffer
+	//var/obj/item/mechcomp/component = holder
+
+	var/datum/mechcomp/mechcomp = holder.vars["mechcomp"]
+
+	if(href_list["change"])
+		var/new_signal = sanitize(input(user, "What signal do you want to use?","[href_list["change"]] Signal") as text|null)
+		if(length(new_signal) != 0)
+			if(href_list["change"] == "send")
+				mechcomp.send_signal = new_signal
+			else
+				mechcomp.trigger_signal = new_signal
 			return MT_REFRESH
-
-	if(href_list["purgeInput"])
-		var/obj/item/mechcomp/input_machine = component.inputConnections[href_list["purgeInput"]]
-		input_machine.removeOutput(component)
-		component.inputConnections[href_list["purgeInput"]] = null
-		return MT_REFRESH
-
-	if(href_list["store"])
-		MT.set_buffer(component)
-		return MT_REFRESH
 
 	return ..()
