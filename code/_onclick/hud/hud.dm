@@ -122,6 +122,7 @@ var/list/global_huds = list(
 	var/hotkey_ui_hidden = 0	//This is to hide the buttons that can be used via hotkeys. (hotkeybuttons list of buttons)
 
 	var/obj/screen/lingchemdisplay
+	var/obj/screen/vampire_blood_display
 	var/obj/screen/blobpwrdisplay
 	var/obj/screen/blobhealthdisplay
 	var/obj/screen/r_hand_hud_object
@@ -252,6 +253,8 @@ datum/hud/New(mob/owner)
 	var/ui_style = ui_style2icon(mymob.client.prefs.UI_style)
 	var/ui_color = mymob.client.prefs.UI_style_color
 	var/ui_alpha = mymob.client.prefs.UI_style_alpha
+	if(mymob.mind && mymob.mind.vampire)
+		vampire_hud()
 
 	mymob.instantiate_hud(src, ui_style, ui_color, ui_alpha)
 
