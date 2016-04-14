@@ -44,6 +44,7 @@
 #define MODE_HIGHLANDER "highlander"
 #define MODE_MONKEY "monkey"
 #define MODE_RENEGADE "renegade"
+#define MODE_VAMPIRE "vampire"
 #define MODE_REVOLUTIONARY "revolutionary"
 #define MODE_LOYALIST "loyalist"
 #define MODE_MALFUNCTION "malf"
