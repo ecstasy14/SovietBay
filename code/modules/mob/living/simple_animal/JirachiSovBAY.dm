@@ -131,15 +131,17 @@
 		src << "\red I can't speak while healing, hibernating or hypnotizing..."
 		return
 
-	var/ending = copytext(message, length(message))
-	if(ending=="!")
-		speak_emote = list("telepatically cries")
-	else if(ending=="?")
-		speak_emote = list("telepatically asks")
-	else
-		speak_emote = list("telepatically says")
-
 	..(message, speaking, verb, alt_name, italics, message_range, used_radios)
+
+
+/mob/living/simple_animal/jirachi/say_quote(var/text)
+	var/ending = copytext(text, length(text))
+	if (ending == "?")
+		return "telepatically asks";
+	else if (ending == "!")
+		return "telepatically cries";
+
+	return "telepatically says";
 
 
 
@@ -398,10 +400,21 @@
 //Heal
 
 
-/mob/living/simple_animal/jirachi/verb/heal(mob/living/Z as mob in (view(src,1)-src))
+/mob/living/simple_animal/jirachi/verb/heal()
 	set category = "Jirachi"
 	set name = "Heal(50/s)"
 	set desc = "Heal wounds of selected target"
+
+	var/list/choices = list()
+	for(var/mob/living/C in view(1,src))
+		if(C != src)
+			if(!istype(C, /mob/living/carbon/brain))
+				choices += C
+
+	var/mob/living/Z = input(src,"Who do you wish to heal?") in null|choices
+	if(!Z)
+		src << "There is no creatures near me to heal"
+		return
 
 	if(!checkuse(50,0,0))		return
 
@@ -1023,6 +1036,7 @@
 	throw_range = 10
 	origin_tech = "powerstorage=6;materials=6;biotech=5;bluespace=5;magnets=5"
 	var/searching = 0
+	var/list/candidates=list()
 
 	attack_self(mob/user as mob)
 		for(var/mob/living/simple_animal/jirachi/K in mob_list)
@@ -1037,7 +1051,26 @@
 			src.request_player()
 			spawn(600)
 				src.searching = 0
-				user << "\red The stone stops flickering..."
+				if(!candidates.len)		user << "\red The stone stops flickering..."
+				else
+					var/client/C = pick(candidates)
+					for(var/mob/living/P in view(7,get_turf(src.loc)))
+						flick("e_flash", P.flash)
+						P << "\red \b Stone starts to glow very brightly, as it starts to transform into some kind of creature..."
+
+
+					var/mob/living/simple_animal/jirachi = new /mob/living/simple_animal/jirachi
+					jirachi.loc = get_turf(src)
+					jirachi.key = C.key
+					dead_mob_list -= C
+					jirachi << "\blue <i><b>Strange feeling...</b></i>"
+					jirachi << "\blue <i><b>I feel energy pulsating from every inch of my body</b></i>"
+					jirachi << "\blue <i><b>Star power begins to emerge from me, breaking my involucre</b></i>"
+					jirachi << "\blue <i><b>My crystalline shell brokens, as I opened my eyes...</b></i>"
+					jirachi << ""
+					jirachi << "<b>You are now playing as Jirachi - the Child Of The Star!</b> Jirachi is the creature, born by means of Light, Life and Star powers. It is kind to all living beings. That means you ought to protect ordinary crew members, wizards, traitors, aliens, changelings, Syndicate Operatives and others from killing each other. <b><font color=red>Do no harm! Jirachi can't stand pain or suffering of any living creature. Try to use your offensive abilities as little as possible</font></b> In short - you are adorable but very powerful creature, which loves everybody. Also remember, that fire is best friend for you(and the worst enemy for the most other creatures). Being on fire is the other than Hybernation method to pretty rapidly regenerate your health and energy. More information how to RP as Jirachi can be found here: http://sovietstation.ru/index.php?showtopic=4246 Have fun!"
+					jirachi << "<b>Hotkeys:</b> Middle Click on tile - blink on that tile (100 energy), Shift+Click on a mob - Teleport that mob, Ctrl+Click on a tile - Create a forcewall on that tile, Alt+Click on a human - Stun"
+					qdel(src)
 
 /obj/item/device/jirachistone/proc/request_player()
 	for(var/mob/observer/O in player_list)
@@ -1045,31 +1078,16 @@
 			question(O.client)
 
 
-/obj/item/device/jirachistone/proc/question(var/client/C)
+/obj/item/device/jirachistone/proc/question(var/client/E)
 	spawn(0)
-		if(!C)
+		if(!E)
 			return
-		var/response = alert(C, "It looks like xenoarcheologists found and activated ancient artifact, which summons mythical creature...Would you like to play as it?", "Jirachi request", "Yes", "No")
-		if(!C || 0 == searching || !src)
+		var/response = alert(E, "It looks like xenoarcheologists found and activated ancient artifact, which summons mythical creature...Would you like to play as it?", "Jirachi request", "Yes", "No")
+		if(!E || 0 == searching || !src)
 			return
 		for(var/mob/living/simple_animal/jirachi/J in mob_list)
 			if(J)
 				return
 		if(response == "Yes")
-			for(var/mob/living/P in view(7,get_turf(src.loc)))
-				flick("e_flash", P.flash)
-				P << "\red \b Stone starts to glow very brightly, as it starts to transform into some kind of creature..."
-
-
-			var/mob/living/simple_animal/jirachi = new /mob/living/simple_animal/jirachi
-			jirachi.loc = get_turf(src)
-			jirachi.key = C.key
-			dead_mob_list -= C
-			jirachi << "\blue <i><b>Strange feeling...</b></i>"
-			jirachi << "\blue <i><b>I feel energy pulsating from every inch of my body</b></i>"
-			jirachi << "\blue <i><b>Star power begins to emerge from me, breaking my involucre</b></i>"
-			jirachi << "\blue <i><b>My crystalline shell brokens, as I opened my eyes...</b></i>"
-			jirachi << ""
-			jirachi << "<b>You are now playing as Jirachi - the Child Of The Star!</b> Jirachi is the creature, born by means of Light, Life and Star powers. It is kind to all living beings. That means you ought to protect ordinary crew members, wizards, traitors, aliens, changelings, Syndicate Operatives and others from killing each other. <b><font color=red>Do no harm! Jirachi can't stand pain or suffering of any living creature. Try to use your offensive abilities as little as possible</font></b> In short - you are adorable but very powerful creature, which loves everybody. Also remember, that fire is best friend for you(and the worst enemy for the most other creatures). Being on fire is the other than Hybernation method to pretty rapidly regenerate your health and energy. More information how to RP as Jirachi can be found here: http://sovietstation.ru/index.php?showtopic=4246 Have fun!"
-			jirachi << "<b>Hotkeys:</b> Middle Click on tile - blink on that tile (100 energy), Shift+Click on a mob - Teleport that mob, Ctrl+Click on a tile - Create a forcewall on that tile, Alt+Click on a human - Stun"
-			qdel(src)
+			E << "\blue You have been added to the list of candidates!"
+			src.candidates+=E
