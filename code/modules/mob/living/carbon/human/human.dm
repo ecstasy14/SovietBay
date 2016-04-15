@@ -88,6 +88,8 @@
 			stat(null, "Suit charge: [cell_status]")
 
 		if(mind)
+			if(mind.vampire)
+				stat("Blood", mind.vampire.bloodusable)
 			if(mind.changeling)
 				stat("Chemical Storage", mind.changeling.chem_charges)
 				stat("Genetic Damage Time", mind.changeling.geneticdamage)
@@ -1134,7 +1136,7 @@
 	icon_state = lowertext(species.name)
 
 	species.create_organs(src)
-
+	src.sync_organ_dna()
 	species.handle_post_spawn(src)
 
 	maxHealth = species.total_health
@@ -1148,6 +1150,7 @@
 			vessel.remove_reagent("blood", vessel.total_volume - species.blood_volume)
 			vessel.maximum_volume = species.blood_volume
 		fixblood()
+
 
 	// Rebuild the HUD. If they aren't logged in then login() should reinstantiate it for them.
 	if(client && client.screen)
