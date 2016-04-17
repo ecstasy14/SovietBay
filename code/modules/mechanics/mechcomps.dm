@@ -1,3 +1,12 @@
+//TODO : make it preeeety. replace camelCase with underscores
+
+//TODO : test everything
+
+//TODO : switch from custom-built signal to radio signals, I totally forgot about them
+//But I really want to finish these components so the current system stays
+
+//TODO : Document everything
+
 /*
 You can attach this datum to nearly anything, then wire it up nearly seamlessly into the whole system
 
@@ -12,7 +21,7 @@ You should only attach one datum per class
 	var/list/datum/mechcomp/outputs = new/list()
 
 	// max_outputs<0 = unlimited number of outputs (probably a REALLY bad idea)
-	var/max_outputs = 0
+	var/max_outputs = 5
 
 	var/atom/master = null
 
@@ -53,10 +62,13 @@ You should only attach one datum per class
 		if(signal == 1) return 1
 	return 0
 
-/datum/mechcomp/proc/sendSignal()
+/datum/mechcomp/proc/sendSignal(new_signal)
 	if(outputs.len > 0)
+		var/send = send_signal
+		if(new_signal != null)
+			send = new_signal
 		for(var/datum/mechcomp/receiver in outputs)
-			receiver.receiveSignal(send_signal, outputs[receiver])
+			receiver.receiveSignal(send, outputs[receiver])
 
 /datum/mechcomp/proc/receiveSignal(var/signal, var/input_name)
 	spawn(1) call(master, inputs[input_name])(signal)
@@ -79,16 +91,30 @@ You should only attach one datum per class
 
 	var/send_signal = "1"
 
-	//Can't find a better way, so we'll have to go with goons
-	//Anything that uses/is a mechcomp must have a variable named mechcomp.
-	//That's the most effecient and simple way I see right now
-	//We can also search for an instance of /datum/mechcomp
-	//But it's needed in a couple of places, so we have to use quite a few loops PER COMPONENT
-	var/datum/mechcomp/mechcomp
+	var/datum/mechcomp/handler
+
+	var/above = 0
+
+	var/orig_icon
+
+	var/ready = 1
 
 /obj/item/mechcomp/New()
-	mechcomp = new/datum/mechcomp(src)
+	handler = new/datum/mechcomp(src)
+	orig_icon = icon_state
 	..()
+
+/obj/item/mechcomp/update_icon()
+	icon_state = orig_icon
+	if(!above)
+		var/turf/T = get_turf(src)
+		if(!istype(T))
+			return
+		if(!T.is_plating())
+			icon_state = "u_"+icon_state
+
+/obj/item/mechcomp/hide(var/intact)
+	update_icon()
 
 //Not the best name for a proc used for both attaching and detaching
 /obj/item/mechcomp/proc/attach()
@@ -97,13 +123,20 @@ You should only attach one datum per class
 /obj/item/mechcomp/attackby(var/obj/item/weapon/W as obj, var/mob/user as mob)
 	if(istype(W, /obj/item/weapon/wrench) && isturf(src.loc))
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
+		if(anchored)
+			var/turf/T = get_turf(src)
+			if(!above && !T.is_plating())
+				user << "<span class='warning'>You must remove the plating first!</span>"
+				return
+			handler.disconnect()
+			icon_state = orig_icon
+		else
+			hide()
+		attach()
+
 		//Sounds dumb. Need a better string.
 		user << "<span class='notice'>You [anchored ? "detach" : "attach"] \the [src] [anchored ? "from" : "to"] the floor.</span>"
 		anchored = !anchored
-		if(!anchored)
-			mechcomp.disconnect()
-
-		attach()
 
 /obj/item/mechcomp/attack_hand(var/mob/user)
 	if(anchored)
@@ -112,23 +145,37 @@ You should only attach one datum per class
 	return ..()
 
 /obj/item/mechcomp/MouseDrop(var/atom/target)
+	var/mob/living/user = usr
+	var/obj/item/MT = user.get_active_hand()
+	if(!istype(MT, /obj/item/device/multitool))
+		usr << "<span class='warning'>You need to hold a multitool to connect the components!</span>"
+		return
+
 	if(!target)
 		return
 
-	if(!target.vars.Find("mechcomp") && !istype(target.vars.Find("mechcomp"), /datum/mechcomp))
+	var/found = 0
+	var/c = 1
+	while(c != target.vars.len + 1)
+		if(istype(target.vars[ target.vars[c] ], /datum/mechcomp))
+			found = c
+			c = target.vars.len
+		c++
+
+	if(!istype(target.vars[target.vars[found]], /datum/mechcomp))
 		return
 
-	var/datum/mechcomp/target_mechcomp = target.vars["mechcomp"]
+	var/datum/mechcomp/target_handler = target.vars[target.vars[found]]
 
 	if(!anchored)
 		return
 
 	var/list/actions = new/list()
 
-	if(mechcomp.max_outputs != 0 && mechcomp.outputs.len != mechcomp.max_outputs && target_mechcomp.inputs)
+	if(handler.max_outputs != 0 && handler.outputs.len != handler.max_outputs && target_handler.inputs)
 		actions += "Output to"
 
-	if(mechcomp.inputs)
+	if(handler.inputs && target_handler.outputs.len != target_handler.max_outputs)
 		actions += "Input from"
 
 	actions += "*CANCEL*"
@@ -137,123 +184,30 @@ You should only attach one datum per class
 				"Connection", "*CANCEL*") in actions
 	switch(intention)
 		if("Output to")
-			intention = input("What input do you want to use?", "Connection", "*CANCEL*") in target_mechcomp.inputs+"*CANCEL*"
+			intention = input("What input do you want to use?", "Connection", "*CANCEL*") in target_handler.inputs+"*CANCEL*"
 			if(intention == "*CANCEL*")
 				return
-			mechcomp.addOutput(target_mechcomp, intention)
+			handler.addOutput(target_handler, intention)
 		if("Input from")
-			intention = input("What input do you want to use?", "Connection", "*CANCEL*") in mechcomp.inputs+"*CANCEL*"
+			intention = input("What input do you want to use?", "Connection", "*CANCEL*") in handler.inputs+"*CANCEL*"
 			if(intention == "*CANCEL*")
 				return
-			target_mechcomp.addOutput(mechcomp, intention)
+			target_handler.addOutput(handler, intention)
 		else
 			return
 
+//This function must be overloaded if you want the component to have settings
+//Must return the string containing the HTML window or 0 if no settings are available
+//Also, try to make the hrefs unique
+//Also, use the source variable in hrefs instead of src. That is to ensure that the game uses the extension's Topic()
+/obj/item/mechcomp/proc/get_settings(var/source)
+	return 0
 
-/*
-		The button
-*/
-/obj/item/mechcomp/button
-	name = "button"
-	desc = "A normal button. Dare to press it?"
-	icon_state = "comp_button"
-
-/obj/item/mechcomp/button/New()
-	..()
-	mechcomp.max_outputs = 1
-
-/obj/item/mechcomp/button/attach()
-	density = !density
-
-/obj/item/mechcomp/button/attack_hand(var/mob/user)
-	if(anchored)
-		flick("comp_button_active", src)
-		mechcomp.sendSignal()
-	else
-		..()
-
-
-/*
-	The teleporter
-*/
-/obj/item/mechcomp/teleporter
-	name = "teleporter"
-	desc = "Beam me up, Scotty!"
-
-	icon_state = "comp_tele"
-
-	var/static/list/teleporters = new/list()
-
-	var/ready = 1
-
-	var/id = "tele1"
-
-//can't replicate the goons effect with the current codebase :(
-/obj/effect/teleparticle
-	name = "teleport"
-	icon = 'icons/obj/mechComps.dmi'
-	icon_state = "portal"
-
-/obj/effect/teleparticle/New(var/new_loc)
-	loc = new_loc
-	spawn(18) qdel(src)
-
-
-/obj/item/mechcomp/teleporter/New()
-	..()
-	mechcomp.addInput("activate", "activate")
-	mechcomp.addInput("setID", "setID")
-	teleporters.Add(src)
-
-/obj/item/mechcomp/teleporter/proc/activate(var/signal)
-	//anchored test just in case for now
-	if(signal != mechcomp.trigger_signal) return
-	if(!anchored || !ready) return
-
-	var/list/destinations = new/list()
-	for (var/obj/item/mechcomp/teleporter/T in teleporters)
-		if((T.id == id) && (T != src) && (T.anchored))
-			destinations.Add(T)
-
-	if(destinations.len)
-		ready = 0
-		spawn(100) ready = 1
-		new /obj/effect/teleparticle(src.loc)
-		//Right now, the teleporter teleports everything currently on the pad to random pads
-		//1.Should it be just 1 thing at a time?
-		//2.If not, should all the items teleport to 1 pad?
-		for(var/atom/movable/what in src.loc)
-			if(!what.anchored)
-				var/obj/item/mechcomp/teleporter/destination = pick(destinations)
-				what.x = destination.x
-				what.y = destination.y
-				what.z = destination.z
-
-/obj/item/mechcomp/teleporter/proc/setID(var/signal)
-	id = signal
-
-/obj/item/mechcomp/teleporter/Del()
-	teleporters.Remove(src)
-	..()
-
-/*
-/obj/item/mechcomp/teleporter/Crossed(var/atom/movable/what)
-	..()
-
-	if(what.anchored)
-		return
-
-	if(active && ready)
-		var/list/destinations = new/list()
-		for (var/obj/item/mechcomp/teleporter/T in teleporters)
-			if((T.id == id) && (T != src) && (T.anchored))
-				destinations.Add(T)
-
-		if(destinations.len)
-			ready = 0
-			spawn(50) ready = 1
-			var/obj/item/mechcomp/teleporter/destination = pick(destinations)
-			what.x = destination.x
-			what.y = destination.y
-			what.z = destination.z	//Yes, z-level teleportation. OP?
-*/
+//This function must be overloaded if you want the component to have settings
+//This function MUST be overloaded if the value returned by get_settings() has any 'href's
+//Return values (taken from /code/datums/extensions/multitool/_multitool.dm):
+//MT_NOACTION - do nothing
+//MT_REFRESH - referesh the window
+//MT_CLOSE - close the window
+/obj/item/mechcomp/proc/set_settings(href, href_list, user)
+	return MT_NOACTION

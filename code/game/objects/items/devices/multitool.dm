@@ -68,4 +68,8 @@
 
 	user.AddTopicPrint(src)
 	MT.interact(src, user)
+
+	//A small fix needed for the MechComps
+	//Kinda uglt (it might open 2 windows) but logical and practical
+	A.attackby(src, user)
 	return 1
