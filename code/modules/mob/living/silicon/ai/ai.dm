@@ -57,6 +57,8 @@ var/list/ai_verbs_default = list(
 	var/obj/item/device/pda/ai/aiPDA = null
 	var/obj/item/device/multitool/aiMulti = null
 	var/obj/item/device/radio/headset/heads/ai_integrated/aiRadio = null
+	var/obj/machinery/computer/med_data/aiMed = null
+	var/obj/machinery/computer/secure_data/aiSec = null
 	var/camera_light_on = 0	//Defines if the AI toggled the light on the camera it's looking through.
 	var/datum/trackable/track = null
 	var/last_announcement = ""
@@ -64,7 +66,7 @@ var/list/ai_verbs_default = list(
 	var/datum/announcement/priority/announcement
 	var/obj/machinery/ai_powersupply/psupply = null // Backwards reference to AI's powersupply object.
 	var/hologram_follow = 1 //This is used for the AI eye, to determine if a holopad's hologram should follow it or not
-
+	var/scanning = 0 //checks for scanning
 	//NEWMALF VARIABLES
 	var/malfunctioning = 0						// Master var that determines if AI is malfunctioning.
 	var/datum/malf_hardware/hardware = null		// Installed piece of hardware.
@@ -132,6 +134,18 @@ var/list/ai_verbs_default = list(
 	additional_law_channels["Holopad"] = ":h"
 
 	aiCamera = new/obj/item/device/camera/siliconcam/ai_camera(src)
+
+	aiMed = new/obj/machinery/computer/med_data(src)
+	aiMed.stat = 0
+	set_machine(aiMed)
+	aiMed.Topic(null,list("login" = 1))
+	verbs += /mob/living/silicon/ai/proc/med_computer
+
+	aiSec = new/obj/machinery/computer/secure_data(src)
+	aiSec.stat = 0
+	set_machine(aiSec)
+	aiSec.Topic(null,list("Log In" = 1))
+	verbs += /mob/living/silicon/ai/proc/sec_computer
 
 	if (istype(loc, /turf))
 		add_ai_verbs(src)
@@ -450,7 +464,43 @@ var/list/ai_verbs_default = list(
 		else
 			src << "\red System error. Cannot locate [lhtml_decode(href_list["trackname"])]."
 		return
+	if(href_list["mdatabase"])
+		set_machine(aiMed)
+		aiMed.Topic(null, list("search" = href_list["mdatabase"]))
+		aiMed.ui_interact(src)
+		return
+	if(href_list["sdatabase"])
+		set_machine(aiSec)
+		aiSec.Topic(null,list("choice" = "Search Records","search_data" = href_list["sdatabase"]))
+		if(aiSec.Perp.len < 1)
+			src << "\red Not founded!"
+			return
 
+		aiSec.Topic(null,list("choice" = "Browse Record","d_rec" = aiSec.Perp[1]))
+		aiSec.ui_interact(src)
+		return
+	if(href_list["fullscan"])
+		if(scanning)
+			return
+		var/mob/living/hum = null
+		for(var/mob/living/M in living_mob_list)
+			if("\ref[M]" == href_list["fullscan"])
+				hum = M
+				break
+		if(!hum)
+			return
+		if(!hum.near_camera())
+			src << sanitize_local("<span class='warning'>The property is located out of sight of the cameras. Scanning is impossible.</span>")
+			return
+		scanning = 1
+		spawn(150)
+			scanning = 0
+		src << "<span class='warning'>Taking Data...</span>"
+		sleep(50)
+		src << "<span class='warning'>Processing...</span>"
+		sleep(50)
+		hum.examine(src)
+		return
 	return
 
 /mob/living/silicon/ai/reset_view(atom/A)
@@ -657,10 +707,21 @@ var/list/ai_verbs_default = list(
 
 	if(check_unable(AI_CHECK_RADIO))
 		return
-
 	src << "Accessing Subspace Transceiver control..."
 	if (src.aiRadio)
 		src.aiRadio.interact(src)
+
+/mob/living/silicon/ai/proc/med_computer()
+	set category = "AI Commands"
+	set name = "Medical Records"
+	set_machine(aiMed)
+	aiMed.ui_interact(src)
+
+/mob/living/silicon/ai/proc/sec_computer()
+	set category = "AI Commands"
+	set name = "Security Records"
+	set_machine(aiSec)
+	aiSec.ui_interact(src)
 
 /mob/living/silicon/ai/proc/sensor_mode()
 	set name = "Set Sensor Augmentation"
@@ -692,7 +753,6 @@ var/list/ai_verbs_default = list(
 		if(feedback) src << "<span class='warning'>System Error - Transceiver Disabled!</span>"
 		return 1
 	return 0
-
 /mob/living/silicon/ai/proc/is_in_chassis()
 	return istype(loc, /turf)
 

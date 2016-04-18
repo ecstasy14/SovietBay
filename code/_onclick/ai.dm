@@ -123,8 +123,40 @@
 /atom/proc/AICtrlShiftClick()
 	return
 
-/atom/proc/AIShiftClick()
-	return
+/atom/proc/AIShiftClick(var/mob/living/silicon/ai/user)
+	if(user.scanning)
+		return
+	user.scanning = 1
+	spawn(100)
+		user.scanning = 0
+	user << "<span class='warning'>Scanning Object...</span>"
+	sleep (20)
+	if(!istype(src,/mob) || isrobot(src))
+		sleep (30)
+		src.examine(user)
+		return
+	if(!ishuman(src))
+		user << "<span class='danger'>Unknown Life Form.</span>"
+		return
+	var/mob/living/carbon/human/H = src
+	var/datum/data/record/rec = null
+	for(var/datum/data/record/t in data_core.general)
+		if(t.fields["name"] == H.name)
+			rec = t
+			break
+	var/text
+	if(rec)
+		text += "The object identified as <span class='info'>[H.name]</span>, As <span class='notice'>[rec.fields["rank"]]</span>.\n"
+	else
+		text += "<span class='warning'>Object not identified as crew member.</span>\n"
+	if(ishuman(H))
+		text += "<a href='?src=\ref[user];mdatabase=[H.name]'>Look at medical data base.</a>\n"
+		text += "<a href='?src=\ref[user];sdatabase=[H.name]'>Look at security data base.</a>\n"
+	text += "<a href='?src=\ref[user];fullscan=\ref[H]'>Full Scan.</a>"
+	text = sanitize_local(text)
+	user << text
+
+
 
 /obj/machinery/door/airlock/AIShiftClick()  // Opens and closes doors!
 	if(density)
