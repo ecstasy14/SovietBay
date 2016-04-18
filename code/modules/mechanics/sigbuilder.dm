@@ -4,10 +4,10 @@
 
 	icon_state = "comp_builder"
 
-	var/buffer = ""
-	var/start_sig = ""
-	var/end_sig = ""
-	var/delim = ""
+	var/buffer = " "
+	var/start_sig = " "
+	var/end_sig = " "
+	var/delim = " "
 	var/auto_clear = 0
 
 /obj/item/mechcomp/sigbuilder/New()
@@ -43,11 +43,11 @@
 	if(href_list["builder_action"])
 		switch(href_list["builder_action"])
 			if("set_start")
-				start_sig = sanitize(input(user, "Enter a new starting signal:", "Set starting signal"))
+				start_sig = inputText(user, "Enter a new starting signal:", "Set starting signal")
 			if("set_end")
-				end_sig = sanitize(input(user, "Enter a new ending signal:", "Set ending signal"))
+				end_sig = inputText(user, "Enter a new ending signal:", "Set ending signal")
 			if("set_delim")
-				delim = sanitize(input(user, "Enter a new delimiter:", "Set delimiter"))
+				delim = inputText(user, "Enter a new delimiter:", "Set delimiter")
 			if("set_clear")
 				auto_clear = !auto_clear
 

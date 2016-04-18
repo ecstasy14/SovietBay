@@ -1,5 +1,7 @@
 //Basically, a big signaler
 
+//TODO : add a receiver
+
 /obj/item/mechcomp/radiocomp
 	name = "Radio component"
 	desc = "Major Tom to Ground Control..."

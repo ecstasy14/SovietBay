@@ -210,3 +210,11 @@ You should only attach one datum per class
 //MT_CLOSE - close the window
 /obj/item/mechcomp/proc/set_settings(href, href_list, user)
 	return MT_NOACTION
+
+
+/obj/item/mechcomp/proc/inputText(var/mob/user as mob, var/title as text, var/prompt as text)
+	var/ret = sanitize(input(user, prompt, title) as text)
+	if(length(ret) == 0)
+		ret = " "
+
+	return ret

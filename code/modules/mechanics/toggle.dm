@@ -56,8 +56,8 @@
 	if(href_list["toggle_action"])
 		switch(href_list["toggle_action"])
 			if("set_on")
-				signal_on = sanitize(input(user, "Enter a new 'on' signal:", "Set 'on' signal"))
+				signal_on = inputText(user, "Enter a new 'on' signal:", "Set 'on' signal")
 			if("set_off")
-				signal_off = sanitize(input(user, "Enter a new 'off' signal:", "Set 'off' signal"))
+				signal_off = inputText(user, "Enter a new 'off' signal:", "Set 'off' signal")
 
 		return MT_REFRESH

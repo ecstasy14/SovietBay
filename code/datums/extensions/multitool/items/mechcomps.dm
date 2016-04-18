@@ -52,13 +52,15 @@
 		return MT_CLOSE
 
 	if(href_list["change"])
-		var/new_signal = input(user, "What signal do you want to use?","[ capitalize( href_list["change"] ) ] signal") as text
-		new_signal = sanitize(new_signal)
-		if(length(new_signal) != 0)
-			if(href_list["change"] == "send")
-				mechcomp.send_signal = new_signal
-			else
-				mechcomp.trigger_signal = new_signal
+		var/new_signal = sanitize(input(user, "What signal do you want to use?", "[ capitalize( href_list["change"] ) ] signal") as text)
+		if(length(new_signal) == 0)
+			new_signal = " "
+
+		if(href_list["change"] == "send")
+			mechcomp.send_signal = new_signal
+		else
+			mechcomp.trigger_signal = new_signal
+
 		return MT_REFRESH
 
 	//Snowflake code. It's either this or tons of verbs for each component. I prefer this
