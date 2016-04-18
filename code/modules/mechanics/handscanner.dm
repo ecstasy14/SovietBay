@@ -9,7 +9,6 @@
 	var/send_name = 1
 
 /obj/item/mechcomp/handscanner/attack_hand(var/mob/user as mob)
-	..()
 	if(!ready)
 		return
 
@@ -24,8 +23,12 @@
 		flick(icon_state + "_active",src)
 		if(send_name)
 			handler.sendSignal(H.name)
+			return
 		else
 			handler.sendSignal(H.get_full_print())
+			return
+
+	..()
 
 /obj/item/mechcomp/handscanner/afterattack(atom/target as turf, mob/user as mob)
 	if(get_dist(src, target) == 1)

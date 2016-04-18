@@ -9,11 +9,10 @@
 			c = holder.vars.len
 		c++
 
+	if(!found)
+		return
 
 	var/datum/mechcomp/mechcomp = holder.vars[holder.vars[found]]
-
-	if(!mechcomp)
-		return
 
 	. += "<B>[holder] - Component ID: \ref[holder]</B><HR>"
 

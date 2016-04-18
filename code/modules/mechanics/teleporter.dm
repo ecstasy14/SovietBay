@@ -38,7 +38,8 @@
 	new /obj/effect/teleparticle(src.loc)
 	flick(icon_state+"_active", src)
 	ready = 0
-	spawn(300) ready = 1
+	//2 minutes. Sounds fair to me
+	spawn(1200) ready = 1
 
 	var/list/destinations = new/list()
 	for (var/obj/item/mechcomp/teleporter/T in teleporters)
