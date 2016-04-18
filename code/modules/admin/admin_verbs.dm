@@ -9,6 +9,7 @@ var/list/admin_verbs_default = list(
 //	/client/proc/check_antagonists,		/*shows all antags*/
 	/client/proc/cmd_mentor_check_new_players,
 	/datum/admins/proc/view_txt_log,	/*shows the server log (diary) for today*/
+	/client/proc/stop_sounds,
 //	/client/proc/deadchat				/*toggles deadchat on/off*/
 	)
 var/list/admin_verbs_admin = list(
