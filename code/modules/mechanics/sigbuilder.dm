@@ -43,11 +43,11 @@
 	if(href_list["builder_action"])
 		switch(href_list["builder_action"])
 			if("set_start")
-				start_sig = sanitize(input(user, "Enter a new starting signal:", "Set starting signal") as text)
+				start_sig = inputText(user, "Enter a new starting signal:", "Set starting signal")
 			if("set_end")
-				end_sig = sanitize(input(user, "Enter a new ending signal:", "Set ending signal") as text)
+				end_sig = inputText(user, "Enter a new ending signal:", "Set ending signal")
 			if("set_delim")
-				delim = sanitize(input(user, "Enter a new delimiter:", "Set delimiter") as text)
+				delim = inputText(user, "Enter a new delimiter:", "Set delimiter")
 			if("set_clear")
 				auto_clear = !auto_clear
 
