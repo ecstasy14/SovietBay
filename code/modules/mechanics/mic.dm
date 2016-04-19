@@ -4,10 +4,12 @@
 
 	icon_state = "comp_mic"
 
+	place_flags = MECH_PLACE_ABOVE | MECH_PLACE_WALL
+
 	var/show_name = 0
 
 //Should the component care about the language or the verb?
-/obj/item/mechcomp/mic/hear_talk(var/mob/speaker as mob, var/text, verb, datum/language/speaking)
+/obj/item/mechcomp/mic/hear_talk(mob/speaker as mob, text, verb, datum/language/speaking)
 	var/msg = text
 	if(show_name)
 		if(isliving(speaker))
@@ -15,14 +17,7 @@
 			msg = living.GetVoice() + ":" + msg
 		else
 			msg = speaker.name + ":" + msg
-	handler.sendSignal(msg)
-
-/obj/item/mechcomp/mic/afterattack(atom/target as turf, mob/user as mob)
-	if(get_dist(src, target) == 1)
-		if(isturf(target) && target.density)
-			user.drop_item()
-			src.loc = target
-			anchored = 1
+	handler.send_signal(msg)
 
 /obj/item/mechcomp/mic/get_settings(var/source)
 	var/dat = "<B>Microphone settings:</B><BR>"

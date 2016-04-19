@@ -5,28 +5,23 @@
 	icon_state = "comp_wait"
 
 	var/preserve = 0
-	var/active = 0
 	var/delay = 10
 
 /obj/item/mechcomp/delaycomp/New()
 	..()
-	handler.addInput("start", "start_delay")
+	handler.add_input("start", "start_delay")
 
-/obj/item/mechcomp/delaycomp/proc/start_delay(var/signal)
-	if(signal == handler.trigger_signal && !active)
-		active = 1
+/obj/item/mechcomp/delaycomp/proc/start_delay(signal)
+	if(signal == handler.trigger_signal && ready)
+		ready = 0
 		spawn(delay)
-			active = 0
+			ready = 1
 			if(preserve)
-				handler.sendSignal(signal)
+				handler.send_signal(signal)
 			else
-				handler.sendSignal()
+				handler.send_signal()
 
-/obj/item/mechcomp/delaycomp/attach()
-	if(!anchored)
-		active = 0
-
-/obj/item/mechcomp/delaycomp/get_settings(var/source)
+/obj/item/mechcomp/delaycomp/get_settings(source)
 	var/dat = "<B>Delay settings:</B><BR>"
 	dat += "Set the delay: <A href='?src=\ref[source];delay_action=set_delay'>[delay]</A><BR>"
 	dat += "Preserve signal : <A href='?src=\ref[source];delay_action=set_preserve'>[preserve ? "true" : "false"]</A><BR>"

@@ -1,6 +1,6 @@
 /obj/item/mechcomp/pressure
 	name = "pressure sensor"
-	desc = "Watch your step!"
+	desc = "Tread lightly..."
 
 	icon_state = "comp_pressure"
 
@@ -10,7 +10,8 @@
 	if(!ready)
 		return
 
-	handler.sendSignal()
+	handler.send_signal()
+
 	ready = 0
 	//Fair enough?
 	spawn(20)

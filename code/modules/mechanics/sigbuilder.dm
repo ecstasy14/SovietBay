@@ -4,32 +4,32 @@
 
 	icon_state = "comp_builder"
 
-	var/buffer = " "
-	var/start_sig = " "
-	var/end_sig = " "
-	var/delim = " "
+	var/buffer = ""
+	var/start_sig = ""
+	var/end_sig = ""
+	var/delim = ""
 	var/auto_clear = 0
 
 /obj/item/mechcomp/sigbuilder/New()
 	..()
-	handler.addInput("add to buffer", "add")
-	handler.addInput("send buffer", "send")
-	handler.addInput("clear buffer", "clear")
+	handler.add_input("add to buffer", "add")
+	handler.add_input("send buffer", "send")
+	handler.add_input("clear buffer", "clear")
 
-/obj/item/mechcomp/sigbuilder/proc/add(var/signal)
+/obj/item/mechcomp/sigbuilder/proc/add(signal)
 	buffer = "[buffer][signal][delim]"
 
-/obj/item/mechcomp/sigbuilder/proc/send(var/signal)
+/obj/item/mechcomp/sigbuilder/proc/send(signal)
 	if(signal == handler.trigger_signal)
-		handler.sendSignal("[start_sig][delim][buffer][end_sig]")
+		handler.send_signal("[start_sig][delim][buffer][end_sig]")
 		if(auto_clear)
 			clear(handler.trigger_signal)
 
-/obj/item/mechcomp/sigbuilder/proc/clear(var/signal)
+/obj/item/mechcomp/sigbuilder/proc/clear(signal)
 	if(signal == handler.trigger_signal)
 		buffer = ""
 
-/obj/item/mechcomp/sigbuilder/get_settings(var/source)
+/obj/item/mechcomp/sigbuilder/get_settings(source)
 	var/dat = "<B>Signal builder settings:</B><BR>"
 	dat += "Starting signal : <A href='?src=\ref[source];builder_action=set_start'>[start_sig]</A><BR>"
 	dat += "Ending signal : <A href='?src=\ref[source];builder_action=set_end'>[end_sig]</A><BR>"
