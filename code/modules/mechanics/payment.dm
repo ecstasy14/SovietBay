@@ -89,8 +89,8 @@
 			if("set_eject")
 				eject_all = !eject_all
 			if("set_thanks")
-				thanks = sanitize(input(user, "Enter new thanks string:", "Set thanks string") as text)
+				thanks = inputText(user, "Enter new thanks string:", "Set thanks string")
 			if("set_change")
-				change = sanitize(input(user, "Enter new change string:", "Set change string") as text)
+				change = inputText(user, "Enter new change string:", "Set change string")
 
 		return MT_REFRESH

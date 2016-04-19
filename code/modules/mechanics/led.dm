@@ -41,10 +41,11 @@
 			turn_on(signal)
 
 /obj/item/mechcomp/led/proc/set_rgb(var/signal)
+	world.log << signal
 	if(length(signal) == 7 && copytext(signal, 1, 2) == "#")
 		signal = uppertext(signal)
 		//TODO : sanity cleanup. Replace everything that's not a number or a character <= F to F
-		light_color = signal
+		cur_color = signal
 		if(active)
 			turn_on()
 
@@ -80,7 +81,7 @@
 				var/b = input(user, "Blue component(0-255)","Set color") as num
 				b = max(b, 0)
 				b = min(b, 255)
-				set_rgb(rgb(r, g, b))
+				cur_color = uppertext(rgb(r, g, b))
 
 			if("set_power")
 				var/new_power = input(user, "Input a new power(0.2-0.5)", "Set power") as num
@@ -91,7 +92,7 @@
 				set_range(new_range)
 
 		if(active)
-			turn_on()
+			turn_on(handler.trigger_signal)
 
 		return MT_REFRESH
 

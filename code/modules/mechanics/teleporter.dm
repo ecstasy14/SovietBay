@@ -38,7 +38,8 @@
 	new /obj/effect/teleparticle(src.loc)
 	flick(icon_state+"_active", src)
 	ready = 0
-	spawn(300) ready = 1
+	//2 minutes. Sounds fair to me
+	spawn(600) ready = 1
 
 	var/list/destinations = new/list()
 	for (var/obj/item/mechcomp/teleporter/T in teleporters)
@@ -72,9 +73,7 @@
 	if(href_list["teleporter_action"])
 		switch(href_list["teleporter_action"])
 			if("set_id")
-				var/new_id = sanitize(input(user, "What ID do you want to assign?", "Change ID") as text)
-				if(length(new_id) > 0)
-					id = new_id
+				id = inputText(user, "What ID do you want to assign?", "Change ID")
 			if("send_only")
 				send_only = !send_only
 

@@ -27,7 +27,7 @@
 		active = 0
 
 /obj/item/mechcomp/delaycomp/get_settings(var/source)
-	var/dat = "<B>ADelay settings:</B><BR>"
+	var/dat = "<B>Delay settings:</B><BR>"
 	dat += "Set the delay: <A href='?src=\ref[source];delay_action=set_delay'>[delay]</A><BR>"
 	dat += "Preserve signal : <A href='?src=\ref[source];delay_action=set_preserve'>[preserve ? "true" : "false"]</A><BR>"
 	return dat

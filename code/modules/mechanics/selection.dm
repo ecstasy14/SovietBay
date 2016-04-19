@@ -85,6 +85,15 @@
 		for(var/mob/who in hearers(src, null))
 			who.show_message("<span class='game say'><span class='name'>\The [src]</span> [pick("bleeps","beeps", "screeches")], \"New selection : [buffer[current_index]].\"</span>",2)
 
+/obj/item/mechcomp/selectcomp/proc/iterate(var/signal)
+	if(signal != handler.trigger_signal)
+		return
+	if(!buffer.len)
+		return
+
+	for(var/c = 1 to buffer.len)
+		handler.sendSignal(buffer[c])
+
 /obj/item/mechcomp/selectcomp/proc/previous(var/signal)
 	if(signal != handler.trigger_signal)
 		return
@@ -117,7 +126,7 @@
 				announce = !announce
 			if("add")
 				if(buffer.len != 10)
-					var/new_item = sanitize(input(user, "Enter a new item:", "New item"))
+					var/new_item = inputText(user, "Enter a new item:", "New item")
 					additem(new_item)
 			if("remove")
 				if(buffer.len > 0)

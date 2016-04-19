@@ -135,12 +135,11 @@ You should only attach one datum per class
 		attach()
 
 		//Sounds dumb. Need a better string.
-		user << "<span class='notice'>You [anchored ? "detach" : "attach"] \the [src] [anchored ? "from" : "to"] the floor.</span>"
+		user << "<span class='notice'>You [anchored ? "detach" : "attach"] \the [src] [anchored ? "from" : "to"] \the [loc].</span>"
 		anchored = !anchored
 
 /obj/item/mechcomp/attack_hand(var/mob/user)
 	if(anchored)
-		user << "<span class='warning'>\The [src.name] is attached to the floor!</span>"
 		return
 	return ..()
 
@@ -162,7 +161,7 @@ You should only attach one datum per class
 			c = target.vars.len
 		c++
 
-	if(!istype(target.vars[target.vars[found]], /datum/mechcomp))
+	if(!found || !istype(target.vars[ target.vars[found] ], /datum/mechcomp))
 		return
 
 	var/datum/mechcomp/target_handler = target.vars[target.vars[found]]
@@ -211,3 +210,11 @@ You should only attach one datum per class
 //MT_CLOSE - close the window
 /obj/item/mechcomp/proc/set_settings(href, href_list, user)
 	return MT_NOACTION
+
+
+/obj/item/mechcomp/proc/inputText(var/mob/user as mob, var/title as text, var/prompt as text)
+	var/ret = sanitize(input(user, prompt, title) as text)
+	if(length(ret) == 0)
+		ret = " "
+
+	return ret
