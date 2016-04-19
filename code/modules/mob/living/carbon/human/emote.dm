@@ -21,15 +21,15 @@
 	switch(act)
 		if ("airguitar")
 			if (!src.restrained())
-				message = "is strumming the air and headbanging like a safari chimp."
+				message =  "играет на воображаемой гитаре, кача&#255; головой."
 				m_type = 1
 
 		if ("blink")
-			message = "blinks."
+			message = "моргает."
 			m_type = 1
 
 		if ("blink_r")
-			message = "blinks rapidly."
+			message = "быстро моргает."
 			m_type = 1
 
 		if ("bow")
@@ -44,9 +44,9 @@
 					param = null
 
 				if (param)
-					message = "bows to [param]."
+					message = "кланя&#255;етс&#255; [param]."
 				else
-					message = "bows."
+					message = "клан&#255;етс&#255;."
 			m_type = 1
 
 		if ("custom")
@@ -94,73 +94,73 @@
 					param = null
 
 				if (param)
-					message = "salutes to [param]."
+					message = "машет рукой [param]."
 				else
-					message = "salutes."
+					message = "машет рукой."
 			m_type = 1
 
 		if ("choke")
 			if(miming)
-				message = "clutches [get_visible_gender() == MALE ? "his" : get_visible_gender() == FEMALE ? "her" : "their"] throat desperately!"
+				message = "отча&#255;нно [get_visible_gender() == MALE ? "схватилс&#255;" : get_visible_gender() == FEMALE ? "схватилась" : "хватетс&#255;"] за горло!"
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "chokes!"
+					message = "задыхаетс&#255;!"
 					m_type = 2
 				else
-					message = "makes a strong noise."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] сдавленный звук."
 					m_type = 2
 
 		if ("clap")
 			if (!src.restrained())
-				message = "claps."
+				message = "хлопает."
 				m_type = 2
 				if(miming)
 					m_type = 1
 		if ("flap")
 			if (!src.restrained())
-				message = "flaps [get_visible_gender() == MALE ? "his" : get_visible_gender() == FEMALE ? "her" : "their"] wings."
+				message = "махает крыль&#255;ми."
 				m_type = 2
 				if(miming)
 					m_type = 1
 
 		if ("aflap")
 			if (!src.restrained())
-				message = "flaps [get_visible_gender() == MALE ? "his" : get_visible_gender() == FEMALE ? "her" : "their"] wings ANGRILY!"
+				message = "злобно махает крыль&#255;ми!"
 				m_type = 2
 				if(miming)
 					m_type = 1
 
 		if ("drool")
-			message = "drools."
+			message = "пускает слюни."
 			m_type = 1
 
 		if ("eyebrow")
-			message = "raises an eyebrow."
+			message = "[get_visible_gender() == MALE ? "подн&#255;л" : get_visible_gender() == FEMALE ? "подн&#255;ла" : "подн&#255;л"] бровь."
 			m_type = 1
 
 		if ("chuckle")
 			if(miming)
-				message = "appears to chuckle."
+				message = "беззвучно [get_visible_gender() == MALE ? "усмехнулс&#255;." : get_visible_gender() == FEMALE ? "усмехнулась." : "усмехнулс&#255;."]"
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "chuckles."
+					message = "[get_visible_gender() == MALE ? "усмехнулс&#255;." : get_visible_gender() == FEMALE ? "усмехнулась." : "усмехнулс&#255;."]"
 					m_type = 2
 				else
-					message = "makes a noise."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] шум&#255;щий звук."
 					m_type = 2
 
 		if ("twitch")
-			message = "twitches violently."
+			message = "нервно дергаетс&#255;."
 			m_type = 1
 
 		if ("twitch_s")
-			message = "twitches."
+			message = "подергиваетс&#255;."
 			m_type = 1
 
 		if ("faint")
-			message = "faints."
+			message = "[get_visible_gender() == MALE ? "потер&#255;л" : get_visible_gender() == FEMALE ? "потер&#255;ла" : "потер&#255;л"] сознание."
 			if(src.sleeping)
 				return //Can't faint while asleep
 			src.sleeping += 10 //Short-short nap
@@ -168,42 +168,42 @@
 
 		if ("cough")
 			if(miming)
-				message = "appears to cough!"
+				message = "[get_visible_gender() == MALE ? "попыталс&#255;" : get_visible_gender() == FEMALE ? "попыталась" : "попыталс&#255;"] кашл&#255;нуть."
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "coughs!"
+					message = "кашл&#255;ет!"
 					m_type = 2
 				else
-					message = "makes a strong noise."
+					message = "издает громкий звук."
 					m_type = 2
 
 		if ("frown")
-			message = "frowns."
+			message = "[get_visible_gender() == MALE ? "нахмурилс&#255;" : get_visible_gender() == FEMALE ? "нахмурилась" : "нахмурилс&#255;"]."
 			m_type = 1
 
 		if ("nod")
-			message = "nods."
+			message = "кивает головой."
 			m_type = 1
 
 		if ("blush")
-			message = "blushes."
+			message = "краснеет."
 			m_type = 1
 
 		if ("wave")
-			message = "waves."
+			message = "шатаетс&#255;."
 			m_type = 1
 
 		if ("gasp")
 			if(miming)
-				message = "appears to be gasping!"
+				message = "показывает, что задыхаетс&#255;!"
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "gasps!"
+					message = "ловит ртом воздух!"
 					m_type = 2
 				else
-					message = "makes a weak noise."
+					message = "издает слабый звук."
 					m_type = 2
 
 		if ("deathgasp")
@@ -212,14 +212,14 @@
 
 		if ("giggle")
 			if(miming)
-				message = "giggles silently!"
+				message = "беззвучно хихикает!"
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "giggles."
+					message = "хихикает."
 					m_type = 2
 				else
-					message = "makes a noise."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] шум&#255;щий звук."
 					m_type = 2
 
 		if ("glare")
@@ -233,9 +233,9 @@
 				param = null
 
 			if (param)
-				message = "glares at [param]."
+				message = "свирепо смотрит на [param]."
 			else
-				message = "glares."
+				message = "свирепо смотрит."
 
 		if ("stare")
 			var/M = null
@@ -248,9 +248,9 @@
 				param = null
 
 			if (param)
-				message = "stares at [param]."
+				message = "глазеет на [param]."
 			else
-				message = "stares."
+				message = "глазеет."
 
 		if ("look")
 			var/M = null
@@ -264,66 +264,66 @@
 				param = null
 
 			if (param)
-				message = "looks at [param]."
+				message = "смотрит на [param]."
 			else
-				message = "looks."
+				message = "смотрит."
 			m_type = 1
 
 		if ("grin")
-			message = "grins."
+			message = "ухмыл&#255;етс&#255;."
 			m_type = 1
 
 		if ("cry")
 			if(miming)
-				message = "cries."
+				message = "плачет."
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "cries."
+					message = "плачет."
 					m_type = 2
 				else
-					message = "makes a weak noise. [get_visible_gender() == MALE ? "He" : get_visible_gender() == FEMALE ? "She" : "They"] [get_visible_gender() == NEUTER ? "frown" : "frowns"]."
+					message = "издает прерывистые тихие звуки."
 					m_type = 2
 
 		if ("sigh")
 			if(miming)
-				message = "sighs."
+				message = "[get_visible_gender() == MALE ? "вздохнул" : get_visible_gender() == FEMALE ? "вздохнула" : "вздохнул"]."
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "sighs."
+					message = "[get_visible_gender() == MALE ? "вздохнул" : get_visible_gender() == FEMALE ? "вздохнула" : "вздохнул"]."
 					m_type = 2
 				else
-					message = "makes a weak noise."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] тихий звук."
 					m_type = 2
 
 		if ("laugh")
 			if(miming)
-				message = "acts out a laugh."
+				message = "беззвучно смеетс&#255;."
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "laughs."
+					message = "смеетс&#255;."
 					m_type = 2
 				else
-					message = "makes a noise."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] шум&#255;щий звук."
 					m_type = 2
 
 		if ("mumble")
-			message = "mumbles!"
+			message = "бормочет."
 			m_type = 2
 			if(miming)
 				m_type = 1
 
 		if ("grumble")
 			if(miming)
-				message = "grumbles!"
+				message = "ворчит!"
 				m_type = 1
 			if (!muzzled)
-				message = "grumbles!"
+				message = "ворчит!"
 				m_type = 2
 			else
-				message = "makes a noise."
+				message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] шум&#255;щий звук."
 				m_type = 2
 
 		if ("groan")
@@ -332,10 +332,10 @@
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "groans!"
+					message = "стонет!"
 					m_type = 2
 				else
-					message = "makes a loud noise."
+					message = "издает громкий шум&#255;щий звук."
 					m_type = 2
 
 		if ("moan")
@@ -343,7 +343,7 @@
 				message = "appears to moan!"
 				m_type = 1
 			else
-				message = "moans!"
+				message = "стонет!"
 				m_type = 2
 
 		if ("johnny")
@@ -370,26 +370,26 @@
 							break
 
 				if (!M)
-					message = "points."
+					message = "показывает куда-то."
 				else
 					pointed(M)
 
 				if (M)
-					message = "points to [M]."
+					message = "показывает на [M]."
 				else
 			m_type = 1
 
 		if ("raise")
 			if (!src.restrained())
-				message = "raises a hand."
+				message = "[get_visible_gender() == MALE ? "подн&#255;л" : get_visible_gender() == FEMALE ? "подн&#255;ла" : "подн&#255;л"] руку."
 			m_type = 1
 
 		if("shake")
-			message = "shakes [get_visible_gender() == MALE ? "his" : get_visible_gender() == FEMALE ? "her" : "their"] head."
+			message = "качает головой."
 			m_type = 1
 
 		if ("shrug")
-			message = "shrugs."
+			message = "пожимает плечами."
 			m_type = 1
 
 		if ("signal")
@@ -403,79 +403,79 @@
 			m_type = 1
 
 		if ("smile")
-			message = "smiles."
+			message = "[get_visible_gender() == MALE ? "улыбнулс&#255;" : get_visible_gender() == FEMALE ? "улыбнулась" : "улыбнулс&#255;"]."
 			m_type = 1
 
 		if ("shiver")
-			message = "shivers."
+			message = "дрожит."
 			m_type = 2
 			if(miming)
 				m_type = 1
 
 		if ("pale")
-			message = "goes pale for a second."
+			message = "на секунду [get_visible_gender() == MALE ? "побледнел" : get_visible_gender() == FEMALE ? "побледнела" : "побледнел"]."
 			m_type = 1
 
 		if ("tremble")
-			message = "trembles in fear!"
+			message = "в ужасе дрожит!"
 			m_type = 1
 
 		if ("sneeze")
 			if (miming)
-				message = "sneezes."
+				message = "[get_visible_gender() == MALE ? "чихнул" : get_visible_gender() == FEMALE ? "чихнула" : "чихнул"]."
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "sneezes."
+					message = "[get_visible_gender() == MALE ? "чихнул" : get_visible_gender() == FEMALE ? "чихнула" : "чихнул"]."
 					m_type = 2
 				else
-					message = "makes a strange noise."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] странный звук."
 					m_type = 2
 
 		if ("sniff")
-			message = "sniffs."
+			message = "сопит."
 			m_type = 2
 			if(miming)
 				m_type = 1
 
 		if ("snore")
 			if (miming)
-				message = "sleeps soundly."
+				message = "храпит."
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "snores."
+					message = "храпит."
 					m_type = 2
 				else
-					message = "makes a noise."
+					message = "храпит."
 					m_type = 2
 
 		if ("whimper")
 			if (miming)
-				message = "appears hurt."
+				message = "показывает страдани&#255;."
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "whimpers."
+					message = "хнычет."
 					m_type = 2
 				else
-					message = "makes a weak noise."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] слабый шум&#255;щий звук."
 					m_type = 2
 
 		if ("wink")
-			message = "winks."
+			message = "[get_visible_gender() == MALE ? "подмигнул" : get_visible_gender() == FEMALE ? "подмигнула" : "подмигнул"]."
 			m_type = 1
 
 		if ("yawn")
 			if (!muzzled)
-				message = "yawns."
+				message = "[get_visible_gender() == MALE ? "зевнул" : get_visible_gender() == FEMALE ? "зевнула" : "зевнул"]."
 				m_type = 2
 				if(miming)
 					m_type = 1
 
 		if ("collapse")
 			Paralyse(2)
-			message = "collapses!"
+			message = "[get_visible_gender() == MALE ? "упал" : get_visible_gender() == FEMALE ? "упала" : "упал"]!"
 			m_type = 2
 			if(miming)
 				m_type = 1
@@ -493,9 +493,9 @@
 					M = null
 
 				if (M)
-					message = "hugs [M]."
+					message = "[get_visible_gender() == MALE ? "обн&#255;л" : get_visible_gender() == FEMALE ? "обн&#255;ла" : "обн&#255;л"] [M]."
 				else
-					message = "hugs [get_visible_gender() == MALE ? "himself" : get_visible_gender() == FEMALE ? "herself" : "themselves"]."
+					message = "[get_visible_gender() == MALE ? "обн&#255;л" : get_visible_gender() == FEMALE ? "обн&#255;ла" : "обн&#255;л"] себ&#255;."
 
 		if ("handshake")
 			m_type = 1
@@ -531,14 +531,14 @@
 
 		if ("scream")
 			if (miming)
-				message = "acts out a scream!"
+				message = "изображает крик!"
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "screams!"
+					message = "кричит!"
 					m_type = 2
 				else
-					message = "makes a very loud noise."
+					message = "издает очень громкий звук."
 					m_type = 2
 
 		if("swish")
@@ -561,7 +561,7 @@ sigh, signal-#1-10, smile, sneeze, sniff, snore, stare-(none)/mob, tremble, twit
 wink, yawn, swish, sway/wag, fastsway/qwag, stopsway/swag"}
 
 		else
-			src << "\blue Unusable emote '[act]'. Say *help for a list."
+			src << "\blue Неизвестна&#255; эмоци&#255; '[act]'. Say *help for a list."
 
 
 
