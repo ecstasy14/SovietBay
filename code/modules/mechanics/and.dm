@@ -10,10 +10,10 @@
 
 /obj/item/mechcomp/andcomp/New()
 	..()
-	handler.addInput("input 1", "input1")
-	handler.addInput("input 2", "input2")
+	handler.add_input("input 1", "input1")
+	handler.add_input("input 2", "input2")
 
-/obj/item/mechcomp/andcomp/proc/set_input(var/num as num, var/signal)
+/obj/item/mechcomp/andcomp/proc/set_input(num as num, signal)
 	inputs[num] = signal
 	//Don't know how to do this right, really
 	var/opposite
@@ -29,35 +29,16 @@
 				pass = 0
 
 		if(pass)
-			handler.sendSignal()
+			handler.send_signal()
 
 	spawn(time_frame)
 		inputs[num] = null
 
 /obj/item/mechcomp/andcomp/proc/input1(var/signal)
 	set_input(1, signal)
-	/*
-	input_1 = signal
-	if(input_2)
-		var/pass = 0
-		if(logical)
-			if(input_1 == input_2)
-				pass = 1
-		else
-			pass = 1
-	 	sendSignal()
-
-	spawn(time_frame)
-		input_1 = null
-	*/
 
 /obj/item/mechcomp/andcomp/proc/input2(var/signal)
 	set_input(2, signal)
-
-/obj/item/mechcomp/andcomp/attach()
-	if(!anchored)
-		inputs[1] = null
-		inputs[2] = null
 
 /obj/item/mechcomp/andcomp/get_settings(var/source)
 	var/dat = "<B>AND gate settings:</B><BR>"
@@ -76,3 +57,8 @@
 				time_frame = min(time_frame, 100)
 
 		return MT_REFRESH
+
+/obj/item/mechcomp/andcomp/attach()
+	if(!anchored)
+		inputs[1] = null
+		inputs[2] = null

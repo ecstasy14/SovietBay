@@ -11,66 +11,85 @@
 
 /obj/item/mechcomp/selectcomp/New()
 	..()
-	handler.addInput("add item", "additem")
-	handler.addInput("remove item", "remitem")
-	handler.addInput("clear", "clear")
-	handler.addInput("select item", "selitem")
-	handler.addInput("next", "next")
-	handler.addInput("previous", "previous")
-	handler.addInput("send selected", "sendCurrent")
-	handler.addInput("send random", "sendRand")
-	handler.addInput("iterate", "iterate")
+	handler.add_input("add item", "additem")
+	handler.add_input("remove item", "remitem")
+	handler.add_input("clear", "clear")
+	handler.add_input("select item", "selitem")
+	handler.add_input("next", "next")
+	handler.add_input("previous", "previous")
+	handler.add_input("send selected", "send_current")
+	handler.add_input("send random", "send_rand")
+	handler.add_input("iterate", "iterate")
 
-/obj/item/mechcomp/selectcomp/proc/additem(var/signal)
+/obj/item/mechcomp/selectcomp/proc/additem(signal)
 	if(buffer.len + 1 > 10)
 		return
 	buffer.Add(signal)
 	if(announce)
+		/*
 		for(var/mob/who in hearers(src, null))
 			who.show_message("<span class='game say'><span class='name'>\The [src]</span> [pick("bleeps","beeps", "screeches")], \"Added [signal].\"</span>",2)
+		*/
+		compSay("Added [signal].")
 
-/obj/item/mechcomp/selectcomp/proc/remitem(var/signal)
+/obj/item/mechcomp/selectcomp/proc/remitem(signal)
 	if(buffer.Find(signal))
 		buffer.Remove(signal)
 		if(current_index > buffer.len)
 			current_index = buffer.len
 
 	if(announce)
+	/*
 		for(var/mob/who in hearers(src, null))
 			who.show_message("<span class='game say'><span class='name'>\The [src]</span> [pick("bleeps","beeps", "screeches")], \"Removed [signal].\"</span>",2)
+	*/
+		compSay("Removed [signal].")
 
-/obj/item/mechcomp/selectcomp/proc/selitem(var/signal)
+/obj/item/mechcomp/selectcomp/proc/selitem(signal)
 	var/found = buffer.Find(signal)
 	if(found)
 		current_index =found
 
 	if(announce)
+		/*
 		for(var/mob/who in hearers(src, null))
 			who.show_message("<span class='game say'><span class='name'>\The [src]</span> [pick("bleeps","beeps", "screeches")], \"Current Selection : [buffer[current_index]].\"</span>",2)
+		*/
+		compSay("Current Selection : [buffer[current_index]].")
 
-/obj/item/mechcomp/selectcomp/proc/clear(var/signal)
+/obj/item/mechcomp/selectcomp/proc/clear(signal)
 	if(signal != handler.trigger_signal)
 		return
 
 	if(announce)
+	/*
 		for(var/mob/who in hearers(src, null))
 			who.show_message("<span class='game say'><span class='name'>\The [src]</span> [pick("bleeps","beeps", "screeches")], \"Cleared the selection.\"</span>",2)
+	*/
+		compSay("Cleared the buffer.")
 
-/obj/item/mechcomp/selectcomp/proc/sendCurrent(var/signal)
+/obj/item/mechcomp/selectcomp/proc/send_current(signal)
 	if(signal != handler.trigger_signal)
 		return
 
 	if(current_index > buffer.len)
 		current_index = buffer.len
 
-	handler.sendSignal(buffer[current_index])
+	handler.send_signal(buffer[current_index])
 
-/obj/item/mechcomp/selectcomp/proc/sendRand(var/signal)
+	if(announce)
+		compSay("Sent [buffer[current_index]].")
+
+/obj/item/mechcomp/selectcomp/proc/send_rand(signal)
 	if(signal != handler.trigger_signal)
 		return
-	handler.sendSignal(pick(buffer))
+	var/sent = pick(buffer)
+	handler.send_signal(sent)
 
-/obj/item/mechcomp/selectcomp/proc/next(var/signal)
+	if(announce)
+		compSay("Sent a random item : [sent].")
+
+/obj/item/mechcomp/selectcomp/proc/next(signal)
 	if(signal != handler.trigger_signal)
 		return
 	if(!buffer.len)
@@ -82,19 +101,25 @@
 		current_index++
 
 	if(announce)
+	/*
 		for(var/mob/who in hearers(src, null))
 			who.show_message("<span class='game say'><span class='name'>\The [src]</span> [pick("bleeps","beeps", "screeches")], \"New selection : [buffer[current_index]].\"</span>",2)
+	*/
+		compSay("New selection : [buffer[current_index]].")
 
-/obj/item/mechcomp/selectcomp/proc/iterate(var/signal)
+/obj/item/mechcomp/selectcomp/proc/iterate(signal)
 	if(signal != handler.trigger_signal)
 		return
 	if(!buffer.len)
 		return
 
-	for(var/c = 1 to buffer.len)
-		handler.sendSignal(buffer[c])
+	if(announce)
+		compSay("Iterating...")
 
-/obj/item/mechcomp/selectcomp/proc/previous(var/signal)
+	for(var/c = 1 to buffer.len)
+		handler.send_signal(buffer[c])
+
+/obj/item/mechcomp/selectcomp/proc/previous(signal)
 	if(signal != handler.trigger_signal)
 		return
 	if((current_index - 1) < 1)
@@ -103,10 +128,13 @@
 		current_index--
 
 	if(announce)
+		/*
 		for(var/mob/who in hearers(src, null))
 			who.show_message("<span class='game say'><span class='name'>\The [src]</span> [pick("bleeps","beeps", "screeches")], \"New selection : [buffer[current_index]].\"</span>",2)
+		*/
+		compSay("New selection : [buffer[current_index]].")
 
-/obj/item/mechcomp/selectcomp/get_settings(var/source)
+/obj/item/mechcomp/selectcomp/get_settings(source)
 	var/dat = "<B>Selection component settings:</B><BR>"
 	dat += "Announce actions : <A href='?src=\ref[source];select_action=set_announce'>[announce ? "true" : "false"]</A><BR>"
 	dat += "<HR>"
@@ -125,6 +153,7 @@
 			if("set_announce")
 				announce = !announce
 			if("add")
+				//10 is max. Enough?
 				if(buffer.len != 10)
 					var/new_item = inputText(user, "Enter a new item:", "New item")
 					additem(new_item)

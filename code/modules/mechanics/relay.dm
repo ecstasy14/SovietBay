@@ -8,16 +8,17 @@
 
 /obj/item/mechcomp/relay/New()
 	..()
-	handler.addInput("relay", "relay")
+	handler.add_input("relay", "relay")
+	handler.max_outputs = 10
 
-/obj/item/mechcomp/relay/proc/relay(var/signal)
+/obj/item/mechcomp/relay/proc/relay(signal)
 	flick(icon_state+"_active",src)
 	if(replace)
-		handler.sendSignal()
+		handler.send_signal()
 	else
-		handler.sendSignal(signal)
+		handler.send_signal(signal)
 
-/obj/item/mechcomp/relay/get_settings(var/source)
+/obj/item/mechcomp/relay/get_settings(source)
 	var/dat = "<B>Relay settings:</B><BR>"
 	dat += "Replace the signal : <A href='?src=\ref[source];relay_action=set_replace'>[replace ? "true" : "false"]</A><BR>"
 	return dat

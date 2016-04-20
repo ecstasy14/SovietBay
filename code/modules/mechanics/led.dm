@@ -4,38 +4,39 @@
 
 	icon_state = "comp_led"
 
-	var/active = 0
+	place_flags = MECH_PLACE_WALL
+
 	var/cur_color = "#FFFFFF"
-	//max 0.5
+	//max 1
 	var/cur_power = 0.2
 	//max 7
 	var/cur_range = 2
 
 /obj/item/mechcomp/led/New()
 	..()
-	handler.addInput("activate", "turn_on")
-	handler.addInput("deactivate", "turn_off")
-	handler.addInput("toggle", "toggle")
-	handler.addInput("set rgb", "set_rgb")
-	handler.addInput("set power", "set_power")
-	handler.addInput("set range", "set_range")
+	handler.add_input("activate", "turn_on")
+	handler.add_input("deactivate", "turn_off")
+	handler.add_input("toggle", "toggle")
+	handler.add_input("set rgb", "set_rgb")
+	handler.add_input("set power", "set_power")
+	handler.add_input("set range", "set_range")
 	handler.max_outputs = 0
 
-/obj/item/mechcomp/led/proc/turn_on(var/signal)
+/obj/item/mechcomp/led/proc/turn_on(signal)
 	if(signal == handler.trigger_signal)
-		active = 1
+		ready = 1
 		set_light(cur_range, cur_power, cur_color)
 		src.color = cur_color
 
-/obj/item/mechcomp/led/proc/turn_off(var/signal)
+/obj/item/mechcomp/led/proc/turn_off(signal)
 	if(signal == handler.trigger_signal)
-		active = 0
+		ready = 0
 		set_light(0)
 		src.color = 0
 
-/obj/item/mechcomp/led/proc/toggle(var/signal)
+/obj/item/mechcomp/led/proc/toggle(signal)
 	if(signal == handler.trigger_signal)
-		if(active)
+		if(ready)
 			turn_off(signal)
 		else
 			turn_on(signal)
@@ -46,19 +47,23 @@
 		signal = uppertext(signal)
 		//TODO : sanity cleanup. Replace everything that's not a number or a character <= F to F
 		cur_color = signal
-		if(active)
+		if(ready)
 			turn_on()
 
-/obj/item/mechcomp/led/proc/set_power(var/signal)
+/obj/item/mechcomp/led/proc/set_power(signal)
 	//TODO : People in Russia use "," as a delimeter between decimal and fractional parts, BYOND uses "."
 	//1. "," should be replaced by "."
 	//2. text2num might not be enough. "15abc,6" should produce "15.6" (probably?)
 	cur_power = max(text2num(signal), 0.2)
-	cur_power = min(cur_power, 0.5)
+	cur_power = min(cur_power, 1)
 
-/obj/item/mechcomp/led/proc/set_range(var/signal)
+/obj/item/mechcomp/led/proc/set_range(signal)
 	cur_range = max(text2num(signal), 1)
-	cur_range = min(cur_range, 7)
+	cur_range = min(cur_range, 10)
+
+/obj/item/mechcomp/led/attach()
+	if(!anchored)
+		turn_off()
 
 /obj/item/mechcomp/led/get_settings(var/source)
 	var/dat = "<B>LED settings:</B><BR>"
@@ -84,25 +89,14 @@
 				cur_color = uppertext(rgb(r, g, b))
 
 			if("set_power")
-				var/new_power = input(user, "Input a new power(0.2-0.5)", "Set power") as num
+				var/new_power = input(user, "Input a new power(0.2-1)", "Set power") as num
 				set_power(new_power)
 
 			if("set_range")
 				var/new_range = input(user, "Input a new range(1-7)", "Set range") as num
 				set_range(new_range)
 
-		if(active)
+		if(ready)
 			turn_on(handler.trigger_signal)
 
 		return MT_REFRESH
-
-/obj/item/mechcomp/led/afterattack(atom/target as turf, mob/user as mob)
-	if(get_dist(src, target) == 1)
-		if(isturf(target) && target.density)
-			user.drop_item()
-			src.loc = target
-			anchored = 1
-
-/obj/item/mechcomp/led/attach()
-	if(!anchored)
-		turn_off()

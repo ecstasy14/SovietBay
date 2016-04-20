@@ -1,6 +1,6 @@
 /obj/item/mechcomp/check
 	name = "signal-check component"
-	desc = "Don't fold or go all in yet."
+	desc = "Don't fold or go all-in yet!"
 
 	icon_state = "comp_check"
 
@@ -11,9 +11,9 @@
 
 /obj/item/mechcomp/check/New()
 	..()
-	handler.addInput("check", "checksig")
+	handler.add_input("check", "checksig")
 
-/obj/item/mechcomp/check/proc/checksig(var/signal)
+/obj/item/mechcomp/check/proc/checksig(signal)
 	var/send = 0
 	if(full_check)
 		if(case_sensitive)
@@ -35,11 +35,11 @@
 
 	if(send)
 		if(replace)
-			handler.sendSignal()
+			handler.send_signal()
 		else
-			handler.sendSignal(signal)
+			handler.send_signal(signal)
 
-/obj/item/mechcomp/check/get_settings(var/source)
+/obj/item/mechcomp/check/get_settings(source)
 	var/dat = "<B>Signal checker settings:</B><BR>"
 	dat += "Replace the signal : <A href='?src=\ref[source];check_action=set_replace'>[replace ? "true" : "false"]</A><BR>"
 	dat += "Invert check : <A href='?src=\ref[source];check_action=set_invert'>[reverse ? "true" : "false"]</A><BR>"

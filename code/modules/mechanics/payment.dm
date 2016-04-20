@@ -4,7 +4,7 @@
 
 	icon_state = "comp_money"
 
-	above = 1
+	place_flags = MECH_PLACE_ABOVE | MECH_PLACE_WALL
 
 	var/current_sum = 0
 	var/eject_all = 1
@@ -15,9 +15,9 @@
 
 /obj/item/mechcomp/payment/New()
 	..()
-	handler.addInput("eject money", "eject")
+	handler.add_input("eject money", "eject")
 
-/obj/item/mechcomp/payment/proc/eject(var/signal)
+/obj/item/mechcomp/payment/proc/eject(signal)
 	if(current_sum <= 0)
 		return
 	if(signal != handler.trigger_signal)
@@ -34,7 +34,7 @@
 
 	playsound(src, 'sound/machines/chime.ogg', 50, 1)
 
-/obj/item/mechcomp/payment/attackby(var/obj/item/weapon/W as obj, var/mob/user as mob)
+/obj/item/mechcomp/payment/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	..()
 	if(istype(W, /obj/item/weapon/spacecash))
 		var/obj/item/weapon/spacecash/moolah = W
@@ -56,14 +56,7 @@
 			else
 				user.show_message("<span class='game say'><span class='name'>\The [src]</span> [pick("bleeps","beeps", "screeches")], \"[change]\"</span>",2)
 
-			handler.sendSignal()
-
-/obj/item/mechcomp/payment/afterattack(atom/target as turf, mob/user as mob)
-	if(get_dist(src, target) == 1)
-		if(isturf(target) && target.density)
-			user.drop_item()
-			src.loc = target
-			anchored = 1
+			handler.send_signal()
 
 /obj/item/mechcomp/payment/examine(var/mob/user)
 	..(user)
@@ -73,8 +66,8 @@
 	var/dat = "<B>Payment terminal settings:</B><BR>"
 	dat += "Price : <A href='?src=\ref[source];pay_action=set_price'>[price]</A><BR>"
 	dat += "Eject all money : <A href='?src=\ref[source];pay_action=set_eject'>[eject_all ? "true" : "false"]</A><BR>"
-	dat += "Thanks string : <A href='?src=\ref[source];pay_action=set_thanks'>[thanks]</A><BR>"
-	dat += "Change string : <A href='?src=\ref[source];pay_action=set_change'>[change]</A><BR>"
+	dat += "Thanks string : <A href='?src=\ref[source];pay_action=set_thanks'>[length(thanks) == 0 ? " " : thanks]</A><BR>"
+	dat += "Change string : <A href='?src=\ref[source];pay_action=set_change'>[length(change) == 0 ? " " : change]</A><BR>"
 	dat += "<HR>"
 	dat += "Current money storage : [current_sum]<BR>"
 	return dat
