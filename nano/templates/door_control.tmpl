@@ -11,44 +11,44 @@
 
 <div class="item">
 	<div class="itemLabelWider">
-		Main power is 
+		Главное питание 
 		{{if data.main_power_loss == 0}}
-			online
+			включено
 		{{else data.main_power_loss == -1}}
-			offline
+			отключено
 		{{else}}
-			offline for {{:data.main_power_loss}} second{{:data.main_power_loss == 1 ? '' : 's'}}
+			отключено на {{:data.main_power_loss}} секунд
 		{{/if}}.
 	</div>
 	<div class="itemContentNarrow">
-		{{:helper.link(data.main_power_loss ? 'Disabled' : 'Disable', null, {'command' : 'main_power'}, data.main_power_loss == 0 ? null : 'disabled', data.main_power_loss == 0 ? 'redButton' : null)}}
+		{{:helper.link(data.main_power_loss ? 'Отключено' : 'Отключить', null, {'command' : 'main_power'}, data.main_power_loss == 0 ? null : 'disabled', data.main_power_loss == 0 ? 'redButton' : null)}}
 	</div>
 </div>	
 
 <div class="item">
 	<div class="itemLabelWider">
-		Backup power is 
+		Резервное питание 
 		{{if data.backup_power_loss == 0}}
-			online
+			активно
 		{{else data.backup_power_loss == -1}}
-			offline
+			отключено
 		{{else}}
-			offline for {{:data.backup_power_loss}} second{{:data.backup_power_loss == 1 ? '' : 's'}}
+			отключено на {{:data.backup_power_loss}} секунд
 		{{/if}}.
 	</div>
 	<div class="itemContentNarrow">
-		{{:helper.link(data.backup_power_loss ? 'Disabled' : 'Disable', null, {'command' : 'backup_power'}, data.backup_power_loss == 0 ? null : 'disabled', data.backup_power_loss == 0 ? 'redButton' : null)}}
+		{{:helper.link(data.backup_power_loss ? 'Отключено' : 'Отключить', null, {'command' : 'backup_power'}, data.backup_power_loss == 0 ? null : 'disabled', data.backup_power_loss == 0 ? 'redButton' : null)}}
 	</div>
 </div>	
 
 <div class="item">
 	<div class="itemLabelWidest">
-		Electrified Status:
+		Изоляция:
 	</div>
     <div class="itemContentWidest">
-		{{:helper.link('Offline'  , null, {'command' : 'electrify_permanently', 'activate' : "0" }, data.electrified == 0 ? 'selected' : null)}}
-        {{:helper.link(data.electrified <= 0 ? 'Temporary (30s)' : 'Temporary (' + data.electrified +'s)', null, {'command' : 'electrify_temporary',   'activate' : "1"}, data.electrified > 0 ? 'redButton' : null)}}
-        {{:helper.link('Permanent', null, {'command' : 'electrify_permanently', 'activate' : "1"}, data.electrified == -1 ? 'redButton' : null)}}
+		{{:helper.link('Включить'  , null, {'command' : 'electrify_permanently', 'activate' : "0" }, data.electrified == 0 ? 'selected' : null)}}
+        {{:helper.link(data.electrified <= 0 ? 'Отключить (30с)' : 'Отключить (' + data.electrified +'s)', null, {'command' : 'electrify_temporary',   'activate' : "1"}, data.electrified > 0 ? 'redButton' : null)}}
+        {{:helper.link('Отключить', null, {'command' : 'electrify_permanently', 'activate' : "1"}, data.electrified == -1 ? 'redButton' : null)}}
 	</div>
 </div>	
 

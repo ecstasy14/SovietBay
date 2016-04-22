@@ -763,7 +763,7 @@
 
 		"powerChannels" = list(
 			list(
-				"title" = "Equipment",
+				"title" = "[fix_rus_nanoui("Оборудование")]",
 				"powerLoad" = lastused_equip,
 				"status" = equipment,
 				"topicParams" = list(
@@ -773,7 +773,7 @@
 				)
 			),
 			list(
-				"title" = "Lighting",
+				"title" = "[fix_rus_nanoui("Освещение")]",
 				"powerLoad" = round(lastused_light),
 				"status" = lighting,
 				"topicParams" = list(
@@ -783,7 +783,7 @@
 				)
 			),
 			list(
-				"title" = "Environment",
+				"title" = "[fix_rus_nanoui("Окружение")]",
 				"powerLoad" = round(lastused_environ),
 				"status" = environ,
 				"topicParams" = list(
