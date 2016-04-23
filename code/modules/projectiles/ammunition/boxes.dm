@@ -192,6 +192,10 @@
 	max_ammo = 20
 	multiple_sprites = 1
 
+/obj/item/ammo_magazine/c762/resomi
+	name = "resomi rifle magazine (7.62mm)"
+	icon_state = "resomi"
+
 /obj/item/ammo_magazine/caps
 	name = "speed loader (caps)"
 	icon_state = "T38"

@@ -9,7 +9,7 @@
 	offline_slowdown = 10
 	vision_restriction = 1
 	offline_vision_restriction = 2
-	
+
 	chest_type = /obj/item/clothing/suit/space/rig
 	helm_type = /obj/item/clothing/head/helmet/space/rig/unathi
 	boot_type = /obj/item/clothing/shoes/magboots/rig/unathi
@@ -27,6 +27,43 @@
 
 /obj/item/clothing/suit/space/rig/unathi
 	species_restricted = list("Unathi")
-	
+
 /obj/item/clothing/shoes/magboots/rig/unathi
 	species_restricted = list("Unathi")
+
+/obj/item/weapon/rig/resomi
+	name = "NT resomi hardsuit"
+	desc = "A cheap small NT rig for Resomi."
+	suit_type = "NT resomi hardsuit"
+	icon_state = "resomi_rig"
+	item_state = "resomi_rig"
+	armor = list(melee = 40, bullet = 5, laser = 20, energy = 5, bomb = 35, bio = 100, rad = 20) //default
+	slowdown = 4
+	offline_slowdown = 6
+
+	chest_type = /obj/item/clothing/suit/space/rig/resomi
+	helm_type = /obj/item/clothing/head/helmet/space/rig/resomi
+	boot_type = /obj/item/clothing/shoes/magboots/rig/resomi
+	glove_type = /obj/item/clothing/gloves/rig/resomi
+
+/obj/item/weapon/rig/resomi/combat
+	name = "resomi hardsuit"
+	desc = "An authentic Resomi combat rig. Small, spectacular and extrimely quick."
+	suit_type = "resomi hardsuit"
+	armor = list(melee = 60, bullet = 50, laser = 40, energy = 20, bomb = 50, bio = 100, rad = 100)
+	slowdown = 0
+	offline_slowdown = 1
+
+/obj/item/clothing/suit/space/rig/resomi
+	species_restricted = list("Resomi")
+	sprite_sheets = list("Resomi" = 'icons/mob/species/resomi/suit.dmi')
+
+/obj/item/clothing/head/helmet/space/rig/resomi
+	species_restricted = list("Resomi")
+	sprite_sheets = list("Resomi" = 'icons/mob/species/resomi/helmet.dmi')
+
+/obj/item/clothing/shoes/magboots/rig/resomi
+	species_restricted = list("Resomi")
+
+/obj/item/clothing/gloves/rig/resomi
+	species_restricted = list("Resomi")
