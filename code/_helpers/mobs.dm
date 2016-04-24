@@ -231,7 +231,6 @@ Proc for attack log creation, because really why not
 	. = 1
 
 	while (world.time < endtime)
-		sleep(1)
 		if (progress)
 			progbar.update(world.time - starttime)
 
@@ -247,6 +246,7 @@ Proc for attack log creation, because really why not
 			if(user.get_active_hand() != holding)
 				. = 0
 				break
+		sleep(20)
 
 	if (progbar)
 		qdel(progbar)
