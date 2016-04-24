@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 // Turf-only flags.
 #define NOJAUNT 1 // This is used in literally one place, turf.dm, to block ethereal jaunt.
 
@@ -40,7 +40,7 @@
 //some colors
 #define COLOR_WHITE            "#ffffff"
 #define COLOR_SILVER           "#c0c0c0"
-#define COLOR_GRAY             "#808080"
+#define COLOR_GRAY             "#Í808080"
 #define COLOR_BLACK            "#000000"
 #define COLOR_RED              "#ff0000"
 #define COLOR_RED_LIGHT        "#ff3333"
