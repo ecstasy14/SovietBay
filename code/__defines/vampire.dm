@@ -12,3 +12,4 @@
 #define VAMP_SLAVE 11
 #define VAMP_BLINK 12
 #define VAMP_FULL 13
+#define VAMP_SHADOW 14

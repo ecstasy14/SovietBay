@@ -9,9 +9,11 @@
 	var/mob/living/owner = null
 	var/gender = FEMALE
 	var/iscloaking = 0 // handles the vampire cloak toggle
+	var/ismenacing = 0 // handles the vampire menace toggle
 	var/list/powers = list() // list of available powers and passives, see defines in setup.dm
 	var/mob/living/carbon/human/draining // who the vampire is draining of blood
 	var/nullified = 0 //Nullrod makes them useless for a short while.
+	var/smitecounter = 0 //Keeps track of how badly the vampire has been affected by holy tiles.
 
 /datum/vampire/New(gend = FEMALE)
 	..()
@@ -57,7 +59,11 @@
 				verbs += /client/vampire/proc/vampire_shadowstep
 			if(VAMP_SLAVE)
 				verbs += /client/vampire/proc/vampire_enthrall
+			if(VAMP_SHADOW)
+				verbs += /client/vampire/proc/vampire_shadowmenace
 			if(VAMP_FULL)
+				verbs += /client/vampire/proc/vampire_undeath
+				verbs += /client/vampire/proc/vampire_spawncape
 				continue
 
 /mob/proc/remove_vampire_powers()
@@ -150,7 +156,12 @@
 			vamp.powers.Add(VAMP_SLAVE)
 
 	// TIER 5
-	if(vamp.bloodtotal >= 500)
+	if(vamp.bloodtotal >= 400)
+		if(!(VAMP_SHADOW in vamp.powers))
+			vamp.powers.Add(VAMP_SHADOW)
+
+	// TIER 6
+	if(vamp.bloodtotal >= 666)
 		if(!(VAMP_FULL in vamp.powers))
 			vamp.powers.Add(VAMP_FULL)
 
@@ -187,9 +198,13 @@
 				if(VAMP_BLINK)
 					src << "\blue You have gained the ability to shadowstep, which makes you disappear into nearby shadows at the cost of blood."
 					verbs += /client/vampire/proc/vampire_shadowstep
+				if(VAMP_SHADOW)
+					src << "\blue You have gained mastery over the shadows. In the dark, you can mask your identity, instantly terrify non-vampires who approach you, and enter the chapel for a longer period of time."
+					verbs += /client/vampire/proc/vampire_shadowmenace //also buffs Cloak of Shadows
 				if(VAMP_FULL)
 					src << "\blue You have reached your full potential and are no longer weak to the effects of anything holy and your vision has been improved greatly."
-					//no verb
+					verbs += /client/vampire/proc/vampire_undeath
+					verbs += /client/vampire/proc/vampire_spawncape
 
 					//This should hold all the vampire related powers
 
@@ -387,6 +402,49 @@
 	M.current.verbs -= /client/vampire/proc/vampire_disease
 	spawn(1800) M.current.verbs += /client/vampire/proc/vampire_disease
 
+/client/vampire/proc/vampire_returntolife()
+	set category = "Vampire"
+	set name = "Return To Life"
+	set desc= "Instantly return to un-life."
+	var/datum/mind/M = usr.mind
+	if(!M)	return
+	if(M.current.on_fire || M.vampire.smitecounter)
+		M.current << "span class='warning'>Your corpse has been sanctified!</span>"
+		return
+
+	if(M.current.vampire_power(0, 3))
+		M.current.remove_vampire_blood(M.vampire.bloodusable)
+		M.current.revive(0)
+		M.current << "<span class='sinister'>You awaken, ready to strike fear into the hearts of mortals once again.</span>"
+		M.current.update_canmove()
+		M.current.make_vampire()
+	M.current.regenerate_icons()
+	src.verbs -= /client/vampire/proc/vampire_returntolife
+
+/client/vampire/proc/vampire_undeath()
+	set category = "Vampire"
+	set name = "Cheat Death"
+	set desc= "Instantly return to un-life."
+	var/datum/mind/M = usr.mind
+	if(!M)	return
+
+	if(M.current.vampire_power(0, 3))
+		if(!M.current.stat)
+			M.current << "\blue You need to be dead to do that. Well, you're already dead; undead to be precise, but you need to be DEAD dead to use it."
+			return
+		if(M.current.on_fire || M.vampire.smitecounter)
+			M.current << "\blue Your corpse has been sanctified!"
+			return
+			M.current << "You attempt to recover."
+
+		M.current.update_canmove()
+		M.current.remove_vampire_powers()
+
+		sleep(rand(300,450))
+		M.current << "Your corpse twitches slightly. It's safe to assume nobody noticed."
+		src.verbs += /client/vampire/proc/vampire_returntolife
+		return 1
+
 /client/vampire/proc/vampire_glare()
 	set category = "Abilities"
 	set name = "Glare"
@@ -420,8 +478,8 @@
 /client/vampire/proc/vampire_shapeshift() //Hi.  I'm stupid and there are missing procs all around.  Namely the randomname proc.  I can't find it and can't code a new one because I am bad.  Sorry!
 	set category = "Abilities"
 	set name = "Shapeshift (50)"
-	set desc = "This does nothing.  It's broken.  Sorry!"//orig text: Changes your name and appearance at the cost of 50 blood and has a cooldown of 3 minutes.
-/*	var/datum/mind/M = usr.mind
+	set desc = "Changes your name and appearance at the cost of 50 blood and has a cooldown of 3 minutes."//orig text: Changes your name and appearance at the cost of 50 blood and has a cooldown of 3 minutes.
+	var/datum/mind/M = usr.mind
 	if(!M) return
 	if(M.current.vampire_power(50, 0))
 		M.current.visible_message("<span class='warning'>[M.current.name] transforms!</span>")
@@ -430,8 +488,9 @@
 		M.current.regenerate_icons()
 		M.current.remove_vampire_blood(50)
 		M.current.verbs -= /client/vampire/proc/vampire_shapeshift
-		spawn(1800) M.current.verbs += /client/vampire/proc/vampire_shapeshift
-*/
+		spawn(1800)
+		M.current.verbs += /client/vampire/proc/vampire_shapeshift
+
 /client/vampire/proc/vampire_screech()
 	set category = "Abilities"
 	set name = "Chiropteran  Screech (90)"
@@ -492,7 +551,7 @@
 		return
 
 /client/vampire/proc/vampire_cloak()
-	set category = "Abilities"
+	set category = "Vampire"
 	set name = "Cloak of Darkness (toggle)"
 	set desc = "Toggles whether you are currently cloaking yourself in darkness."
 	var/datum/mind/M = usr.mind
@@ -503,21 +562,27 @@
 
 /mob/proc/handle_vampire_cloak()
 	if(!mind || !mind.vampire || !ishuman(src))
-		alpha = 255
+		alphas["vampire_cloak"] = 255
+		color = "#FFFFFF"
 		return
-	var/turf/simulated/T = get_turf(src)
 
-	if(!istype(T))
-		return 0
+	var/turf/T = get_turf(src)
 
 	if(!mind.vampire.iscloaking)
-		alpha = 255
+		alphas["vampire_cloak"] = 255
+		color = "#FFFFFF"
 		return 0
-//	if(T.lighting_lumcount <= 2)
-//		alpha = round((255 * 0.15))
-//		return 1
+
+	if((T.get_lumcount() * 10) <= 2)
+		alphas["vampire_cloak"] = round((255 * 0.15))
+		if(VAMP_SHADOW in mind.vampire.powers)
+			color = "#000000"
+		return 1
 	else
-		alpha = round((255 * 0.80))
+		if(VAMP_SHADOW in mind.vampire.powers)
+			alphas["vampire_cloak"] = round((255 * 0.15))
+		else
+			alphas["vampire_cloak"] = round((255 * 0.80))
 
 /mob/proc/can_enthrall(mob/living/carbon/C)
 	var/enthrall_safe = 0
@@ -658,9 +723,10 @@
 // Blink for vamps
 // Less smoke spam.
 /client/vampire/proc/vampire_shadowstep()
-	set category = "Abilities"
-	set name = "Shadowstep (30)"
+	set category = "Vampire"
+	set name = "Shadowstep (20)"
 	set desc = "Vanish into the shadows."
+
 	var/datum/mind/M = usr.mind
 	if(!M) return
 
@@ -669,10 +735,10 @@
 	var/outer_tele_radius = 6
 
 	// Maximum lighting_lumcount.
-//	var/max_lum = 1
+	var/max_lum = 1
 
-	if(M.current.vampire_power(30, 0))
-		if(M.current.buckled) M.current.buckled.unbuckle_mob()
+	if(M.current.vampire_power(20, 0))
+		if (M.current.locked_to) M.current.unlock_from()
 		spawn(0)
 			var/list/turfs = new/list()
 			for(var/turf/T in range(usr,outer_tele_radius))
@@ -681,14 +747,11 @@
 				if(T.density) continue
 				if(T.x>world.maxx-outer_tele_radius || T.x<outer_tele_radius)	continue	//putting them at the edge is dumb
 				if(T.y>world.maxy-outer_tele_radius || T.y<outer_tele_radius)	continue
-
-				// LIGHTING CHECK
-			//	if(T.lighting_lumcount > max_lum) continue
-			//	turfs += T
-				//M.current.remove_vampire_blood(30) This isn't the right place for this either.
+				if((T.get_lumcount() * 10) > max_lum) continue
+				turfs += T
 
 			if(!turfs.len)
-				usr << "\red You cannot find darkness to step to."
+				usr << "<span class='warning'>You cannot find darkness to step to.</span>"
 				return
 
 			var/turf/picked = pick(turfs)
@@ -696,24 +759,61 @@
 			if(!picked || !isturf(picked))
 				return
 			M.current.ExtinguishMob()
-			if(M.current.buckled)
-				M.current.buckled.unbuckle_mob()
-			var/atom/movable/overlay/animation = new /atom/movable/overlay( get_turf(usr) )
-			animation.name = usr.name
-			animation.density = 0
-			animation.anchored = 1
-			animation.icon = usr.icon
-			animation.alpha = 127
-			animation.layer = 5
-			//animation.master = src
+			if(M.current.locked_to)
+				M.current.unlock_from()
+			var/turf/T = get_turf(M.current)
+			T.turf_animation('icons/effects/effects.dmi',"rune_teleport")
 			usr.loc = picked
-			M.current.remove_vampire_blood(30)
-			spawn(10)
-				qdel(animation)
-//		M.current.remove_vampire_blood(30)
 		M.current.verbs -= /client/vampire/proc/vampire_shadowstep
-		spawn(20)
-			M.current.verbs += /client/vampire/proc/vampire_shadowstep
+		sleep(20)
+		M.current.verbs += /client/vampire/proc/vampire_shadowstep
+
+/client/vampire/proc/vampire_shadowmenace()
+	set category = "Vampire"
+	set name = "Shadowy Menace (toggle)"
+	set desc = "Terrify anyone who looks at you in the dark."
+	var/datum/mind/M = usr.mind
+	if(!M) return
+
+	if(M.current.vampire_power(0, 0))
+		M.vampire.ismenacing = !M.vampire.ismenacing
+		M.current << "\blue You will [M.vampire.ismenacing ? "now" : "no longer"] terrify those who see you the in dark."
+
+/mob/proc/handle_vampire_menace()
+	if(!mind || !mind.vampire || !ishuman(src))
+		mind.vampire.ismenacing = 0
+		return
+
+	if(!mind.vampire.ismenacing)
+		mind.vampire.ismenacing = 0
+		return 0
+
+	var/turf/T = get_turf(src)
+
+	if(T.get_lumcount() > 2)
+		mind.vampire.ismenacing = 0
+		return 0
+
+	for(var/mob/living/carbon/C in oview(6))
+		if(prob(35))	continue //to prevent fearspam
+		if(!C.vampire_affected(mind.current))	continue
+		C.stuttering += 20
+		C << "\blue Your heart is filled with dread, and you shake uncontrollably."
+
+/client/vampire/proc/vampire_spawncape()
+	set category = "Vampire"
+	set name = "Spawn Cape"
+	set desc = "Acquire a fabulous, yet fearsome cape."
+
+	var/datum/mind/M = usr.mind
+	if(!M) return
+
+	if(M.current.vampire_power(0, 0))
+		var/obj/item/clothing/suit/storage/draculacoat/D = new /obj/item/clothing/suit/storage/draculacoat(M.current.loc, M.current)
+		M.current.put_in_any_hand_if_possible(D)
+		M.current.verbs -= /client/vampire/proc/vampire_spawncape
+		sleep(300)
+		M.current.verbs += /client/vampire/proc/vampire_spawncape
 
 /mob/proc/remove_vampire_blood(amount = 0)
 	var/bloodold

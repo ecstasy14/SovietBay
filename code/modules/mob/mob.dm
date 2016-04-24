@@ -1147,3 +1147,15 @@ mob/proc/yank_out_object()
 	src.in_throw_mode = 1
 	if(src.throw_icon)
 		src.throw_icon.icon_state = "act_throw_on"
+
+/mob/proc/handle_alpha()
+	if(alphas.len < 1)
+		alpha = 255
+	else
+		var/lowest_alpha = 255
+		for(var/alpha_modification in alphas)
+			lowest_alpha = min(lowest_alpha,alphas[alpha_modification])
+		alpha = lowest_alpha
+
+/mob/proc/generate_name()
+	return name

@@ -50,6 +50,26 @@
 			M.visible_message("<span class='danger'>\The [user] waves \the [src] over \the [M]'s head.</span>")
 			return
 
+	if(ishuman(M)) //Typecasting, only humans can be vampires
+		var/mob/living/carbon/human/H = M
+
+		if(isvampire(H) && user.mind && (user.mind.assigned_role == "Chaplain")) //Fuck up vampires by smithing the shit out of them. Shock and Awe!
+			if(!(VAMP_SHADOW in H.mind.vampire.powers))
+				H << "\red The [src]'s power violently interferes with your own!"
+				if(H.mind.vampire.nullified < 5) //Don't actually reduce their debuff if it's over 5
+					H.mind.vampire.nullified = max(5, H.mind.vampire.nullified + 2)
+				H.mind.vampire.smitecounter += 30 //Smithe the shit out of him. Four strikes and he's out
+
+/obj/item/weapon/nullrod/pickup(mob/living/user as mob)
+	if(user.mind)
+		if(user.mind.assigned_role == "Chaplain")
+			user << "<span class='notice'>The obsidian rod is teeming with divine power. You feel like you could pulverize a horde of undead with this.</span>"
+		if(ishuman(user)) //Typecasting, only humans can be vampires
+			var/mob/living/carbon/human/H = user
+			if(isvampire(H) && !(VAMP_SHADOW in H.mind.vampire.powers))
+				H.mind.vampire.smitecounter += 60
+				H << "<span class='danger'>You feel an unwanted presence as you pick up the rod. Your body feels like it is burning from the inside!</span>"
+
 /obj/item/weapon/nullrod/afterattack(atom/A, mob/user as mob, proximity)
 	if(!proximity)
 		return

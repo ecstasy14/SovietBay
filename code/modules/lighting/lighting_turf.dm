@@ -21,6 +21,23 @@
 	for(var/datum/light_source/L in affecting_lights)
 		L.calc_turf(src)
 
+// Used to get a scaled lumcount.
+/turf/proc/get_lumcount(var/minlum = 0, var/maxlum = 1)
+	if(!lighting_overlay) //We're not dynamic, whatever, return 50% lighting.
+		return 0.5
+
+	var/totallums = 0
+	if(lighting_overlay.lum_r) totallums += lighting_overlay.lum_r
+	if(lighting_overlay.lum_b) totallums += lighting_overlay.lum_b
+	if(lighting_overlay.lum_g) totallums += lighting_overlay.lum_g
+	if(totallums)
+		totallums /= 3 // Get the average between the 3 spectrums
+	else
+		return 0
+	totallums = (totallums - minlum) / (maxlum - minlum)
+
+	return Clamp(totallums, 0, 1)
+
 /turf/Entered(atom/movable/obj)
 	. = ..()
 	if(obj && obj.opacity)

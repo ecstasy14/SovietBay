@@ -142,6 +142,8 @@
 
 	var/area/lastarea = null
 
+	var/list/alphas = list()
+
 	var/digitalcamo = 0 // Can they be tracked by the AI?
 
 	var/obj/control_object //Used by admins to possess objects. All mobs should have this var
