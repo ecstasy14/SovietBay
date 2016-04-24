@@ -200,7 +200,7 @@
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "ловит ртом воздух!"
+					message = "задыхаетс&#255;!"
 					m_type = 2
 				else
 					message = "издает слабый звук."
@@ -440,14 +440,14 @@
 
 		if ("snore")
 			if (miming)
-				message = "храпит."
+				message = "[get_visible_gender() == MALE ? "храпит" : get_visible_gender() == FEMALE ? "сопит" : "храпит"]."
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "храпит."
+					message = "[get_visible_gender() == MALE ? "храпит" : get_visible_gender() == FEMALE ? "сопит" : "храпит"]."
 					m_type = 2
 				else
-					message = "храпит."
+					message = "[get_visible_gender() == MALE ? "храпит" : get_visible_gender() == FEMALE ? "сопит" : "храпит"]."
 					m_type = 2
 
 		if ("whimper")

@@ -133,22 +133,22 @@
 
 /obj/item/clothing/mask/ai/New()
 	eye = new(src)
+	..()
+
+/obj/item/clothing/mask/ai/Destroy()
+	qdel(eye)
+	eye = null
+ 	..()
 
 /obj/item/clothing/mask/ai/equipped(var/mob/user, var/slot)
 	..(user, slot)
 	if(slot == slot_wear_mask)
-		eye.owner = user
-		user.eyeobj = eye
-
-		for(var/datum/chunk/c in eye.visibleChunks)
-			c.remove(eye)
-		eye.setLoc(user)
+		eye.possess(user)
+		eye.owner << "<span class='notice'>You briefly feel disorented as your mind is connected to the camera network.</span>"
 
 /obj/item/clothing/mask/ai/dropped(var/mob/user)
 	..()
-	if(eye.owner == user)
-		for(var/datum/chunk/c in eye.visibleChunks)
-			c.remove(eye)
-
-		eye.owner.eyeobj = null
-		eye.owner = null
+	if(eye.owner)
+		eye.owner << "<span class='notice'>You briefly feel disorented as your mind is disconnected from the camera network.</span>"
+		eye.release(eye.owner)
+		eye.forceMove(src)

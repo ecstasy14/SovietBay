@@ -1,0 +1,2 @@
+#define MECH_PLACE_ABOVE 1
+#define MECH_PLACE_WALL 2

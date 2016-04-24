@@ -4,7 +4,7 @@
 
 	icon_state = "comp_hscan"
 
-	above = 1
+	place_flags = MECH_PLACE_ABOVE | MECH_PLACE_WALL
 
 	var/send_name = 1
 
@@ -22,20 +22,13 @@
 
 		flick(icon_state + "_active",src)
 		if(send_name)
-			handler.sendSignal(H.name)
+			handler.send_signal(H.name)
 			return
 		else
-			handler.sendSignal(H.get_full_print())
+			handler.send_signal(H.get_full_print())
 			return
 
 	..()
-
-/obj/item/mechcomp/handscanner/afterattack(atom/target as turf, mob/user as mob)
-	if(get_dist(src, target) == 1)
-		if(isturf(target) && target.density)
-			user.drop_item()
-			src.loc = target
-			anchored = 1
 
 /obj/item/mechcomp/handscanner/get_settings(var/source)
 	var/dat = "<B>Hand scanner settings:</B><BR>"

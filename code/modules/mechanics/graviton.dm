@@ -9,10 +9,10 @@
 
 /obj/item/mechcomp/graviton/New()
 	..()
-	handler.addInput("activate","activate")
+	handler.add_input("activate","activate")
 	handler.max_outputs = 0
 
-/obj/item/mechcomp/graviton/proc/activate(var/signal)
+/obj/item/mechcomp/graviton/proc/activate(signal)
 	if(signal != handler.trigger_signal)
 		return
 	if(!ready)
@@ -27,12 +27,13 @@
 	//Should I change this?
 	for(var/atom/movable/what in loc)
 		if(!what.anchored)
+			//Should I remove the HILARIOUS spinning animation?
 			spawn (0) what.throw_at(target, range, 1)
 
-/obj/item/mechcomp/graviton/attack_self(var/mob/user)
+/obj/item/mechcomp/graviton/attack_self(mob/user as mob)
 	set_dir(turn(dir, -90))
 
-/obj/item/mechcomp/graviton/get_settings(var/source)
+/obj/item/mechcomp/graviton/get_settings(source)
 	var/dat = "<B>Graviton launcher settings:</B><BR>"
 	dat += "Range : <A href='?src=\ref[source];launcher_action=set_range'>[range]</A><BR>"
 	return dat

@@ -1,6 +1,4 @@
 /datum/extension/multitool/items/mechcomp/get_interact_window(var/obj/item/device/multitool/M, var/mob/user)
-	//var/obj/component = holder
-
 	var/found = 0
 	var/c = 1
 	while(c != holder.vars.len + 1)
@@ -24,11 +22,11 @@
 		for (var/input_name in mechcomp.inputs)
 			. += "<B>[input_name]</B><BR>"
 
-	if(mechcomp.outputs.len > 0)
+	if(mechcomp.outgoing.len > 0)
 		. += "<HR>"
 		. += "Outputs:"
-		for (var/outputName in mechcomp.outputs)
-			. += "[outputName] - Component ID: <B>\ref[holder]</B> on input <B>[mechcomp.outputs[outputName]]</B><BR>"
+		for (var/outputName in mechcomp.outgoing)
+			. += "[outputName] - Component ID: <B>\ref[outputName]</B> on input <B>[mechcomp.outgoing[outputName]]</B><BR>"
 
 	//Snowflake code. It's either this or tons of verbs for each component. I prefer this
 	if(istype(holder, /obj/item/mechcomp))
@@ -54,7 +52,7 @@
 	if(href_list["change"])
 		var/new_signal = sanitize(input(user, "What signal do you want to use?", "[ capitalize( href_list["change"] ) ] signal") as text)
 		if(length(new_signal) == 0)
-			new_signal = " "
+			new_signal = "1"
 
 		if(href_list["change"] == "send")
 			mechcomp.send_signal = new_signal

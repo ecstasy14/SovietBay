@@ -555,12 +555,12 @@ About the new airlock wires panel:
 	data["open"] = !density
 
 	var/commands[0]
-	commands[++commands.len] = list("name" = "IdScan",					"command"= "idscan",				"active" = !aiDisabledIdScanner,	"enabled" = "Enabled",	"disabled" = "Disable",		"danger" = 0, "act" = 1)
-	commands[++commands.len] = list("name" = "Bolts",					"command"= "bolts",					"active" = !locked,					"enabled" = "Raised ",	"disabled" = "Dropped",		"danger" = 0, "act" = 0)
-	commands[++commands.len] = list("name" = "Bolt Lights",				"command"= "lights",				"active" = lights,					"enabled" = "Enabled",	"disabled" = "Disable",		"danger" = 0, "act" = 1)
-	commands[++commands.len] = list("name" = "Safeties",				"command"= "safeties",				"active" = safe,					"enabled" = "Nominal",	"disabled" = "Overridden",	"danger" = 1, "act" = 0)
-	commands[++commands.len] = list("name" = "Timing",					"command"= "timing",				"active" = normalspeed,				"enabled" = "Nominal",	"disabled" = "Overridden",	"danger" = 1, "act" = 0)
-	commands[++commands.len] = list("name" = "Door State",				"command"= "open",					"active" = density,					"enabled" = "Closed",	"disabled" = "Opened", 		"danger" = 0, "act" = 0)
+	commands[++commands.len] = list("name" = "[fix_rus_nanoui("ID скан")]",						"command"= "idscan",				"active" = !aiDisabledIdScanner,		"enabled" = "[fix_rus_nanoui("Включить")]",		"disabled" = "[fix_rus_nanoui("Отключить")]",		"danger" = 0, "act" = 1)
+	commands[++commands.len] = list("name" = "[fix_rus_nanoui("Болты")]",						"command"= "bolts",					"active" = !locked,						"enabled" = "[fix_rus_nanoui("Поднять")]",		"disabled" = "[fix_rus_nanoui("Опустить")]",		"danger" = 0, "act" = 0)
+	commands[++commands.len] = list("name" = "[fix_rus_nanoui("Индикаторы")]",					"command"= "lights",				"active" = lights,						"enabled" = "[fix_rus_nanoui("Включить")]",		"disabled" = "[fix_rus_nanoui("Отключить")]",		"danger" = 0, "act" = 1)
+	commands[++commands.len] = list("name" = "[fix_rus_nanoui("Безопасность")]",				"command"= "safeties",				"active" = safe,						"enabled" = "[fix_rus_nanoui("Включить")]",		"disabled" = "[fix_rus_nanoui("Отключить")]",		"danger" = 1, "act" = 0)
+	commands[++commands.len] = list("name" = "[fix_rus_nanoui("Таймер")]",						"command"= "timing",				"active" = normalspeed,					"enabled" = "[fix_rus_nanoui("Стандарт")]",		"disabled" = "[fix_rus_nanoui("Перегрузка")]",		"danger" = 1, "act" = 0)
+	commands[++commands.len] = list("name" = "[fix_rus_nanoui("Состояние")]",					"command"= "open",					"active" = density,						"enabled" = "[fix_rus_nanoui("Закрыть")]",		"disabled" = "[fix_rus_nanoui("Открыть")]", 		"danger" = 0, "act" = 0)
 
 	data["commands"] = commands
 

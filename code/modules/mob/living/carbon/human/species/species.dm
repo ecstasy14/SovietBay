@@ -72,10 +72,10 @@
 	var/gibbed_anim = "gibbed-h"
 	var/dusted_anim = "dust-h"
 	var/death_sound
-	var/death_message = "seizes up and falls limp, their eyes dead and lifeless..."
+	var/death_message = "перестает дышать, видно как холоднеет взгл&#255;д и уходит жизнь."
 	var/knockout_message = "has been knocked unconscious!"
-	var/halloss_message = "slumps to the ground, too weak to continue fighting."
-	var/halloss_message_self = "You're in too much pain to keep going..."
+	var/halloss_message = "подкосившись, обессиленно оседает на пол."
+	var/halloss_message_self = "Тебе слишком больно, что бы продолжать путь..."
 
 	// Environment tolerance/life processes vars.
 	var/reagent_tag                                   //Used for metabolizing reagents.
@@ -263,15 +263,15 @@
 
 /datum/species/proc/hug(var/mob/living/carbon/human/H,var/mob/living/target)
 
-	var/t_him = "them"
+	var/t_him = "он почувствовал"
 	switch(target.gender)
 		if(MALE)
-			t_him = "him"
+			t_him = "он почувствовал"
 		if(FEMALE)
-			t_him = "her"
+			t_him = "она почувствовала"
 
-	H.visible_message("<span class='notice'>[H] hugs [target] to make [t_him] feel better!</span>", \
-					"<span class='notice'>You hug [target] to make [t_him] feel better!</span>")
+	H.visible_message("<span class='notice'>[H] обнимает [target], что бы [t_him] себ&#255; лучше!</span>", \
+					"<span class='notice'>Вы обнимаете [target], что бы [t_him] себ&#255; лучше!</span>")
 
 /datum/species/proc/remove_inherent_verbs(var/mob/living/carbon/human/H)
 	if(inherent_verbs)
