@@ -138,6 +138,16 @@ obj/machinery/recharger/process()
 				icon_state = icon_state_charged
 				update_use_power(1)
 			return
+		if(istype(charging, /obj/item/weapon/defibrillator))
+			var/obj/item/weapon/defibrillator/D = charging
+			if(!D.fully_charged())
+				icon_state = icon_state_charging
+				D.give(1) // give ONE charge
+				update_use_power(2)
+			else
+				icon_state = icon_state_charged
+				update_use_power(1)
+			return
 
 obj/machinery/recharger/emp_act(severity)
 	if(stat & (NOPOWER|BROKEN) || !anchored)
@@ -172,3 +182,7 @@ obj/machinery/recharger/wallcharger
 	icon_state_charging = "wrecharger1"
 	icon_state_idle = "wrecharger0"
 	portable = 0
+
+obj/machinery/recharger/wallcharger/medical_charger
+	name = "wall medical recharger"
+	allowed_devices = list(/obj/item/weapon/defibrillator, /obj/item/modular_computer/tablet)
