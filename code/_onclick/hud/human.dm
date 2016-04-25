@@ -82,7 +82,7 @@
 		using.icon = ico
 		using.screen_loc = ui_acti
 		using.alpha = ui_alpha
-		using.layer = 21
+		using.layer = SCREEN_LAYER + 0.1
 		src.adding += using
 		help_intent = using
 
@@ -94,7 +94,7 @@
 		using.icon = ico
 		using.screen_loc = ui_acti
 		using.alpha = ui_alpha
-		using.layer = 21
+		using.layer = SCREEN_LAYER + 0.1
 		src.adding += using
 		disarm_intent = using
 
@@ -106,7 +106,7 @@
 		using.icon = ico
 		using.screen_loc = ui_acti
 		using.alpha = ui_alpha
-		using.layer = 21
+		using.layer = SCREEN_LAYER + 0.1
 		src.adding += using
 		grab_intent = using
 
@@ -118,7 +118,7 @@
 		using.icon = ico
 		using.screen_loc = ui_acti
 		using.alpha = ui_alpha
-		using.layer = 21
+		using.layer = SCREEN_LAYER + 0.1
 		src.adding += using
 		hurt_intent = using
 		//end intent small hud objects
@@ -166,7 +166,7 @@
 			inv_box.icon_state = "r_hand_active"
 		inv_box.screen_loc = ui_rhand
 		inv_box.slot_id = slot_r_hand
-		inv_box.layer = 19
+		inv_box.layer = SCREEN_LAYER
 		inv_box.color = ui_color
 		inv_box.alpha = ui_alpha
 
@@ -181,7 +181,7 @@
 			inv_box.icon_state = "l_hand_active"
 		inv_box.screen_loc = ui_lhand
 		inv_box.slot_id = slot_l_hand
-		inv_box.layer = 19
+		inv_box.layer = SCREEN_LAYER
 		inv_box.color = ui_color
 		inv_box.alpha = ui_alpha
 		src.l_hand_hud_object = inv_box
@@ -356,14 +356,13 @@
 	mymob.radio_use_icon.color = ui_color
 	mymob.radio_use_icon.alpha = ui_alpha
 
-	mymob.client.screen = null
+	mymob.client.screen = list()
 
 	mymob.client.screen += hud_elements
 	mymob.client.screen += src.adding + src.hotkeybuttons
 	inventory_shown = 0;
 
-	return
-
+	common_hud()
 
 /mob/living/carbon/human/verb/toggle_hotkey_verbs()
 	set category = "OOC"

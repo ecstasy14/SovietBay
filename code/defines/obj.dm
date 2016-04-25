@@ -61,7 +61,6 @@ we'll only update it when it changes.  The PDA_Manifest global list is zeroed ou
 using /datum/datacore/proc/manifest_inject( ), or manifest_insert( )
 */
 
-var/global/ManifestJSON
 
 var/global/list/PDA_Manifest = list()
 

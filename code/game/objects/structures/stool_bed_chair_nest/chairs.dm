@@ -32,6 +32,7 @@
 
 /obj/structure/bed/chair/post_buckle_mob()
 	update_icon()
+	return ..()
 
 /obj/structure/bed/chair/update_icon()
 	..()

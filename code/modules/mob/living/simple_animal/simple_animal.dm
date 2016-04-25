@@ -72,7 +72,8 @@
 
 /mob/living/simple_animal/Login()
 	if(src && src.client)
-		src.client.screen = null
+		src.client.screen = list()
+		src.client.screen += src.client.void
 	..()
 
 /mob/living/simple_animal/updatehealth()
@@ -325,7 +326,7 @@
 	return tally+config.animal_delay
 
 /mob/living/simple_animal/Stat()
-	..()
+	. = ..()
 
 	if(statpanel("Status") && show_stat_health)
 		stat(null, "Health: [round((health / maxHealth) * 100)]%")

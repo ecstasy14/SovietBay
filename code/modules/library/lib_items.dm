@@ -36,6 +36,21 @@
 			return
 		else
 			name = ("bookcase ([sanitize(newname)])")
+	else if(istype(O,/obj/item/weapon/wrench))
+		playsound(src.loc, 'sound/items/Ratchet.ogg', 100, 1)
+		user << (anchored ? "<span class='notice'>You unfasten \the [src] from the floor.</span>" : "<span class='notice'>You secure \the [src] to the floor.</span>")
+		anchored = !anchored
+	else if(istype(O,/obj/item/weapon/screwdriver))
+		playsound(loc, 'sound/items/Screwdriver.ogg', 75, 1)
+		user << "<span class='notice'>You begin dismantling \the [src].</span>"
+		if(do_after(user,25,src))
+			user << "<span class='notice'>You dismantle \the [src].</span>"
+			var/obj/item/stack/material/wood/planks = new(get_turf(src))
+			planks.amount = 5
+			for(var/obj/item/weapon/book/b in contents)
+				b.loc = (get_turf(src))
+			qdel(src)
+
 	else
 		..()
 

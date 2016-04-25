@@ -315,7 +315,7 @@
 	return
 
 /obj/item/weapon/toolbox_tiles
-	desc = "It's a toolbox with tiles sticking out the top"
+	desc = "It's a toolbox with tiles sticking out the top."
 	name = "tiles and toolbox"
 	icon = 'icons/obj/aibots.dmi'
 	icon_state = "toolbox_tiles"
@@ -345,7 +345,7 @@
 		created_name = t
 
 /obj/item/weapon/toolbox_tiles_sensor
-	desc = "It's a toolbox with tiles sticking out the top and a sensor attached"
+	desc = "It's a toolbox with tiles sticking out the top and a sensor attached."
 	name = "tiles, toolbox and sensor arrangement"
 	icon = 'icons/obj/aibots.dmi'
 	icon_state = "toolbox_tiles_sensor"

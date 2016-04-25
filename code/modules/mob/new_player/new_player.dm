@@ -64,7 +64,7 @@
 	return
 
 /mob/new_player/Stat()
-	..()
+	. = ..()
 
 	if(statpanel("Lobby") && ticker)
 		stat("Currently Playing:", "[ticker.lobby_music[ticker.login_music]]")
@@ -385,7 +385,7 @@
 
 	var/dat = "<html><body><center>"
 	dat += "<b>Welcome, [name].<br></b>"
-	dat += "Round Duration: [round_duration()]<br>"
+	dat += "Round Duration: [round_duration_as_text()]<br>"
 
 	if(emergency_shuttle) //In case Nanotrasen decides reposess CentComm's shuttles.
 		if(emergency_shuttle.going_to_centcom()) //Shuttle is going to centcomm, not recalled

@@ -14,3 +14,4 @@
 	if (center_of_mass.len && !pixel_x && !pixel_y)
 		src.pixel_x = rand(-6.0, 6) //Randomizes postion
 		src.pixel_y = rand(-6.0, 6)
+

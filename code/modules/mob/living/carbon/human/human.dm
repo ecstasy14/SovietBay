@@ -54,7 +54,7 @@
 	return ..()
 
 /mob/living/carbon/human/Stat()
-	..()
+	. = ..()
 	if(statpanel("Status"))
 		stat("Intent:", "[a_intent]")
 		stat("Move Mode:", "[m_intent]")
@@ -1136,6 +1136,10 @@
 
 	if(species.holder_type)
 		holder_type = species.holder_type
+
+
+	if(!(gender in species.genders))
+		gender = species.genders[1]
 
 	icon_state = lowertext(species.name)
 

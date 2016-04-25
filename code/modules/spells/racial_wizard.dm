@@ -265,7 +265,6 @@
 	vision.possess(L)
 	L.verbs += /mob/living/proc/release_eye
 
-
 /mob/observer/eye/wizard_eye
 	name_sufix = "Wizard Eye"
 
@@ -282,5 +281,4 @@
 
 	if(!eyeobj)
 		return
-
 	eyeobj.release(src)

@@ -14,9 +14,6 @@
 	update_starlight()
 	..()
 
-/turf/space/is_space()
-	return 1
-
 // override for space turfs, since they should never hide anything
 /turf/space/levelupdate()
 	for(var/obj/O in src)
@@ -66,11 +63,7 @@
 		usr << "<span class='warning'>[translation(src, "movement_disabled")]</span>" //This is to identify lag problems
 		return
 	..()
-	if ((!(A) || src != A.loc))	return
-
-	inertial_drift(A)
-
-	if(ticker && ticker.mode)
+	if(A && A.loc == src && ticker && ticker.mode)
 
 		// Okay, so let's make it so that people can travel z levels but not nuke disks!
 		// if(ticker.mode.name == "mercenary")	return
