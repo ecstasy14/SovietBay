@@ -13,12 +13,13 @@
 	damtype = "brute"
 	force = 4
 	var/charged = 0
-	var/charges = 8
+	var/charge = 2
+	var/maxcharge = 5
 	origin_tech = "combat=2;biotech=2"
 
 	attack_self(mob/user as mob)
 		if(!charged)
-			if(charges)
+			if(charge)
 				user.visible_message("[user] charges their [src].", "You charge your [src].</span>", "You hear electrical zap.")
 				sleep(30)
 				playsound(src, 'sound/items/defib_charge.ogg', 50, 1, 1)
@@ -49,7 +50,7 @@
 		damtype = "brute"
 		charged = 0
 		force = initial(force)
-		charges--
+		charge--
 
 	attack(mob/M as mob, mob/user as mob)
 		if(charged == 2 && istype(M,/mob/living/carbon))
@@ -107,3 +108,13 @@ datum/design/defibrillators
 	build_type = 2 //PROTOLATHE
 	materials = list(MAT_METAL = 2000, MAT_GLASS = 50)
 	build_path = /obj/item/weapon/defibrillator
+
+
+
+/obj/item/weapon/defibrillator/proc/fully_charged()
+	return (charge == maxcharge)
+
+/obj/item/weapon/defibrillator/proc/give(var/amount)
+	var/amount_used = min(maxcharge-charge,amount)
+	charge += amount_used
+	return amount_used
