@@ -1021,7 +1021,7 @@
 	contraband = list(/obj/item/clothing/head/bearpelt = 5)
 	premium = list(/obj/item/clothing/head/soft/rainbow = 1)
 	prices = list(/obj/item/clothing/ears/skrell/cloth_female = 50, /obj/item/clothing/ears/skrell/cloth_male = 50, /obj/item/clothing/ears/skrell/chain = 100, /obj/item/clothing/ears/skrell/band = 100)
-
+/*
 /obj/machinery/vending/suitdispenser
 	name = "Suitlord 9000"
 	desc = "You wonder for a moment why all of your shirts and pants come conjoined. This hurts your head and you stop thinking about it."
@@ -1034,7 +1034,7 @@
 					/obj/item/clothing/under/lightblue = 10,/obj/item/clothing/under/lightbrown = 10,/obj/item/clothing/under/brown = 10,/obj/item/clothing/under/yellowgreen = 10,/obj/item/clothing/under/darkblue = 10,/obj/item/clothing/under/lightred = 10, /obj/item/clothing/under/darkred = 10)
 	contraband = list(/obj/item/clothing/under/syndicate/tacticool = 5,/obj/item/clothing/under/color/orange = 5,/obj/item/clothing/under/psyche = 5)
 	premium = list(/obj/item/clothing/under/rainbow = 1)
-
+*/
 
 /obj/machinery/vending/shoedispenser
 	name = "Shoelord 9000"

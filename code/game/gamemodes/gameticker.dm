@@ -100,7 +100,7 @@ var/global/datum/controller/gameticker/ticker
 					while(vote.time_remaining)
 						for(var/i=0, i<10, i++)
 							sleep(1)
-							vote.process()*/
+							vote.process()
 			if(pregame_timeleft <= 0)
 				current_state = GAME_STATE_SETTING_UP
 	while (!setup())
