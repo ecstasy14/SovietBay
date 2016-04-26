@@ -569,8 +569,8 @@
 		if(AALARM_SCREEN_MODE)
 			var/modes[0]
 			modes[++modes.len] = list("name" = "[fix_rus_nanoui("Фильтрация - вывод загрязняющик веществ")]", 					"mode" = AALARM_MODE_SCRUBBING,		"selected" = mode == AALARM_MODE_SCRUBBING, 	"danger" = 0)
-			modes[++modes.len] = list("name" = "[fix_rus_nanoui("Замена воздуха - плавная замена")]",	"mode" = AALARM_MODE_REPLACEMENT,	"selected" = mode == AALARM_MODE_REPLACEMENT,	"danger" = 0)
-			modes[++modes.len] = list("name" = "[fix_rus_nanoui("Экстренная откачка - быстрая откачка")]", 	"mode" = AALARM_MODE_PANIC,			"selected" = mode == AALARM_MODE_PANIC, 		"danger" = 1)
+			modes[++modes.len] = list("name" = "[fix_rus_nanoui("Замена воздуха - плавная замена")]",							"mode" = AALARM_MODE_REPLACEMENT,	"selected" = mode == AALARM_MODE_REPLACEMENT,	"danger" = 0)
+			modes[++modes.len] = list("name" = "[fix_rus_nanoui("Экстренная откачка - быстрая откачка")]", 						"mode" = AALARM_MODE_PANIC,			"selected" = mode == AALARM_MODE_PANIC, 		"danger" = 1)
 			modes[++modes.len] = list("name" = "[fix_rus_nanoui("Цикл - откачка возуха с последующим заполнением")]", 			"mode" = AALARM_MODE_CYCLE,			"selected" = mode == AALARM_MODE_CYCLE, 		"danger" = 1)
 			modes[++modes.len] = list("name" = "[fix_rus_nanoui("Наполнение - наполнение и выключенными фильтрами")]", 			"mode" = AALARM_MODE_FILL,			"selected" = mode == AALARM_MODE_FILL, 			"danger" = 0)
 			modes[++modes.len] = list("name" = "[fix_rus_nanoui("Выключить - отключение фильтров и помп")]", 					"mode" = AALARM_MODE_OFF,			"selected" = mode == AALARM_MODE_OFF, 			"danger" = 0)
@@ -583,8 +583,8 @@
 			var/list/gas_names = list(
 				"oxygen"         = "O<sub>2</sub>",
 				"carbon dioxide" = "CO<sub>2</sub>",
-				"phoron"         = "Форон",
-				"other"          = "Остальное")
+				"phoron"         = "[fix_rus_nanoui("Форон")]",
+				"other"          = "[fix_rus_nanoui("Остальное")]")
 			for (var/g in gas_names)
 				thresholds[++thresholds.len] = list("name" = gas_names[g], "settings" = list())
 				selected = TLV[g]
@@ -832,11 +832,6 @@
 
 	return ..()
 
-/obj/machinery/alarm/power_change()
-	..()
-	spawn(rand(0,15))
-		update_icon()
-
 /obj/machinery/alarm/examine(mob/user)
 	..(user)
 	if (buildstage < 2)
@@ -1007,11 +1002,6 @@ FIRE ALARM
 
 	return
 
-/obj/machinery/firealarm/power_change()
-	..()
-	spawn(rand(0,15))
-		update_icon()
-
 /obj/machinery/firealarm/attack_hand(mob/user as mob)
 	if(user.stat || stat & (NOPOWER|BROKEN))
 		return
@@ -1129,7 +1119,7 @@ FIRE ALARM
 		update_icon()
 
 /obj/machinery/firealarm/initialize()
-	if(z in config.contact_levels)
+	if(z in using_map.contact_levels)
 		set_security_level(security_level? get_security_level() : "green")
 
 /*
@@ -1140,7 +1130,7 @@ Just a object used in constructing fire alarms
 	name = "fire alarm electronics"
 	icon = 'icons/obj/doors/door_assembly.dmi'
 	icon_state = "door_electronics"
-	desc = "A circuit. It has a label on it, it says \"Can handle heat levels up to 40 degrees celsius!\""
+	desc = "A circuit. It has a label on it, it says \"Can handle heat levels up to 40 degrees celsius!\"."
 	w_class = 2.0
 	matter = list(DEFAULT_WALL_MATERIAL = 50, "glass" = 50)
 
@@ -1241,3 +1231,4 @@ Just a object used in constructing fire alarms
 		usr << browse(null, "window=partyalarm")
 		return
 	return
+
