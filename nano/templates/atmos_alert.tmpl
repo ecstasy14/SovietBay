@@ -1,18 +1,18 @@
-<H1>Priority Alerts</H1>
+<H1>Серьезные отклонения</H1>
 {{for data.priority_alarms}}
 	<div class="item">
-        {{:value.name}} {{:helper.link('Reset', null, {'clear_alarm' : value.ref})}}
+        {{:value.name}} {{:helper.link('Сбросить', null, {'clear_alarm' : value.ref})}}
 	</div>
 {{empty}}
-	No priority alerts detected.
+	Серьезных отклонений не обнаружено.
 {{/for}}
 
-<H3>Minor Alerts</H3>
+<H3>Незначительные отклонения</H3>
 {{for data.minor_alarms}}
     <div class="item">
-        {{:value.name}} {{:helper.link('Reset', null, {'clear_alarm' : value.ref})}}
+        {{:value.name}} {{:helper.link('Сбросить', null, {'clear_alarm' : value.ref})}}
     </div>
 {{empty}}
-    No minor alerts detected.
+    Незначительных отклонений не обнаружено.
 {{/for}}
 

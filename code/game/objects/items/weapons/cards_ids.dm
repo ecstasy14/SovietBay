@@ -163,21 +163,21 @@ var/const/NO_EMAG_ACT = -50
 
 /obj/item/weapon/card/id/proc/dat()
 	var/dat = ("<table><tr><td>")
-	dat += text("Name: []</A><BR>", registered_name)
-	dat += text("Sex: []</A><BR>\n", sex)
-	dat += text("Age: []</A><BR>\n", age)
-	dat += text("Rank: []</A><BR>\n", assignment)
-	dat += text("Fingerprint: []</A><BR>\n", fingerprint_hash)
-	dat += text("Blood Type: []<BR>\n", blood_type)
-	dat += text("DNA Hash: []<BR><BR>\n", dna_hash)
+	dat += text("[fix_rus_nanoui("Имя:")]					 []</A><BR>", registered_name)
+	dat += text("[fix_rus_nanoui("Пол:")]					 []</A><BR>\n", sex)
+	dat += text("[fix_rus_nanoui("Возраст:")]				 []</A><BR>\n", age)
+	dat += text("[fix_rus_nanoui("Ранг:")]					 []</A><BR>\n", assignment)
+	dat += text("[fix_rus_nanoui("Хэш отпечатков:")]		 []</A><BR>\n", fingerprint_hash)
+	dat += text("[fix_rus_nanoui("Группа крови:")]  		 []<BR>\n", blood_type)
+	dat += text("[fix_rus_nanoui("Хэш ДНК:")]				 []<BR><BR>\n", dna_hash)
 	if(front && side)
-		dat +="<td align = center valign = top>Photo:<br><img src=front.png height=80 width=80 border=4><img src=side.png height=80 width=80 border=4></td>"
+		dat +="<td align = center valign = top>[fix_rus_nanoui("Фото")]<br><img src=front.png height=80 width=80 border=4><img src=side.png height=80 width=80 border=4></td>"
 	dat += "</tr></table>"
 	return dat
 
 /obj/item/weapon/card/id/attack_self(mob/user as mob)
-	user.visible_message("\The [user] shows you: \icon[src] [src.name]. The assignment on the card: [src.assignment]",\
-		"You flash your ID card: \icon[src] [src.name]. The assignment on the card: [src.assignment]")
+	user.visible_message("[user] показывает вам: \icon[src] [src.name]. Назначение на карте: [src.assignment]",\
+		" Вы показали вашу: \icon[src] [src.name]. Назначение на карте: [src.assignment]")
 
 	src.add_fingerprint(user)
 	return
@@ -231,7 +231,7 @@ var/const/NO_EMAG_ACT = -50
 
 /obj/item/weapon/card/id/synthetic
 	name = "\improper Synthetic ID"
-	desc = "Access module for NanoTrasen Synthetics."
+	desc = "Access module for NanoTrasen Synthetics"
 	icon_state = "id-robot"
 	item_state = "tdgreen"
 	assignment = "Synthetic"

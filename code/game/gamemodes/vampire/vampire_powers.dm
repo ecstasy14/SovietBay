@@ -60,7 +60,8 @@
 			if(VAMP_SLAVE)
 				verbs += /client/vampire/proc/vampire_enthrall
 			if(VAMP_SHADOW)
-				verbs += /client/vampire/proc/vampire_shadowmenace
+//				verbs += /client/vampire/proc/vampire_shadowmenace
+				continue
 			if(VAMP_FULL)
 				verbs += /client/vampire/proc/vampire_undeath
 				verbs += /client/vampire/proc/vampire_spawncape
@@ -200,7 +201,7 @@
 					verbs += /client/vampire/proc/vampire_shadowstep
 				if(VAMP_SHADOW)
 					src << "\blue You have gained mastery over the shadows. In the dark, you can mask your identity, instantly terrify non-vampires who approach you, and enter the chapel for a longer period of time."
-					verbs += /client/vampire/proc/vampire_shadowmenace //also buffs Cloak of Shadows
+//					verbs += /client/vampire/proc/vampire_shadowmenace //also buffs Cloak of Shadows
 				if(VAMP_FULL)
 					src << "\blue You have reached your full potential and are no longer weak to the effects of anything holy and your vision has been improved greatly."
 					verbs += /client/vampire/proc/vampire_undeath
@@ -562,27 +563,27 @@
 
 /mob/proc/handle_vampire_cloak()
 	if(!mind || !mind.vampire || !ishuman(src))
-		alphas["vampire_cloak"] = 255
+		alpha = 255
 		color = "#FFFFFF"
 		return
 
 	var/turf/T = get_turf(src)
 
 	if(!mind.vampire.iscloaking)
-		alphas["vampire_cloak"] = 255
+		alpha = 255
 		color = "#FFFFFF"
 		return 0
 
 	if((T.get_lumcount() * 10) <= 2)
-		alphas["vampire_cloak"] = round((255 * 0.15))
+		alpha = round((255 * 0.50))
+		color = "#000000"
 		if(VAMP_SHADOW in mind.vampire.powers)
+			alpha = round((255 * 0.15))
 			color = "#000000"
 		return 1
 	else
-		if(VAMP_SHADOW in mind.vampire.powers)
-			alphas["vampire_cloak"] = round((255 * 0.15))
-		else
-			alphas["vampire_cloak"] = round((255 * 0.80))
+		alpha = round((255 * 0.80))
+		color = "#FFFFFF"
 
 /mob/proc/can_enthrall(mob/living/carbon/C)
 	var/enthrall_safe = 0
@@ -762,7 +763,7 @@
 		M.current.verbs -= /client/vampire/proc/vampire_shadowstep
 		sleep(20)
 		M.current.verbs += /client/vampire/proc/vampire_shadowstep
-
+/*
 /client/vampire/proc/vampire_shadowmenace()
 	set category = "Vampire"
 	set name = "Shadowy Menace (toggle)"
@@ -794,7 +795,7 @@
 		if(!C.vampire_affected(mind.current))	continue
 		C.stuttering += 20
 		C << "\blue Your heart is filled with dread, and you shake uncontrollably."
-
+*/
 /client/vampire/proc/vampire_spawncape()
 	set category = "Vampire"
 	set name = "Spawn Cape"
@@ -807,8 +808,6 @@
 		var/obj/item/clothing/suit/storage/draculacoat/D = new /obj/item/clothing/suit/storage/draculacoat(M.current.loc, M.current)
 		M.current.put_in_any_hand_if_possible(D)
 		M.current.verbs -= /client/vampire/proc/vampire_spawncape
-		sleep(300)
-		M.current.verbs += /client/vampire/proc/vampire_spawncape
 
 /mob/proc/remove_vampire_blood(amount = 0)
 	var/bloodold

@@ -52,14 +52,14 @@
 		var/obj/item/weapon/paper/R = new /obj/item/weapon/paper(P)
 		P.wrapped = R
 		R.name = "Account information: [M.owner_name]"
-		R.info = "<b>Account details (confidential)</b><br><hr><br>"
-		R.info += "<i>Account holder:</i> [M.owner_name]<br>"
-		R.info += "<i>Account number:</i> [M.account_number]<br>"
-		R.info += "<i>Account pin:</i> [M.remote_access_pin]<br>"
-		R.info += "<i>Starting balance:</i> $[M.money]<br>"
-		R.info += "<i>Date and time:</i> [worldtime2text()], [current_date_string]<br><br>"
-		R.info += "<i>Creation terminal ID:</i> [source_db.machine_id]<br>"
-		R.info += "<i>Authorised NT officer overseeing creation:</i> [source_db.held_card.registered_name]<br>"
+		R.info = "<b>Детали аккаунта (конфиденциально)</b><br><hr><br>"
+		R.info += "<i>Владелец:</i> [M.owner_name]<br>"
+		R.info += "<i>Номер:</i> [M.account_number]<br>"
+		R.info += "<i>Пин-код:</i> [M.remote_access_pin]<br>"
+		R.info += "<i>Начальный баланс:</i> $[M.money]<br>"
+		R.info += "<i>Дата создани&#255;:</i> [worldtime2text()], [current_date_string]<br><br>"
+		R.info += "<i>ID терминала:</i> [source_db.machine_id]<br>"
+		R.info += "<i>Уполномоченное лицо:</i> [source_db.held_card.registered_name]<br>"
 
 		//stamp the paper
 		var/image/stampoverlay = image('icons/obj/bureaucracy.dmi')
@@ -68,7 +68,7 @@
 			R.stamped = new
 		R.stamped += /obj/item/weapon/stamp
 		R.overlays += stampoverlay
-		R.stamps += "<HR><i>This paper has been stamped by the Accounts Database.</i>"
+		R.stamps += "<HR><i>На бумаге стоит печать 'Банковский отдел НТ'</i>"
 
 	//add the account
 	M.transaction_log.Add(T)
@@ -80,7 +80,7 @@
 	for(var/datum/money_account/D in all_money_accounts)
 		if(D.account_number == attempt_account_number && !D.suspended)
 			D.money += amount
-			
+
 			//create a transaction log entry
 			var/datum/transaction/T = new()
 			T.target_name = source_name
@@ -93,9 +93,9 @@
 			T.time = worldtime2text()
 			T.source_terminal = terminal_id
 			D.transaction_log.Add(T)
-			
+
 			return 1
-	
+
 	return 0
 
 //this returns the first account datum that matches the supplied accnum/pin combination, it returns null if the combination did not match any account
