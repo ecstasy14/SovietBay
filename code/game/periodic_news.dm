@@ -14,65 +14,61 @@
 
 		paycuts_suspicion
 			round_time = 60*10
-			message = {"Reports have leaked that NanoTrasen is planning to put paycuts into
-						effect on many of its Research Stations in Tau Ceti. Apparently these research
-						stations haven't been able to yield the expected revenue, and thus adjustments
-						have to be made."}
+			message = {"С перехваченных у НТ отчетов вы&#255;снено, что они планируют урезать разплату на многих исследовательских
+			станци&#255;х в системе Тау Цети.Очевидно, что эти станции не дали ожидаемый доход и поэтому сокращени&#255; зарплат
+			скорее всего пройдут."}
 			author = "Unauthorized"
 
 		paycuts_confirmation
 			round_time = 60*40
-			message = {"Earlier rumours about paycuts on Research Stations in the Tau Ceti system have
-						been confirmed. Shockingly, however, the cuts will only affect lower tier
-						personnel. Heads of Staff will, according to our sources, not be affected."}
+			message = {"Ранее опубликованные слухи о понижении зарплаты на исследовательских станци&#255;х в системете Тау Цети
+			были подтверждены. Шокирующе так же, что сокращение зарплат касаетс&#255; только "низкосортного" персонала.
+			Глав это касатьс&#255; не будет."}
 			author = "Unauthorized"
 
 		human_experiments
 			round_time = 60*90
-			message = {"Unbelievable reports about human experimentation have reached our ears. According
-			 			to a refugee from one of the Tau Ceti Research Stations, their station, in order
-			 			to increase revenue, has refactored several of their facilities to perform experiments
-			 			on live humans, including virology research, genetic manipulation, and \"feeding them
-			 			to the slimes to see what happens\". Allegedly, these test subjects were neither
-			 			humanified monkeys nor volunteers, but rather unqualified staff that were forced into
-			 			the experiments, and reported to have died in a \"work accident\" by NanoTrasen."}
+			message = {"Неверо&#255;тные отчеты об экспериментах над людьми достигли наших ушей. По словам беженца с одной
+						станции из Tau Ceti. С целью увеличени&#255; доходов, НТ проводит эксперименты над живыми людьми
+						в том числе воздейтвие различных вирусов, генетических экспериментов и кормёжки слизн&#255;ми дл&#255; того что
+						бы посмотреть что с ними потом будет. Якобы, эти испытуемые не были ни гуманизированные обезь&#255;ны,
+						ни добровольцы, а скорее неквалифицированный персонал, которые были вынуждены учавствовать
+						в экспериментах, и по сообщени&#255;м погибли в следствии "несчастного случа&#255;"."}
 			author = "Unauthorized"
 
 	bluespace_research
 
 		announcement
 			round_time = 60*20
-			message = {"The new field of research trying to explain several interesting spacetime oddities,
-						also known as \"Bluespace Research\", has reached new heights. Of the several
-						hundred space stations now orbiting in Tau Ceti, fifteen are now specially equipped
-						to experiment with and research Bluespace effects. Rumours have it some of these
-						stations even sport functional \"travel gates\" that can instantly move a whole research
-						team to an alternate reality."}
+			message = {"Новое направление научных исследований по изучению подпространства или так же известного "Голубого
+						пространства" достигла новых высот.Из ста космических станций в насто&#255;щее врем&#255; на орбите в системе
+						Тау Кита, п&#255;тнадцать теперь имеют специальное оборудование дл&#255; экспериментов с эффектами подпространства
+						и исследовани&#255; его. По слухам, некоторые из них имеют даже "Путеводные ворота". Они позвол&#255;ют перемещатьс&#255;
+						между реальност&#255;ми, тоесть в другие измерени&#255;."}
 
 	random_junk
 
 		cheesy_honkers
 			author = "Assistant Editor Carl Ritz"
 			channel_name = "The Gibson Gazette"
-			message = {"Do cheesy honkers increase risk of having a miscarriage? Several health administrations
-						say so!"}
+			message = {"Сырные гудки увеличивают риск выкидыша? Множество центров здравоохранени&#255; говор&#255;т "Нет!"}
 			round_time = 60 * 15
 
 		net_block
 			author = "Assistant Editor Carl Ritz"
 			channel_name = "The Gibson Gazette"
-			message = {"Several corporations banding together to block access to 'wetskrell.nt', site administrators
-			claiming violation of net laws."}
+			message = {"Несколько корпораций объедин&#255;ютс&#255; дл&#255; блокировки сайта wetskrell.nt, администраци&#255; сайта это
+						считает нарушением закона."}
 			round_time = 60 * 50
 
 		found_ssd
 			channel_name = "Nyx Daily"
 			author = "Doctor Eric Hanfield"
 
-			message = {"Several people have been found unconscious at their terminals. It is thought that it was due
-						to a lack of sleep or of simply migraines from staring at the screen too long. Camera footage
-						reveals that many of them were playing games instead of working and their pay has been docked
-						accordingly."}
+			message = {"Множество людей были обнаружены возле своих терминалов без сознани&#255;.
+						Считаетс&#255;, что это произошло из-за недостатка сна или просто от мигреней, гл&#255;д&#255; на
+						экран слишком долго. Кадры камеры показывает, что многие из них играли в игры вместо
+						работы. И их зарплата была составлена соответствующим образом."}
 			round_time = 60 * 90
 
 	lotus_tree
@@ -81,12 +77,11 @@
 			channel_name = "Nyx Daily"
 			author = "Reporter Leland H. Howards"
 
-			message = {"The newly-christened civillian transport Lotus Tree suffered two very large explosions near the
-						bridge today, and there are unconfirmed reports that the death toll has passed 50. The cause of
-						the explosions remain unknown, but there is speculation that it might have something to do with
-						the recent change of regulation in the Moore-Lee Corporation, a major funder of the ship, when M-L
-						announced that they were officially acknowledging inter-species marriage and providing couples
-						with marriage tax-benefits."}
+			message = {"Новый гражданский транспорт Древо Лотоса пострадал от двух больших взрывов возле мостика
+						сегодн&#255;, и есть неподтвержденные сообщени&#255; о том, что число погибших превысило 50 членов экипажа.
+						Причина взрывов остаётс&#255; неизвестной, но есть предположение, что это может иметь св&#255;зь с недавними
+						изменени&#255; в корпорации  Мип-Ли, крупной финансистки корабл&#255;, когда МЛ объ&#255;вили, что официально
+						признали межрасовые браки и предоставление таким парам различных льгот."}
 			round_time = 60 * 30
 
 	food_riots
@@ -95,23 +90,23 @@
 			channel_name = "Nyx Daily"
 			author = "Reporter Ro'kii Ar-Raqis"
 
-			message = {"Breaking news: Food riots have broken out throughout the Refuge asteroid colony in the Tenebrae
-						Lupus system. This comes only hours after NanoTrasen officials announced they will no longer trade with the
-						colony, citing the increased presence of \"hostile factions\" on the colony has made trade too dangerous to
-						continue. NanoTrasen officials have not given any details about said factions. More on that at the top of
-						the hour."}
+			message = {"Последние новости: "Пищевые бунты" разразились  по всей колонии астероида убежище в
+						системе Тенебрейт Люпус. Это произошло всего через несколько часов после того как чиновники НТ
+						объ&#255;вили, что торговать с колонией не будут, ссыла&#255;сь на увеличение присутстви&#255; враждебных
+						группировок, из-за чего с колонией торговать стало слишком опасно. Чиновники НТ не дали никаких
+						подробностей о данных группировках."}
 			round_time = 60 * 10
 
 		more
 			channel_name = "Nyx Daily"
 			author = "Reporter Ro'kii Ar-Raqis"
 
-			message = {"More on the Refuge food riots: The Refuge Council has condemned NanoTrasen's withdrawal from
-			the colony, claiming \"there has been no increase in anti-NanoTrasen activity\", and \"\[the only] reason
-			NanoTrasen withdrew was because the \[Tenebrae Lupus] system's Phoron deposits have been completely mined out.
-			We have little to trade with them now\". NanoTrasen officials have denied these allegations, calling them
-			\"further proof\" of the colony's anti-NanoTrasen stance. Meanwhile, Refuge Security has been unable to quell
-			the riots. More on this at 6."}
+			message = {"Подробнее о пищевых беспор&#255;дках в убежище: Совет Убежища осудил вывод НТ из колонии,
+						утвержда&#255;: "Не было никакого усилени&#255; активности анти-НТ группировок", и "Причиной &#255;вл&#255;етс&#255; то,
+						что в системе Тенебрейт Люпус полностью истощены запасы Форона. У нас есть немного Форона, чтобы
+						торговать с ними в насто&#255;щее врем&#255; ". Чиновники НТ отрицают эти обвинени&#255;, называ&#255; их "еще одним
+						доказательством" анти-НТ настроений в колонии. В то же врем&#255;, СБ убежища не смогли подавить
+						беспор&#255;дки. Более подробно об этом в 6."}
 			round_time = 60 * 60
 
 

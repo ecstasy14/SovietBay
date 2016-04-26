@@ -3,7 +3,7 @@ Title: Syndicate Uplink, uses some javascript to change nanoUI up a bit.
 Used In File(s): \code\game\objects\items\devices\uplinks.dm
  -->
 {{:helper.syndicateMode()}}
-<H1>Available Entries</H1>
+<H1>Записи</H1>
 <table>
 {{for data.entries}}
     <tr>
@@ -14,8 +14,8 @@ Used In File(s): \code\game\objects\items\devices\uplinks.dm
 
 <table>
     <tr>
-        <td>Electronic warfare:</td>
-        <td>{{:helper.link('Enabled', null, {'electronic_warfare' : 1}, data.electronic_warfare ? 'selected' : null)}}</td>
-        <td>{{:helper.link('Disabled',null, {'electronic_warfare' : 0}, data.electronic_warfare ? null : 'selected')}}</td>
+        <td>Электромагнитные помехи:</td>
+        <td>{{:helper.link('Включить', null, {'electronic_warfare' : 1}, data.electronic_warfare ? 'selected' : null)}}</td>
+        <td>{{:helper.link('Выключить',null, {'electronic_warfare' : 0}, data.electronic_warfare ? null : 'selected')}}</td>
     </tr>
 </table>

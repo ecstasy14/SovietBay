@@ -1,19 +1,19 @@
 <div class="item" style="padding-top: 10px">
 	<div class="item">
 		<div class="itemLabel">
-			Docking Port Status:
+			Статус:
 		</div>
 		<div class="itemContent">
 			{{if data.docking_status == "docked"}}
-				<span class="good">DOCKED</span>
+				<span class="good">СОСТЫКОВАЛСЯ</span>
 			{{else data.docking_status == "docking"}}
-				<span class="average">DOCKING</span>
+				<span class="average">СОСТЫКОВКА</span>
 			{{else data.docking_status == "undocking"}}
-				<span class="average">UNDOCKING</span>
+				<span class="average">РАССТЫКОВКА</span>
 			{{else data.docking_status == "undocked"}}
-				<span class="idle">NOT IN USE</span>
+				<span class="idle">НЕ ИСПОЛЬЗУЕТСЯ</span>
 			{{else}}
-				<span class="bad">ERROR</span>
+				<span class="bad">ОНИБКА</span>
 			{{/if}}
 		</div>
 	</div>
@@ -27,9 +27,9 @@
 			</div>
 			<div class="itemContent">
 				{{if value.override_enabled}}
-					<span class="bad">OVERRIDE ENABLED</span>
+					<span class="bad">РУЧНОЕ УПРАВЛЕНИЕ</span>
 				{{else}}
-					<span class="good">STATUS OK</span>
+					<span class="good">СТАТУС ОК</span>
 				{{/if}}
 			</div>
 		</div>

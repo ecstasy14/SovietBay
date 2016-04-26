@@ -101,7 +101,7 @@
 		accounts.Add(list(list(\
 			"account_number"=D.account_number,\
 			"owner_name"=D.owner_name,\
-			"suspended"=D.suspended ? "SUSPENDED" : "",\
+			"suspended"=D.suspended ? "ÇÀÌÎÐÎÆÅÍ" : "",\
 			"account_index"=i)))
 
 	if (accounts.len > 0)
