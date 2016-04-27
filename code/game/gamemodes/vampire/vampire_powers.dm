@@ -30,6 +30,10 @@
 	verbs += /client/vampire/proc/vampire_rejuvinate
 	verbs += /client/vampire/proc/vampire_hypnotise
 	verbs += /client/vampire/proc/vampire_glare
+
+
+//	usr.change_skin_tone(40)
+
 	//testing purposes REMOVE BEFORE PUSH TO MASTER
 	/*for(var/handler in typesof(/client/proc))
 		if(findtext("[handler]","vampire_"))
@@ -282,7 +286,7 @@
 	return T
 
 /client/vampire/proc/vampire_rejuvinate()
-	set category = "Abilities"
+	set category = "Vampire"
 	set name = "Rejuvinate "
 	set desc= "Flush your system with spare blood to remove any incapacitating effects"
 	var/datum/mind/M = usr.mind
@@ -306,7 +310,7 @@
 			M.current.verbs += /client/vampire/proc/vampire_rejuvinate
 
 /client/vampire/proc/vampire_hypnotise()
-	set category = "Abilities"
+	set category = "Vampire"
 	set name = "Hypnotise" // (20)
 	set desc= "A piercing stare that incapacitates your victim for a good length of time."
 	var/datum/mind/M = usr.mind
@@ -352,7 +356,7 @@
 			return
 
 /client/vampire/proc/vampire_disease()
-	set category = "Abilities"
+	set category = "Vampire"
 	set name = "Diseased Touch (200)"
 	set desc = "Touches your victim with infected blood giving them the Shutdown Syndrome which quickly shutsdown their major organs resulting in a quick painful death."
 	var/datum/mind/M = usr.mind
@@ -424,7 +428,7 @@
 
 /client/vampire/proc/vampire_undeath()
 	set category = "Vampire"
-	set name = "Cheat Death"
+	set name = "Rise Dead"
 	set desc= "Instantly return to un-life."
 	var/datum/mind/M = usr.mind
 	if(!M)	return
@@ -447,7 +451,7 @@
 		return 1
 
 /client/vampire/proc/vampire_glare()
-	set category = "Abilities"
+	set category = "Vampire"
 	set name = "Glare"
 	set desc= "A scary glare that incapacitates people for a short while around you."
 	var/datum/mind/M = usr.mind
@@ -477,7 +481,7 @@
 			C << "\red You are blinded by [M.current]'s glare"
 
 /client/vampire/proc/vampire_shapeshift() //Hi.  I'm stupid and there are missing procs all around.  Namely the randomname proc.  I can't find it and can't code a new one because I am bad.  Sorry!
-	set category = "Abilities"
+	set category = "Vampire"
 	set name = "Shapeshift (50)"
 	set desc = "Changes your name and appearance at the cost of 50 blood and has a cooldown of 3 minutes."//orig text: Changes your name and appearance at the cost of 50 blood and has a cooldown of 3 minutes.
 	var/datum/mind/M = usr.mind
@@ -493,7 +497,7 @@
 		M.current.verbs += /client/vampire/proc/vampire_shapeshift
 
 /client/vampire/proc/vampire_screech()
-	set category = "Abilities"
+	set category = "Vampire"
 	set name = "Chiropteran  Screech (90)"
 	set desc = "An extremely loud shriek that stuns nearby humans in a four-tile radius, as well as shattering the windows."
 	var/datum/mind/M = usr.mind
@@ -520,7 +524,7 @@
 		spawn(3600) M.current.verbs += /client/vampire/proc/vampire_screech
 
 /client/vampire/proc/vampire_enthrall()
-	set category = "Abilities"
+	set category = "Vampire"
 	set name = "Enthrall (150)"
 	set desc = "You use a large portion of your power to sway those loyal to none to be loyal to you only."
 	var/datum/mind/M = usr.mind
@@ -635,7 +639,7 @@
 	msg_admin_attack("[key_name_admin(src)] has mind-slaved [key_name_admin(H)] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[H.x];Y=[H.y];Z=[H.z]'>JMP</a>.")
 
 /client/vampire/proc/vampire_bats()
-	set category = "Abilities"
+	set category = "Vampire"
 	set name = "Summon Bats (60)"
 	set desc = "You summon a pair of space bats who attack nearby targets until they or their target is dead."
 	var/datum/mind/M = usr.mind
@@ -664,7 +668,7 @@
 
 /client/vampire/proc/vampire_jaunt()
 	//AHOY COPY PASTE INCOMING
-	set category = "Abilities"
+	set category = "Vampire"
 	set name = "Mist Form (30)"
 	set desc = "You take on the form of mist for a short period of time."
 	var/jaunt_duration = 50 //in deciseconds
