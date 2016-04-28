@@ -1,10 +1,10 @@
 <!-- 
-Title: Chem Dispenser 5000 UI 
+Title: ИП Хим Раздатчика 5000 
 Used In File(s): \code\modules\reagents\Chemistry-Machinery.dm
  -->
 <div class="item">
 	<div class="itemLabel">
-		Dispense:
+		Выдача:
 	</div>
 	<div class="itemContent">
 		{{:helper.link('5', 'gear', {'amount' : 5}, (data.amount == 5) ? 'selected' : null)}}
@@ -28,7 +28,7 @@ Used In File(s): \code\modules\reagents\Chemistry-Machinery.dm
 				{{:helper.link(value.label + " ("+value.amount+")", 'circle-arrow-s', {"dispense":value.label}, null, 'fixedLeftWide')}}
 			{{/for}}
 		{{else}}
-			<span class='bad'>No cartridges installed!</span>
+			<span class='bad'>Картридж не вставлен!</span>
 		{{/if}}
 	</div>
 </div>
@@ -36,13 +36,13 @@ Used In File(s): \code\modules\reagents\Chemistry-Machinery.dm
 <div class="item">
 	<div class="itemLabel">
 		{{if data.glass}}
-			Glass
+			Стакан
 		{{else}}
-			Beaker
-		{{/if}} Contents
+			Мензурка
+		{{/if}} Содержимое
 	</div>
 	<div class="itemContent">
-		{{:helper.link(data.glass ? 'Eject Glass' : 'Eject Beaker', 'eject', {'ejectBeaker' : 1}, data.isBeakerLoaded ? null : 'disabled', 'floatRight')}}
+		{{:helper.link(data.glass ? 'Извлечь Стакан' : 'Извлечь Мензурку', 'eject', {'ejectBeaker' : 1}, data.isBeakerLoaded ? null : 'disabled', 'floatRight')}}
 	</div>
 </div>
 <div class="statusDisplay" style="min-height: 180px;">
@@ -55,20 +55,20 @@ Used In File(s): \code\modules\reagents\Chemistry-Machinery.dm
 				{{empty}}
 					<span class="bad">
 						{{if data.glass}}
-							Glass
+							Стакан пуст.
 						{{else}}
-							Beaker
-						{{/if}} is empty
+							Мензурка пуста.
+						{{/if}}
 					</span>
 				{{/for}}
 			{{else}}
 				<span class="average"><i>
-					No 
+					Отсутствует
 					{{if data.glass}}
-						Glass
+						Стакан
 					{{else}}
-						Beaker
-					{{/if}} loaded
+						Мензурка
+					{{/if}}
 				</i></span>
 			{{/if}}
 		</div>
