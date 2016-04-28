@@ -14,6 +14,7 @@
 	var/mob/living/carbon/human/draining // who the vampire is draining of blood
 	var/nullified = 0 //Nullrod makes them useless for a short while.
 	var/smitecounter = 0 //Keeps track of how badly the vampire has been affected by holy tiles.
+	var/cloak_remove = 0
 
 /datum/vampire/New(gend = FEMALE)
 	..()
@@ -30,9 +31,9 @@
 	verbs += /client/vampire/proc/vampire_rejuvinate
 	verbs += /client/vampire/proc/vampire_hypnotise
 	verbs += /client/vampire/proc/vampire_glare
+	for(var/mob/living/carbon/human/C in range(0))
+		C.change_skin_tone(40)
 
-
-//	usr.change_skin_tone(40)
 
 	//testing purposes REMOVE BEFORE PUSH TO MASTER
 	/*for(var/handler in typesof(/client/proc))
@@ -95,6 +96,9 @@
 		bloodusable = src.mind.vampire.bloodusable
 		if(!H.vessel.get_reagent_amount("blood"))
 			src << "\red They've got no blood left to give."
+			break
+		if((H.get_species() == "Monkey") && (src.mind.vampire.bloodusable >50))
+			src << "\red I will not drink this blood. It's disgusting."
 			break
 		if(H.stat < 2) //alive
 			blood = min(10, H.vessel.get_reagent_amount("blood"))// if they have less than 10 blood, give them the remnant else they get 10 blood
@@ -465,6 +469,7 @@
 		M.current.visible_message("\red <b>[M.current]'s eyes emit a blinding flash!")
 		//M.vampire.bloodusable -= 10
 		M.current.verbs -= /client/vampire/proc/vampire_glare
+		M.current.cloak_remove(50)
 		spawn(800)
 			M.current.verbs += /client/vampire/proc/vampire_glare
 		if(istype(M.current:glasses, /obj/item/clothing/glasses/sunglasses/blindfold))
@@ -493,6 +498,7 @@
 		M.current.regenerate_icons()
 		M.current.remove_vampire_blood(50)
 		M.current.verbs -= /client/vampire/proc/vampire_shapeshift
+		M.current.cloak_remove(50)
 		spawn(1800)
 		M.current.verbs += /client/vampire/proc/vampire_shapeshift
 
@@ -521,6 +527,7 @@
 		playsound(M.current.loc, 'sound/effects/creepyshriek.ogg', 100, 1)
 		M.current.remove_vampire_blood(90)
 		M.current.verbs -= /client/vampire/proc/vampire_screech
+		M.current.cloak_remove(50)
 		spawn(3600) M.current.verbs += /client/vampire/proc/vampire_screech
 
 /client/vampire/proc/vampire_enthrall()
@@ -539,6 +546,7 @@
 		return
 	M.current.visible_message("\red [M.current.name] bites [C.name]'s neck!", "\red You bite [C.name]'s neck and begin the flow of power.")
 	C << "<span class='warning'>You feel the tendrils of evil invade your mind.</span>"
+	M.current.cloak_remove(50)
 	if(!ishuman(C))
 		M.current << "\red You can only enthrall humans"
 		return
@@ -565,8 +573,20 @@
 		M.vampire.iscloaking = !M.vampire.iscloaking
 		M.current << "\blue You will now be [M.vampire.iscloaking ? "hidden" : "seen"] in darkness."
 
+
+/mob/proc/cloak_remove(time)
+	usr.mind.vampire.cloak_remove = 1
+	handle_vampire_cloak()
+	sleep(time)
+	usr.mind.vampire.cloak_remove = 0
+
 /mob/proc/handle_vampire_cloak()
-	if(!mind || !mind.vampire || !ishuman(src))
+	if(!mind || !mind.vampire || !ishuman(src) || !canmove)
+		alpha = 255
+		color = "#FFFFFF"
+		return
+
+	if(mind.vampire.cloak_remove == 1)
 		alpha = 255
 		color = "#FFFFFF"
 		return
@@ -664,6 +684,7 @@
 			new /mob/living/simple_animal/hostile/scarybat(M.current.loc, M.current)
 		M.current.remove_vampire_blood(60)
 		M.current.verbs -= /client/vampire/proc/vampire_bats
+		M.current.cloak_remove(50)
 		spawn(1200) M.current.verbs += /client/vampire/proc/vampire_bats
 
 /client/vampire/proc/vampire_jaunt()
@@ -723,6 +744,7 @@
 			qdel(holder)
 		M.current.remove_vampire_blood(30)
 		M.current.verbs -= /client/vampire/proc/vampire_jaunt
+		M.current.cloak_remove(50)
 		spawn(600) M.current.verbs += /client/vampire/proc/vampire_jaunt
 
 // Blink for vamps
@@ -812,6 +834,7 @@
 		var/obj/item/clothing/suit/storage/draculacoat/D = new /obj/item/clothing/suit/storage/draculacoat(M.current.loc, M.current)
 		M.current.put_in_any_hand_if_possible(D)
 		M.current.verbs -= /client/vampire/proc/vampire_spawncape
+		M.current.cloak_remove(50)
 
 /mob/proc/remove_vampire_blood(amount = 0)
 	var/bloodold

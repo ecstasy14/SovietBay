@@ -132,6 +132,9 @@
 					if(get_species() == "Machine")
 						H << "\red They have no blood"
 						return 0
+					if((get_species() == "Monkey") && (H.mind.vampire.bloodusable >50))
+						H << "\red I will not drink the blood of monkeys. It's disgusting. I'm not so hungry."
+						return 0
 					//we're good to suck the blood, blaah
 					//and leave an attack log
 					H.attack_log += text("\[[time_stamp()]\] <font color='red'>Bit [src.name] ([src.ckey]) in the neck and draining their blood</font>")
