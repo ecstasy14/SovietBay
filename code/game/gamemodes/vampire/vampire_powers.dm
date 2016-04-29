@@ -34,7 +34,6 @@
 	for(var/mob/living/carbon/human/C in range(0))
 		C.change_skin_tone(40)
 
-
 	//testing purposes REMOVE BEFORE PUSH TO MASTER
 	/*for(var/handler in typesof(/client/proc))
 		if(findtext("[handler]","vampire_"))
@@ -70,6 +69,7 @@
 			if(VAMP_FULL)
 				verbs += /client/vampire/proc/vampire_undeath
 				verbs += /client/vampire/proc/vampire_spawncape
+				verbs -= /client/vampire/proc/infect_vampirism
 				continue
 
 /mob/proc/remove_vampire_powers()
@@ -214,6 +214,7 @@
 					src << "\blue You have reached your full potential and are no longer weak to the effects of anything holy and your vision has been improved greatly."
 					verbs += /client/vampire/proc/vampire_undeath
 					verbs += /client/vampire/proc/vampire_spawncape
+					verbs += /client/vampire/proc/infect_vampirism
 
 					//This should hold all the vampire related powers
 
@@ -957,3 +958,111 @@
 	if(istype(loc, /turf/space))
 		check_sun()
 	mind.vampire.nullified = max(0, mind.vampire.nullified - 1)
+
+/client/vampire/proc/infect_vampirism()
+	set category = "Vampire"
+	set name = "Infect Vampirism (only one uses)"
+	set desc= "Infected vampirism another player. One use."
+	var/datum/mind/M = usr.mind
+	if(!M) return
+	var/mob/living/carbon/human/C = M.current.vampire_active(0, 0, 1)
+	if(!C) return
+	if(C==usr)
+		M.current << "\red You can't do that to yourself"
+		return
+	if(C.get_species() == "Machine")
+		M.current << "\red You can only infect humans"
+		return
+	M.current.visible_message("\red <b>[M.current.name] bites [C.name]'s neck!", "\red <b>You bite [C.name]'s neck!")
+	M.current.verbs -= /client/vampire/proc/infect_vampirism
+	if(M.current.vampire_power(0, 0))
+		if(do_mob(M.current, C, 50))
+			if(C.mind && C.mind.vampire)	return
+			else
+				M.current << "\red Your infected [C.name]."
+				C << "\red Do you feel that something has changed in you"
+				C.porphyric_hemophilia()
+		else
+			M.current << "\red Not enough time to complete."
+			return
+/mob/living/carbon/human/proc/porphyric_hemophilia()
+	var/i = 30
+	while(i)
+		sleep(600)
+		i--
+		if(i >= 20)	 continue
+		if(i == 19)
+			src << "\red <b>Чувствую себ&#255; странно."
+		if(i == 18)
+			emote("cough")
+		if(i == 17)
+			src << "\red <b>Мне страшно..."
+		if(i == 16)
+			src << "\red <b>Не могу пон&#255;ть, чего-то хочетс&#255;, но чего?"
+		if(i == 15)
+			src << "\red <b>Странное чувство усиливаетс&#255;."
+		if(i == 14)
+			emote("collapse")
+			stuttering = 20
+		if(i == 13)  continue
+		if(i == 12)
+			src << "\red <b>Хочу м&#255;са, сырого!"
+		if(i == 11)
+			emote("collapse")
+			stuttering = 20
+		if(i == 10)
+			emote("mumble")
+		if(i == 9)
+			emote("me",1,"дрожит!")
+		if(i == 8)
+			emote("wave")
+			src << "\red <b>Кружитс&#255; голова!"
+		if(i == 7)
+			oxyloss = 20
+			emote("gasp")
+		if(i == 6)
+			oxyloss = 40
+			emote("gasp")
+		if(i == 5)
+			src << "\red <b>Мо&#255; кожа побледнела."
+			change_skin_tone(40)
+		if(i == 4)
+			emote("me",1,"[get_visible_gender() == MALE ? "обернулс&#255;" : get_visible_gender() == FEMALE ? "обернулась" : "обернулс&#255;"].")
+			src << "\red <b>За мной кто-то следит?"
+		if(i == 3)
+			emote("scream")
+			src << "\red <b>Что это? Агрх... показалось."
+		if(i == 2)
+			src << "\red <b>Черт! Больно!"
+			halloss = 50
+		if(i == 1)
+			emote("scream")
+			src << "\red <b>Агрх... это ужасно... кажетс&#255;... &#255;... умираю!"
+			oxyloss = 20
+			emote("gasp")
+			sleep(50)
+			oxyloss = 40
+			emote("gasp")
+			sleep(50)
+			oxyloss = 80
+			sleep(50)
+			oxyloss = 120
+			sleep(50)
+			oxyloss = 170
+			sleep(50)
+			oxyloss = 400
+			oxyloss = 400
+			oxyloss = 400
+			var/randomikus = roll(1,100)
+			if(randomikus <= 65)
+				sleep(30)
+				revive(1)
+				Weaken(10)
+				Stun(10)
+				stuttering = 10
+				make_vampire()
+				sleep(10)
+				emote("me",1,"резко вобрав в себ&#255; возух, [get_visible_gender() == MALE ? "открыл" : get_visible_gender() == FEMALE ? "открыла" : "открыл"] глаза!")
+				src << "\red <b>Я возвращаюсь к жизни... мо&#255; кожа бледна, а тело хладно словно лед... &#255; вампир, создание ночи... кровь, хочу крови..."
+			else
+				src << "\red <b>Болезнь сразила мен#255;, мое тело не выдержало."
