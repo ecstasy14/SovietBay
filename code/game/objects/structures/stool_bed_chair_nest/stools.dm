@@ -34,7 +34,7 @@ var/global/list/stool_cache = list() //haha stool
 
 /obj/item/weapon/stool/update_icon()
 	// Prep icon.
-	icon_state = ""
+//	icon_state = ""
 	overlays.Cut()
 	// Base icon.
 	var/cache_key = "stool-[material.name]"
@@ -74,7 +74,7 @@ var/global/list/stool_cache = list() //haha stool
 		user.visible_message("<span class='danger'>[user] breaks [src] over [M]'s back!</span>")
 		user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 		user.do_attack_animation(M)
-		
+
 		user.remove_from_mob(src)
 		dismantle()
 		qdel(src)
