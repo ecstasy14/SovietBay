@@ -157,21 +157,21 @@
 			sleep(duration/5)
 			if(!user || user.stat == DEAD)
 				return
-			command_announcement.Announce("Caution, [station_name]. We have detected abnormal behaviour in your network. It seems someone is trying to hack your electronic systems. We will update you when we have more information.", "Network Monitoring")
+			command_announcement.Announce("Внимание. Нами обнаружено аномальное поведение в сети. Кажетс&#255; кто-то пытаетс&#255; взломать ваши электронные системы. Мы св&#255;жемс&#255; с вами, когда получим больше информации.", "Мониторинг сети")
 			sleep(duration/5)
 			if(!user || user.stat == DEAD)
 				return
-			command_announcement.Announce("We started tracing the intruder. Whoever is doing this, they seem to be on the station itself. We suggest checking all network control terminals. We will keep you updated on the situation.", "Network Monitoring")
+			command_announcement.Announce("Мы начали отслеживание злоумышленника. Тот, кто делает это, кажетс&#255;, на самой станции. Рекомендуем вам проверить все терминалы управлени&#255; сетью. Мы будем держать вас в курсе дела.", "Мониторинг сети")
 			sleep(duration/5)
 			if(!user || user.stat == DEAD)
 				return
-			command_announcement.Announce("This is highly abnormal and somewhat concerning. The intruder is too fast, he is evading our traces. No man could be this fast...", "Network Monitoring")
+			command_announcement.Announce("Поведение злоумышленника крайне ненормально. Мы не может его отследить нарушител&#255;, он слишком быстро заметает следы. Человек не может так быстро...", "Мониторинг сети")
 			sleep(duration/5)
 			if(!user || user.stat == DEAD)
 				return
-			command_announcement.Announce("We have traced the intrude#, it seem& t( e yo3r AI s7stem, it &# *#ck@ng th$ sel$ destru$t mechani&m, stop i# bef*@!)$#&&@@  <CONNECTION LOST>", "Network Monitoring")
+			command_announcement.Announce("Мы выследили нарушител&#255;. Мы д61ем -то с^47ма искусст%88го инт3?3%(а. Атака %? сис*3% самоуничто%№ни^.", "Мониторинг сети")
 	else
-		command_announcement.Announce("We have detected a strong brute-force attack on your firewall which seems to be originating from your AI system. It already controls almost the whole network, and the only thing that's preventing it from accessing the self-destruct is this firewall. You don't have much time before it succeeds.", "Network Monitoring")
+		command_announcement.Announce("Мы обнаружили атаку на межсетевой экран, котора&#255; кажетс&#255; исходит от вашей системы искуственного интелекта. Он уже контролирует почти все системы, единственное, к чему не удалось получить доступ, это система самоуничтожени&#255;. Брандмауэр блокирует это. Однако вечно он не сможет противодействовать.", "Мониторинг сети")
 	user << "## BEGINNING SYSTEM OVERRIDE."
 	user << "## ESTIMATED DURATION: [round((duration+300)/600)] MINUTES"
 	user.hacking = 1
@@ -196,7 +196,7 @@
 
 
 	user << "## PRIMARY FIREWALL BYPASSED. YOU NOW HAVE FULL SYSTEM CONTROL."
-	command_announcement.Announce("Our system administrators just reported that we've been locked out from your control network. Whoever did this now has full access to the station's systems.", "Network Administration Center")
+	command_announcement.Announce("Наши системные администраторы сообщили, что мы были отрезаны от управлени&#255; вашей сетью. Кто бы ни сделал это, он теперь имеет полный контроль систем станции.", "Центр управлени&#255; сетью")
 	user.hack_can_fail = 0
 	user.hacking = 0
 	user.system_override = 2

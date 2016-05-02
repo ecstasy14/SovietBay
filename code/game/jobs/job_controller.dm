@@ -618,11 +618,11 @@ var/global/datum/controller/occupations/job_master
 				if(H)
 					H << "Your chosen spawnpoint ([spawnpos.display_name]) is unavailable for your chosen job. Spawning you at the default spawn point instead."
 					H.forceMove(pick(latejoin))
-				return "has arrived on the station"
+				return "прибывает на станцию"
 	else
 		if(return_location)
 			return pick(latejoin)
 		else
 			if(H)
 				H.forceMove(pick(latejoin))
-			return "has arrived on the station"
+			return "прибывает на станцию"
