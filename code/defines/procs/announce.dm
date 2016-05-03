@@ -2,7 +2,7 @@
 /var/datum/announcement/priority/command/command_announcement = new(do_log = 0, do_newscast = 1)
 
 /datum/announcement
-	var/title = "Attention"
+	var/title = "Внимание"
 	var/announcer = ""
 	var/log = 0
 	var/sound
@@ -17,7 +17,7 @@
 
 /datum/announcement/priority/New(var/do_log = 1, var/new_sound = 'sound/misc/announce.ogg', var/do_newscast = 0)
 	..(do_log, new_sound, do_newscast)
-	title = "Priority Announcement"
+	title = "Обь&#255;вление"
 	announcement_type = "Priority Announcement"
 
 /datum/announcement/priority/command/New(var/do_log = 1, var/new_sound = 'sound/misc/notice2.ogg', var/do_newscast = 0)
@@ -27,7 +27,7 @@
 
 /datum/announcement/priority/security/New(var/do_log = 1, var/new_sound = 'sound/misc/announce.ogg', var/do_newscast = 0)
 	..(do_log, new_sound, do_newscast)
-	title = "Security Announcement"
+	title = "Обь&#255;вление службы безопасности"
 	announcement_type = "Security Announcement"
 
 /datum/announcement/proc/Announce(var/message as text, var/new_title = "", var/new_sound = null, var/do_newscast = newscast, var/msg_sanitized = 0)
@@ -121,10 +121,10 @@ datum/announcement/proc/Log(message as text, message_title as text)
 	return I.assignment ? "[I.registered_name] ([I.assignment])" : I.registered_name
 
 /proc/level_seven_announcement()
-	command_announcement.Announce("Confirmed outbreak of level 7 biohazard aboard [station_name()]. All personnel must contain the outbreak.", "Biohazard Alert", new_sound = 'sound/AI/outbreak7.ogg')
+	command_announcement.Announce("Обнаружена биологическа&#255; опасность на борту [station_name()]. Требуется сдержать вспышку.", "Биологическа&#255; опасность", new_sound = 'sound/AI/outbreak7.ogg')
 
 /proc/ion_storm_announcement()
-	command_announcement.Announce("It has come to our attention that the station passed through an ion storm.  Please monitor all electronic equipment for malfunctions.", "Anomaly Alert")
+	command_announcement.Announce("Станци#255; входит в зону высокой ионной активности. Возможны сбои в работе электроники.", "Аномальна&#255; активность")
 
 /proc/AnnounceArrival(var/mob/living/carbon/human/character, var/rank, var/join_message)
 	if (ticker.current_state == GAME_STATE_PLAYING)
@@ -132,5 +132,5 @@ datum/announcement/proc/Log(message as text, message_title as text)
 			rank = character.mind.role_alt_title
 		AnnounceArrivalSimple(character.real_name, rank, join_message)
 
-/proc/AnnounceArrivalSimple(var/name, var/rank = "visitor", var/join_message = "has arrived on the station")
+/proc/AnnounceArrivalSimple(var/name, var/rank = "visitor", var/join_message = "прибывает на станцию.")
 	global_announcer.autosay("[name], [rank], [join_message].", "Arrivals Announcement Computer")

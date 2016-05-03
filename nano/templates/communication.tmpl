@@ -1,6 +1,6 @@
 {{if data.authenticated}}
 	{{if data.state === 1}}
-		<div class=item>{{:helper.link('Сделать Оповещение', null, {'action' : 'announce'}, data.isAI || !data.net_comms ? 'disabled' : null)}} </div>
+		<div class=item>{{:helper.link('Сделать оповещение', null, {'action' : 'announce'}, data.isAI || !data.net_comms ? 'disabled' : null)}} </div>
 		<div class=item>{{if data.emagged}}
 			{{:helper.link('Отправить аварийное сообщение [НЕИЗВЕСТНО]', null, {'action' : 'message', 'target' : 'emagged'}, data.isAI || !data.net_comms ? 'disabled' : null)}}
 		{{else}}

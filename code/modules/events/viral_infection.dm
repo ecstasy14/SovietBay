@@ -23,12 +23,12 @@ datum/event/viral_infection/announce()
 	if (severity == EVENT_LEVEL_MUNDANE)
 		return
 	else if (severity == EVENT_LEVEL_MODERATE)
-		level = pick("one", "two", "three", "four")
+		level = pick("первого", "второго", "третьего", "четвертого")
 	else
-		level = "five"
+		level = "п&#255;того"
 
 	if (severity == EVENT_LEVEL_MAJOR || prob(60))
-		command_announcement.Announce("Confirmed outbreak of level [level] biohazard aboard [station_name()]. All personnel must contain the outbreak.", "Biohazard Alert", new_sound = 'sound/AI/outbreak5.ogg')
+		command_announcement.Announce("Подтверждена вспышка [level] уровн&#255; биологичесной опасности на борту [station_name()]. Вспышка должна быть локализована и сдержана.", "Биологическа&#255; опасность", new_sound = 'sound/AI/outbreak5.ogg')
 
 datum/event/viral_infection/start()
 	if(!viruses.len) return
