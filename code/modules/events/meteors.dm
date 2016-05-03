@@ -13,9 +13,9 @@
 /datum/event/meteor_wave/announce()
 	switch(severity)
 		if(EVENT_LEVEL_MAJOR)
-			command_announcement.Announce("Meteors have been detected on collision course with the station.", "Meteor Alert", new_sound = 'sound/AI/meteors.ogg')
+			command_announcement.Announce("Обнаружено скопление метеоров на критически близком рассто&#255;нии от станции.", "Оповещение угрозы метеоритов", new_sound = 'sound/AI/meteors.ogg')
 		else
-			command_announcement.Announce("The station is now in a meteor shower.", "Meteor Alert")
+			command_announcement.Announce("Станци&#255; в входит в метеоритный поток. Сохран&#255;йте спокойствие.", "Оповещение угрозы метеоритов")
 
 /datum/event/meteor_wave/tick()
 	if(waves && activeFor >= next_meteor)
@@ -32,9 +32,9 @@
 /datum/event/meteor_wave/end()
 	switch(severity)
 		if(EVENT_LEVEL_MAJOR)
-			command_announcement.Announce("The station has cleared the meteor storm.", "Meteor Alert")
+			command_announcement.Announce("Станци&#255; миновала метеоритный шторм.", "Оповещение угрозы метеоритов")
 		else
-			command_announcement.Announce("The station has cleared the meteor shower", "Meteor Alert")
+			command_announcement.Announce("Станци&#255; миновала метеоритный дождь.", "Оповещение угрозы метеоритов")
 
 /datum/event/meteor_wave/proc/get_meteors()
 	switch(severity)

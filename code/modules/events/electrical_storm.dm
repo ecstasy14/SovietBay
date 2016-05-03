@@ -4,7 +4,7 @@
 
 
 /datum/event/electrical_storm/announce()
-	command_announcement.Announce("An electrical storm has been detected in your area, please repair potential electronic overloads.", "Electrical Storm Alert")
+	command_announcement.Announce("Р&#255;дом с вашим местоположением был зафиксирован электро-магнитный шторм. Просьба починить возможные перегрузки электроприборов", "Обнаружен ЭМ-шторм")
 
 
 /datum/event/electrical_storm/start()
