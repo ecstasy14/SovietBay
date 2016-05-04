@@ -6,7 +6,7 @@
 	embed = 1 //the dart is shot fast enough to pierce space suits, so I guess splintering inside the target can be a thing. Should be rare due to low damage.
 	var/reagent_amount = 15
 	kill_count = 15 //shorter range
-	
+
 	muzzle_type = null
 
 /obj/item/projectile/bullet/chemdart/New()
@@ -50,7 +50,7 @@
 	caliber = "dart"
 	fire_sound = 'sound/weapons/empty.ogg'
 	fire_sound_text = "a metallic click"
-	recoil = 0
+	screen_shake = 0
 	silenced = 1
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/chemdart
@@ -63,7 +63,7 @@
 	var/container_type = /obj/item/weapon/reagent_containers/glass/beaker
 	var/list/starting_chems = null
 
-/obj/item/weapon/gun/projectile/dartgun/dartgun/New()
+/obj/item/weapon/gun/projectile/dartgun/New()
 	..()
 	if(starting_chems)
 		for(var/chem in starting_chems)

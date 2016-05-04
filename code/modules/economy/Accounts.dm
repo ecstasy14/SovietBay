@@ -37,10 +37,10 @@
 		T.time = "[rand(0,24)]:[rand(11,59)]"
 		T.source_terminal = "NTGalaxyNet Terminal #[rand(111,1111)]"
 
-		M.account_number = rand(111111, 999999)
+		M.account_number = random_id("station_account_number", 111111, 999999)
 	else
 		T.date = current_date_string
-		T.time = worldtime2text()
+		T.time = stationtime2text()
 		T.source_terminal = source_db.machine_id
 
 		M.account_number = next_account_number
@@ -90,7 +90,7 @@
 			else
 				T.amount = "[amount]"
 			T.date = current_date_string
-			T.time = worldtime2text()
+			T.time = stationtime2text()
 			T.source_terminal = terminal_id
 			D.transaction_log.Add(T)
 
