@@ -59,9 +59,13 @@
 					else
 						display_name = holder.fakekey
 			if(holder && !holder.fakekey && (holder.rights & R_ADMIN) && config.allow_admin_ooccolor && (src.prefs.ooccolor != initial(src.prefs.ooccolor))) // keeping this for the badmins
-				target << "<font color='[src.prefs.ooccolor]'><span class='ooc'>" + create_text_tag("ooc", "OOC:", target) + " <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></font>"
+				target << "<font color='[src.prefs.ooccolor]'><span class='ooc'>" + create_text_tag("[custom_ooc(display_name)]", "OOC:", target) + " <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></font>"
 			else
-				target << "<span class='ooc'><span class='[ooc_style]'>" + create_text_tag("ooc", "OOC:", target) + " <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></span>"
+				target << "<span class='ooc'><span class='[ooc_style]'>" + create_text_tag("[custom_ooc(display_name)]", "OOC:", target) + " <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></span>"
+var/global/custom_ooc[] = file2list("code/game/verbs/custom_ooc.txt")
+proc/custom_ooc(name)
+	if(custom_ooc.Find(name) <> 0) return name
+	else return "ooc"
 
 /client/verb/looc(msg as text)
 	set name = "LOOC"

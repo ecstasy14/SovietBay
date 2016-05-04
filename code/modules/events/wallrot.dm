@@ -3,7 +3,7 @@ datum/event/wallrot/setup()
 	endWhen = announceWhen + 1
 
 datum/event/wallrot/announce()
-	command_announcement.Announce("Harmful fungi detected on station. Station structures may be contaminated.", "Biohazard Alert")
+	command_announcement.Announce("На [station_name()] зафиксированны вредоносные грибки. Структуры станции могут быть поражены", "Биологическа&#255; опасность")
 
 datum/event/wallrot/start()
 	spawn()

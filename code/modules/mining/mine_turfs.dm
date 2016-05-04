@@ -170,7 +170,7 @@
 					artifact_debris()
 
 		if(do_after(user,P.digspeed, src))
-			user << "\blue [translation(src,"finish_drill",P)]"
+			user << "\blue You finish drilling the rock."
 
 			if(finds && finds.len)
 				var/datum/find/F = finds[1]

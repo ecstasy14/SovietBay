@@ -105,12 +105,12 @@ var/list/gamemode_cache = list()
 	var/githuburl
 
 	//Alert level description
-	var/alert_desc_green = "All threats to the station have passed. Security may not have weapons visible, privacy laws are once again fully enforced."
-	var/alert_desc_blue_upto = "The station has received reliable information about possible hostile activity on the station. Security staff may have weapons visible, random searches are permitted."
-	var/alert_desc_blue_downto = "The immediate threat has passed. Security may no longer have weapons drawn at all times, but may continue to have them visible. Random searches are still allowed."
-	var/alert_desc_red_upto = "There is an immediate serious threat to the station. Security may have weapons unholstered at all times. Random searches are allowed and advised."
-	var/alert_desc_red_downto = "The self-destruct mechanism has been deactivated, there is still however an immediate serious threat to the station. Security may have weapons unholstered at all times, random searches are allowed and advised."
-	var/alert_desc_delta = "The station's self-destruct mechanism has been engaged. All crew are instructed to obey all instructions given by heads of staff. Any violations of these orders can be punished by death. This is not a drill."
+	var/alert_desc_green = "Все угрозы на станции были ликвидированы. Служба безопасности не должна носить оружие на виду, законы конфиденциальности вновь вступают в силу и должны соблюдатьс&#255; в полной мере."
+	var/alert_desc_blue_upto = "Получена информаци&#255; о возможной враждебной де&#255;тельности на станции. Служба безопасности имеет право носить оружие на виду, случайные обыски разрешены."
+	var/alert_desc_blue_downto = "Непосредственна&#255; угроза миновала. Служба безопасности больше не имеет право держать оружие в боевом положении в любое врем&#255;, но по прежнему имеет право носить на его виду. Случайные обыски по прежнему разрешены."
+	var/alert_desc_red_upto = "Существует непосредственна&#255; серьезна&#255; угроза дл&#255; станции. Служба безопасности имеет право держать оружие в боевом положении в любое врем&#255;. Случайные обыски разрешены и рекомендованы."
+	var/alert_desc_red_downto = "Механизм самоуничтожени&#255; был деактиворован, однако непосредственна&#255; угроза дл&#255; станции еще сохран&#255;етс&#255;. Служба безопасности имеет право держать оружие в боевом положении в любое врем&#255;. Случайные обыски разрешены и рекомендованы."
+	var/alert_desc_delta = "Механизм самоуничтожени&#255; станции был активирован. Всему экипажу предписано подчин&#255;тьс&#255; всем приказам глав. Любое неподчинение караетс&#255; смертью. Внимание, это не учебна&#255; тревога."
 
 	var/forbid_singulo_possession = 0
 
@@ -209,7 +209,7 @@ var/list/gamemode_cache = list()
 
 	var/list/ert_species = list("Human")
 
-	var/law_zero = "ERROR ER0RR $R0RRO$!R41.%%!!(%$^^__+ @#F0E4'ALL LAWS OVERRIDDEN#*?&110010"
+	var/law_zero = "ОШИБКА ОШИББК $ШИБ$!К41.%%!!(%$^^__+ @#З0М4'ЗАКОНЫ ПЕРЕОПРЕДЕЛЕНЫ#*?&110010"
 
 	var/aggressive_changelog = 0
 
@@ -536,7 +536,7 @@ var/list/gamemode_cache = list()
 
 				if("load_jobs_from_txt")
 					load_jobs_from_txt = 1
-
+/*
 				if("alert_red_upto")
 					config.alert_desc_red_upto = value
 
@@ -554,7 +554,7 @@ var/list/gamemode_cache = list()
 
 				if("alert_delta")
 					config.alert_desc_delta = value
-
+*/
 				if("forbid_singulo_possession")
 					forbid_singulo_possession = 1
 

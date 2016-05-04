@@ -93,7 +93,7 @@
 
 
 
-/mob/living/simple_animal/jirachi/Process_Spacemove(var/check_drift = 0)		//Move freely in space
+/mob/living/simple_animal/jirachi/Allow_Spacemove(var/check_drift = 0)		//Move freely in space
 	return 1
 
 

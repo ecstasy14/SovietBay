@@ -5,24 +5,24 @@
 	var/releaseWhen = 60
 	var/list/area/areas = list()		//List of areas to affect. Filled by start()
 
-	var/eventDept = "Security"			//Department name in announcement
+	var/eventDept = "охранного отдела"			//Department name in announcement
 	var/list/areaName = list("Brig")	//Names of areas mentioned in AI and Engineering announcements
 	var/list/areaType = list(/area/security/prison, /area/security/brig)	//Area types to include.
 	var/list/areaNotType = list()		//Area types to specifically exclude.
 
 /datum/event/prison_break/virology
-	eventDept = "Medical"
+	eventDept = "медицинского отдела"
 	areaName = list("Virology")
 	areaType = list(/area/medical/virology, /area/medical/virologyaccess)
 
 /datum/event/prison_break/xenobiology
-	eventDept = "Science"
+	eventDept = "научного отдела"
 	areaName = list("Xenobiology")
 	areaType = list(/area/rnd/xenobiology)
 	areaNotType = list(/area/rnd/xenobiology/xenoflora, /area/rnd/xenobiology/xenoflora_storage)
 
 /datum/event/prison_break/station
-	eventDept = "Station"
+	eventDept = "станции"
 	areaName = list("Brig","Virology","Xenobiology")
 	areaType = list(/area/security/prison, /area/security/brig, /area/medical/virology, /area/medical/virologyaccess, /area/rnd/xenobiology)
 	areaNotType = list(/area/rnd/xenobiology/xenoflora, /area/rnd/xenobiology/xenoflora_storage)
@@ -37,7 +37,7 @@
 
 /datum/event/prison_break/announce()
 	if(areas && areas.len > 0)
-		command_announcement.Announce("[pick("Gr3y.T1d3 virus","Malignant trojan")] detected in [station_name()] [(eventDept == "Security")? "imprisonment":"containment"] subroutines. Secure any compromised areas immediately. Station AI involvement is recommended.", "[eventDept] Alert")
+		command_announcement.Announce("[pick("Пр3м.Т1д3 вирус","Зловредный тро&#255;н")] обнаружен на [station_name()]. Его цель - системы сканировани&#255; доступа. Зафиксируйте все взломанные области. Рекомендуетс&#255; участие искуственного интелекта.", "Угроза безопасности [eventDept]")
 
 
 /datum/event/prison_break/start()
