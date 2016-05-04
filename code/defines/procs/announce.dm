@@ -132,5 +132,5 @@ datum/announcement/proc/Log(message as text, message_title as text)
 			rank = character.mind.role_alt_title
 		AnnounceArrivalSimple(character.real_name, rank, join_message)
 
-/proc/AnnounceArrivalSimple(var/name, var/rank = "visitor", var/join_message = "прибывает на станцию.")
+/proc/AnnounceArrivalSimple(var/name, var/rank = "visitor", var/join_message = "прибывает на станцию")
 	global_announcer.autosay("[name], [rank], [join_message].", "Arrivals Announcement Computer")
