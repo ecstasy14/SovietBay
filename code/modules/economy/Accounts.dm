@@ -57,7 +57,7 @@
 		R.info += "<i>Номер:</i> [M.account_number]<br>"
 		R.info += "<i>Пин-код:</i> [M.remote_access_pin]<br>"
 		R.info += "<i>Начальный баланс:</i> $[M.money]<br>"
-		R.info += "<i>Дата создани&#255;:</i> [worldtime2text()], [current_date_string]<br><br>"
+		R.info += "<i>Дата создани&#255;:</i> [stationtime2text()], [current_date_string]<br><br>"
 		R.info += "<i>ID терминала:</i> [source_db.machine_id]<br>"
 		R.info += "<i>Уполномоченное лицо:</i> [source_db.held_card.registered_name]<br>"
 
