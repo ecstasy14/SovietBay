@@ -33,9 +33,9 @@
 				security_level = SEC_LEVEL_BLUE
 			if(SEC_LEVEL_RED)
 				if(security_level < SEC_LEVEL_RED)
-					security_announcement_up.Announce("[config.alert_desc_red_upto]", "Вниминие! Красный код!")
+					security_announcement_up.Announce("[config.alert_desc_red_upto]", "Внимание! Красный код!")
 				else
-					security_announcement_down.Announce("[config.alert_desc_red_downto]", "Вниминие! Красный код!")
+					security_announcement_down.Announce("[config.alert_desc_red_downto]", "Внимание! Красный код!")
 				security_level = SEC_LEVEL_RED
 				/*	- At the time of commit, setting status displays didn't work properly
 				var/obj/machinery/computer/communications/CC = locate(/obj/machinery/computer/communications,world)
@@ -49,6 +49,13 @@
 		for(var/obj/machinery/firealarm/FA in machines)
 			if(FA.z in using_map.contact_levels)
 				FA.set_security_level(newlevel)
+		for(var/obj/machinery/light/LT in machines)
+			if(security_level == 0 || security_level == 1 )
+				LT.alert_collor()
+			else
+				LT.set_light(l_range = LT.light_range, l_power = LT.light_power, l_color = LT.standart_color)
+				if(pick(1,0) == 1)
+					LT.alert_collor()
 
 
 /proc/get_security_level()
