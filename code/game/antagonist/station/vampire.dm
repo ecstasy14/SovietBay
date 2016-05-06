@@ -12,7 +12,6 @@ var/datum/antagonist/vampire/vamp
 	//role_type = BE_VAMPIRE
 	role_text = "Vampire"
 	role_text_plural = "Vampires"
-	bantype = "vampires"
 	feedback_tag = "vampire_objective"
 	restricted_jobs = list("AI", "Cyborg", "Chaplain")
 	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain")
