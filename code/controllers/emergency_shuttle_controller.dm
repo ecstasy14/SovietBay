@@ -48,12 +48,12 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle
 			var/estimated_time = 0
 			if (evac)
 				estimated_time = round(emergency_shuttle.estimate_launch_time()/60,1)
-				emergency_shuttle_docked.Announce("Аварийный шаттл состыковалс&#255; со станцией. Приблизительное врем&#255; до отлета - [estimated_time] минуты.")
+				emergency_shuttle_docked.Announce("Аварийный шаттл состыковалс&#255; со станцией. Расчетное врем&#255; до отлета - [estimated_time] минуты.")
 			else
 				estimated_time = round(estimate_launch_time()/60,1)
-				priority_announcement.Announce("Запланированный шаттл конца смены состыковалс&#255; со станцией. Приблизительное врем&#255; до отлета - [estimated_time] минуты.")
+				priority_announcement.Announce("Шаттл состыковалс&#255; со станцией. Расчетное врем&#255; до отлета - [estimated_time] минуты.")
 			if(config.announce_shuttle_dock_to_irc)
-				send2mainirc("Шаттл состыковалс&#255; со станцией. Приблизительное врем&#255; отлета - [estimated_time] минуты.")
+				send2mainirc("Шаттл состыковалс&#255; со станцией. Расчетное врем&#255; до отлета - [estimated_time] минуты.")
 
 		//arm the escape pods
 		if (evac)
@@ -82,7 +82,7 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle
 	shuttle.move_time = SHUTTLE_TRANSIT_DURATION
 
 	evac = 1
-	emergency_shuttle_called.Announce("Шаттл экстренной эвакуации был вызван. Расчетное врем&#255; прыбити&#255; - [round(estimate_arrival_time()/60)] минут.")
+	emergency_shuttle_called.Announce("Вызван шаттл экстренной эвакуации. Расчетное врем&#255; прибыти&#255; - [round(estimate_arrival_time()/60)] минут.")
 	for(var/area/A in world)
 		if(istype(A, /area/hallway))
 			A.readyalert()
@@ -99,7 +99,7 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle
 	//reset the shuttle transit time if we need to
 	shuttle.move_time = SHUTTLE_TRANSIT_DURATION
 
-	priority_announcement.Announce("Объ&#255;влен конец смены. Шаттл отправлен к станции. Расчетное врем&#255; прыбити&#255; - [round(estimate_arrival_time()/60)] минут.")
+	priority_announcement.Announce("В св&#255;зи с запланированным концом смены, шаттл отправлен на станцию. Расчетное врем&#255; прибыти&#255; - [round(estimate_arrival_time()/60)] минут.")
 
 //recalls the shuttle
 /datum/emergency_shuttle_controller/proc/recall()

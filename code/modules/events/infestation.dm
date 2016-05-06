@@ -97,7 +97,7 @@
 
 
 /datum/event/infestation/announce()
-	command_announcement.Announce("Биосканеры обнаружили размножение [vermstring] [locstring]. Отчистите место от паразитов, пока они не начали наносить ущерб продуктивности.", "Заражение вредител&#255;ми")
+	command_announcement.Announce("Биосканеры обнаружили размножение [vermstring] [locstring]. Очистите место от паразитов, пока они не начали наносить ущерб продуктивности.", "Заражение вредител&#255;ми")
 
 #undef LOC_KITCHEN
 #undef LOC_ATMOS

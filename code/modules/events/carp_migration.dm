@@ -14,7 +14,7 @@
 		announcement = "Больша&#255; миграци&#255; неизвестных биологических обьектов обнаружена вблизи [station_name()]. Сохран&#255;йте спокойствие."
 	else
 		announcement = "[spawned_carp.len == 1 ? "Неизвестный биологический обьект был обнаружен" : "Неизвестные биологические обьекты были обнаружены"] вблизи [station_name()]. Сохран&#255;йте спокойствие."
-	command_announcement.Announce(announcement, "Lifesign Alert")
+	command_announcement.Announce(announcement, "Неизвестные признаки жизни")
 
 /datum/event/carp_migration/start()
 	if(severity == EVENT_LEVEL_MAJOR)
