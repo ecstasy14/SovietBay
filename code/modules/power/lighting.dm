@@ -145,6 +145,8 @@
 	var/brightness_range = 8	// luminosity when on, also used in power calculation
 	var/brightness_power = 3
 	var/brightness_color = null
+	var/standart_color = "#FFFFFF"
+	var/color_state = 1
 	var/status = LIGHT_OK		// LIGHT_OK, _EMPTY, _BURNED or _BROKEN
 	var/flickering = 0
 	var/light_type = /obj/item/weapon/light/tube		// the type of light item
@@ -163,18 +165,22 @@
 	brightness_range = 6
 	brightness_power = 2
 	brightness_color = "#a0a080"
+	standart_color = "#a0a080"
 	desc = "A small lighting fixture."
 	light_type = /obj/item/weapon/light/bulb
+
 
 /obj/machinery/light/small/emergency
 	brightness_range = 6
 	brightness_power = 2
 	brightness_color = "#da0205"
+	standart_color = "#da0205"
 
 /obj/machinery/light/small/red
 	brightness_range = 5
 	brightness_power = 1
 	brightness_color = "#da0205"
+	standart_color = "#da0205"
 
 /obj/machinery/light/spot
 	name = "spotlight"
@@ -182,6 +188,37 @@
 	light_type = /obj/item/weapon/light/tube/large
 	brightness_range = 12
 	brightness_power = 4
+	standart_color = "#FFFFFF"
+
+/obj/machinery/light/proc/alert_collor(alert = 0, ret = 0)
+	if(ret)	color_state = 3
+	if(!alert)
+		if(get_security_level() == "green")
+			if(color_state == 1 || color_state == 0) return
+			set_light(l_range = light_range, l_power = light_power, l_color = standart_color)
+			color_state = 1
+			return
+		if(get_security_level() == "blue")
+			if(color_state == 1 || color_state == 0) return
+			set_light(l_range = light_range, l_power = light_power, l_color = standart_color)
+			color_state = 1
+			return
+		if(get_security_level() == "red")
+			if(color_state == 2 || color_state == 0) return
+			set_light(l_range = light_range, l_power = light_power, l_color = "#FF6F6F")
+			color_state = 2
+			return
+		if(get_security_level() == "delta")
+			set_light(l_range = light_range, l_power = light_power, l_color = "#FF6633")
+			color_state = 3
+			return
+	if(alert)
+		set_light(l_range = light_range, l_power = light_power, l_color = "#FF6F6F")
+		color_state = 0
+		return
+
+
+
 
 /obj/machinery/light/built/New()
 	status = LIGHT_EMPTY

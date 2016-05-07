@@ -86,6 +86,16 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle
 	for(var/area/A in world)
 		if(istype(A, /area/hallway))
 			A.readyalert()
+			if(get_security_level() == "delta")
+				for(var/obj/machinery/light/LT in A.contents)
+					LT.alert_collor()
+	if(get_security_level() != "delta")
+		for(var/obj/machinery/light/LAMPS in machines)
+			if(pick(1,0) == 1)
+				if(get_security_level() == "red")	LAMPS.color_state = 0
+				else
+					LAMPS.set_light(l_range = LAMPS.light_range, l_power = LAMPS.light_power, l_color = "#FF6F6F")
+					LAMPS.color_state = 0
 
 //calls the shuttle for a routine crew transfer
 /datum/emergency_shuttle_controller/proc/call_transfer()
@@ -115,6 +125,10 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle
 			if(istype(A, /area/hallway))
 				A.readyreset()
 		evac = 0
+		for(var/obj/machinery/light/LT in machines)
+			LT.set_light(l_range = LT.light_range, l_power = LT.light_power, l_color = LT.standart_color)
+			if(pick(1,0) == 1)
+				LT.alert_collor(0,1)
 	else
 		priority_announcement.Announce("Шаттл отозван.")
 
