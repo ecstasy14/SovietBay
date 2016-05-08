@@ -1,7 +1,7 @@
 /turf/space
 	icon = 'icons/turf/space.dmi'
 	name = "\proper space"
-	icon_state = "0"
+	icon_state = "1"
 	dynamic_lighting = 0
 
 	temperature = T20C
@@ -9,9 +9,23 @@
 //	heat_capacity = 700000 No.
 
 /turf/space/New()
+//	if(!global_space_area)
+//		global_space_area = new /area/space()
+//		global_space_area.white_overlay = image(loc=global_space_area, icon='icons/turf/space.dmi', icon_state="white", layer=AREA_LAYER+0.1)
+//	if(istype(loc,/area/space))
+//		global_space_area.contents += src
+//	else
+//		var/area/A = loc
+//		if(!A.white_overlay)
+//			A.white_overlay = image(loc=A, icon='icons/turf/space.dmi', icon_state="white", layer=AREA_LAYER+0.1)
+//			for(var/client/C in parallax_on_clients)
+//				C.images |= A.white_overlay
+
+
 	if(!istype(src, /turf/space/transit))
-		icon_state = "[((x + y) ^ ~(x * y) + z) % 25]"
-	update_starlight()
+		layer = AREA_LAYER
+		overlays += image(loc=global_space_area, icon='icons/turf/space.dmi', icon_state="white", layer=AREA_LAYER+0.1)
+		update_starlight()
 	..()
 
 // override for space turfs, since they should never hide anything

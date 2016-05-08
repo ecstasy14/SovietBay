@@ -32,7 +32,7 @@
 		moving_status = SHUTTLE_IDLE
 
 /datum/shuttle/proc/long_jump(var/area/departing, var/area/destination, var/area/interim, var/travel_time, var/direction)
-	//world << "shuttle/long_jump: departing=[departing], destination=[destination], interim=[interim], travel_time=[travel_time]"
+//	world << "shuttle/long_jump: departing=[departing], destination=[destination], interim=[interim], travel_time=[travel_time]"
 	if(moving_status != SHUTTLE_IDLE) return
 
 	//it would be cool to play a sound here
@@ -40,15 +40,22 @@
 	spawn(warmup_time*10)
 		if (moving_status == SHUTTLE_IDLE)
 			return	//someone cancelled the launch
-
 		arrive_time = world.time + travel_time*10
 		moving_status = SHUTTLE_INTRANSIT
 		move(departing, interim, direction)
+		arrive_time = world.time + travel_time*10
+		moving_status = SHUTTLE_INTRANSIT
+/*
+		for(var/mob/A in world)
+			A << get_area_name(interim)
+			if(get_area_name(get_area(A)) == get_area_name(interim))
+				A.update_parallax("east")
+*/
+
 
 
 		while (world.time < arrive_time)
 			sleep(5)
-
 		move(interim, destination, direction)
 		moving_status = SHUTTLE_IDLE
 

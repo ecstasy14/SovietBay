@@ -160,7 +160,7 @@ datum/hud/New(mob/owner)
 	hotkeybuttons = null
 //	item_action_list = null // ?
 	mymob = null
-    
+
 /datum/hud/proc/common_hud()
     mymob.client.screen += mymob.client.void
 
@@ -258,9 +258,67 @@ datum/hud/New(mob/owner)
 	var/ui_alpha = mymob.client.prefs.UI_style_alpha
 	if(mymob.mind && mymob.mind.vampire)
 		vampire_hud()
-
 	mymob.instantiate_hud(src, ui_style, ui_color, ui_alpha)
+	create_parallax()
 
+
+/client/var/list/spessbg = list()
+
+var/list/parallax_on_clients = list()
+
+var/area/global_space_area = null
+
+/obj/screen/spessbg
+	var/offset_x = 0
+	var/offset_y = 0
+/datum/hud/proc/create_parallax()
+	var/client/C = mymob.client
+	parallax_on_clients |= C
+	if (C.spessbg.len)
+		for(var/obj/screen/spessbg/bgobj in C.spessbg)
+			bgobj.layer = AREA_LAYER + 0.5
+			C.screen |= bgobj
+		return
+
+	var/obj/screen/spessbg/bgobj = new /obj/screen/spessbg()
+
+	bgobj.icon = 'icons/parallax.dmi'
+	bgobj.icon_state = "spess"
+	bgobj.name = "spess"
+	bgobj.screen_loc = "1,1"
+	bgobj.layer = AREA_LAYER + 0.5
+	bgobj.blend_mode = BLEND_MULTIPLY
+	bgobj.mouse_opacity = 0
+	C.spessbg += bgobj
+	C.screen += bgobj
+	for(var/obj/screen/spessbg/S in C.spessbg)
+		S.icon_state = "spess"
+		for(var/pix_x = 0; pix_x <= 448; pix_x+=32)
+			for(var/pix_y = 0; pix_y <= 448; pix_y+=32)
+				sleep(1)
+				S.overlays += image(icon = 'icons/turf/space.dmi' ,icon_state = "[rand(1,25)]" ,pixel_x=pix_x, pixel_y=pix_y, layer = AREA_LAYER + 0.51)
+				S.icon_state = "white"
+/*
+/mob/proc/update_parallax(transition = 0)
+	//world << "<b> \red Update parallax: \blue [usr.name] - [transition]"
+	if(!transition)
+		for(var/obj/screen/spessbg/S in client.spessbg)
+			S.icon_state = "spess"
+			for(var/pix_x = 0; pix_x <= 448; pix_x+=32)
+				for(var/pix_y = 0; pix_y <= 448; pix_y+=32)
+					sleep(1)
+					S.overlays += image(icon = 'icons/turf/space.dmi' ,icon_state = "[rand(1,25)]" ,pixel_x=pix_x, pixel_y=pix_y, layer = AREA_LAYER + 0.51)
+			S.icon_state = "white"
+			return
+	if(transition == "north")
+		for(var/obj/screen/spessbg/L in client.screen)
+			L.icon_state = "black"
+			return
+	if(transition == "east")
+		for(var/obj/screen/spessbg/L in client.screen)
+			L.icon_state = "black"
+			return
+*/
 /mob/proc/instantiate_hud(var/datum/hud/HUD, var/ui_style, var/ui_color, var/ui_alpha)
 	return
 
