@@ -263,15 +263,22 @@ datum/hud/New(mob/owner)
 
 
 /client/var/list/spessbg = list()
-
 var/list/parallax_on_clients = list()
-
 var/area/global_space_area = null
+/client/var/first_parallax_create = 1
 
 /obj/screen/spessbg
 	var/offset_x = 0
 	var/offset_y = 0
 
+/mob/Move()
+	..()
+	if(client)
+		if(!client.first_parallax_create)
+			if(client.spessbg[1] == null)
+				client.spessbg.Remove(client.spessbg[1])
+				hud_used.create_parallax()
+	..()
 
 /datum/hud/proc/create_parallax()
 	var/client/C = mymob.client
@@ -282,7 +289,6 @@ var/area/global_space_area = null
 			C.screen |= bgobj
 		return
 	var/obj/screen/spessbg/bgobj = new /obj/screen/spessbg()
-
 	bgobj.icon = 'icons/parallax.dmi'
 	bgobj.icon_state = "white"
 	bgobj.name = "spess"
@@ -298,6 +304,7 @@ var/area/global_space_area = null
 				for(var/pix_y = 0; pix_y <= 448; pix_y+=32)
 					S.overlays += image(icon = 'icons/turf/space.dmi' ,icon_state = "[rand(1,25)]" ,pixel_x=pix_x, pixel_y=pix_y, layer = AREA_LAYER + 0.51)
 			S.icon_state = "white"
+	C.first_parallax_create = 0
 
 
 /mob/proc/instantiate_hud(var/datum/hud/HUD, var/ui_style, var/ui_color, var/ui_alpha)
