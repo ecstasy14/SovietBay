@@ -48,12 +48,12 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle
 			var/estimated_time = 0
 			if (evac)
 				estimated_time = round(emergency_shuttle.estimate_launch_time()/60,1)
-				emergency_shuttle_docked.Announce("Аварийный шаттл состыковалс&#255; со станцией. Приблизительное врем&#255; до отлета - [estimated_time] минуты.")
+				emergency_shuttle_docked.Announce("Аварийный шаттл состыковалс&#255; со станцией. Расчетное врем&#255; до отлета - [estimated_time] минуты.")
 			else
 				estimated_time = round(estimate_launch_time()/60,1)
-				priority_announcement.Announce("Запланированный шаттл конца смены состыковалс&#255; со станцией. Приблизительное врем&#255; до отлета - [estimated_time] минуты.")
+				priority_announcement.Announce("Шаттл состыковалс&#255; со станцией. Расчетное врем&#255; до отлета - [estimated_time] минуты.")
 			if(config.announce_shuttle_dock_to_irc)
-				send2mainirc("Шаттл состыковалс&#255; со станцией. Приблизительное врем&#255; отлета - [estimated_time] минуты.")
+				send2mainirc("Шаттл состыковалс&#255; со станцией. Расчетное врем&#255; до отлета - [estimated_time] минуты.")
 
 		//arm the escape pods
 		if (evac)
@@ -82,10 +82,20 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle
 	shuttle.move_time = SHUTTLE_TRANSIT_DURATION
 
 	evac = 1
-	emergency_shuttle_called.Announce("Шаттл экстренной эвакуации был вызван. Расчетное врем&#255; прыбити&#255; - [round(estimate_arrival_time()/60)] минут.")
+	emergency_shuttle_called.Announce("Вызван шаттл экстренной эвакуации. Расчетное врем&#255; прибыти&#255; - [round(estimate_arrival_time()/60)] минут.")
 	for(var/area/A in world)
 		if(istype(A, /area/hallway))
 			A.readyalert()
+			if(get_security_level() == "delta")
+				for(var/obj/machinery/light/LT in A.contents)
+					LT.alert_collor()
+	if(get_security_level() != "delta")
+		for(var/obj/machinery/light/LAMPS in machines)
+			if(pick(1,0) == 1)
+				if(get_security_level() == "red")	LAMPS.color_state = 0
+				else
+					LAMPS.set_light(l_range = LAMPS.light_range, l_power = LAMPS.light_power, l_color = "#FF6F6F")
+					LAMPS.color_state = 0
 
 //calls the shuttle for a routine crew transfer
 /datum/emergency_shuttle_controller/proc/call_transfer()
@@ -99,7 +109,7 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle
 	//reset the shuttle transit time if we need to
 	shuttle.move_time = SHUTTLE_TRANSIT_DURATION
 
-	priority_announcement.Announce("Объ&#255;влен конец смены. Шаттл отправлен к станции. Расчетное врем&#255; прыбити&#255; - [round(estimate_arrival_time()/60)] минут.")
+	priority_announcement.Announce("В св&#255;зи с запланированным концом смены, шаттл отправлен на станцию. Расчетное врем&#255; прибыти&#255; - [round(estimate_arrival_time()/60)] минут.")
 
 //recalls the shuttle
 /datum/emergency_shuttle_controller/proc/recall()
@@ -115,6 +125,10 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle
 			if(istype(A, /area/hallway))
 				A.readyreset()
 		evac = 0
+		for(var/obj/machinery/light/LT in machines)
+			LT.set_light(l_range = LT.light_range, l_power = LT.light_power, l_color = LT.standart_color)
+			if(pick(1,0) == 1)
+				LT.alert_collor(0,1)
 	else
 		priority_announcement.Announce("Шаттл отозван.")
 

@@ -18,6 +18,7 @@
 	edge = 1
 	slot_flags |= SLOT_DENYPOCKET
 	playsound(user, 'sound/weapons/saberon.ogg', 50, 1)
+	set_light(l_range = 2, l_power = 1, l_color = light_color)
 
 /obj/item/weapon/melee/energy/proc/deactivate(mob/living/user)
 	anchored = 0
@@ -30,6 +31,7 @@
 	sharp = initial(sharp)
 	edge = initial(edge)
 	slot_flags = initial(slot_flags)
+	set_light(l_range = 0, l_power = 1, l_color = light_color)
 
 /obj/item/weapon/melee/energy/attack_self(mob/living/user as mob)
 	if (active)
@@ -76,6 +78,7 @@
 	attack_verb = list("attacked", "chopped", "cleaved", "torn", "cut")
 	sharp = 1
 	edge = 1
+	light_color = COLOR_RED
 
 /obj/item/weapon/melee/energy/axe/activate(mob/living/user)
 	..()
@@ -115,18 +118,27 @@
 
 /obj/item/weapon/melee/energy/sword/New()
 	blade_color = pick("red","blue","green","purple")
+	if(blade_color == "red") light_color = COLOR_RED
+	else if(blade_color == "blue") light_color = "#0000FF"
+	else if(blade_color == "green") light_color = "#13FF00"
+	else if(blade_color == "purple") light_color = "#FF00FF"
+
 
 /obj/item/weapon/melee/energy/sword/green/New()
 	blade_color = "green"
+	light_color = "#13FF00"
 
 /obj/item/weapon/melee/energy/sword/red/New()
 	blade_color = "red"
+	light_color = COLOR_RED
 
 /obj/item/weapon/melee/energy/sword/blue/New()
 	blade_color = "blue"
+	light_color = "#0000FF"
 
 /obj/item/weapon/melee/energy/sword/purple/New()
 	blade_color = "purple"
+	light_color = "#FF00FF"
 
 /obj/item/weapon/melee/energy/sword/activate(mob/living/user)
 	if(!active)
@@ -157,6 +169,7 @@
 	name = "energy cutlass"
 	desc = "Arrrr matey."
 	icon_state = "cutlass0"
+	light_color = COLOR_RED
 
 /obj/item/weapon/melee/energy/sword/pirate/activate(mob/living/user)
 	..()
@@ -184,6 +197,7 @@
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	var/mob/living/creator
 	var/datum/effect/effect/system/spark_spread/spark_system
+	light_color = "#13FF00"
 
 /obj/item/weapon/melee/energy/blade/New()
 
@@ -192,6 +206,7 @@
 	spark_system.attach(src)
 
 	processing_objects |= src
+	set_light(l_range = 2, l_power = 1, l_color = light_color)
 
 /obj/item/weapon/melee/energy/blade/Destroy()
 	processing_objects -= src
