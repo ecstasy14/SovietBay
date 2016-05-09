@@ -48,6 +48,8 @@
 	if(eyeobj)
 		eyeobj.possess(src)
 
+	refresh_client_images()
+
 	//set macro to normal incase it was overriden (like cyborg currently does)
 	switch(winget(usr, null, "mainwindow.macro"))
 		if("hotkeymode" || "borghotkeymode")

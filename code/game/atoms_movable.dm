@@ -237,6 +237,10 @@
 		src.verbs -= x
 	..()
 
+/atom/movable/overlay/Destroy()
+	master = null
+	. = ..()
+
 /atom/movable/overlay/attackby(a, b)
 	if (src.master)
 		return src.master.attackby(a, b)

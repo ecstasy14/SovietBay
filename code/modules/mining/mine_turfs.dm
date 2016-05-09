@@ -284,7 +284,7 @@
 				flick("flash",M.flash)
 				if(prob(50))
 					M.Stun(5)
-			M.apply_effect(25, IRRADIATE)
+			M.apply_effect(25, IRRADIATE, blocked = M.getarmor(null, "rad"))
 
 	if(rand(1,500) == 1)
 		visible_message("<span class='notice'>An old dusty crate was buried within!</span>", translation = list("object"=src,"name"="find_crate"))
