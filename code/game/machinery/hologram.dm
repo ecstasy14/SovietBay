@@ -179,28 +179,11 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 				shift_holo(user)
 	return 1
 
-/obj/machinery/hologram/holopad/proc/shift_holo(mob/living/silicon/ai/user)
-	var/turf/hloc = get_turf(user.eyeobj)
+/obj/machinery/hologram/holopad/proc/set_dir_hologram(new_dir, mob/living/silicon/ai/user)
+	if(masters[user])
+		var/obj/effect/overlay/hologram = masters[user]
+		hologram.dir = new_dir
 
-	if(HOLOPAD_MODE == RANGE_BASED)
-		for(var/obj/machinery/hologram/holopad/H in view(user.eyeobj, holo_range))
-			if(H.stat & NOPOWER)
-				continue
-			clear_holo(user)
-			H.create_holo(user,hloc)
-			user << "\blue Shifting hologram to holopad at [H.x], [H.y], [H.z]."
-			return
-
-	if(HOLOPAD_MODE == AREA_BASED)
-		for(var/obj/machinery/hologram/holopad/H in get_area(user.eyeobj))
-			if(H.stat & NOPOWER)
-				continue
-			clear_holo(user)
-			H.create_holo(user,hloc)
-			user << "\blue Shifting hologram to holopad at [get_area(H)]"
-			return
-
-	clear_holo(user)
 
 
 /*

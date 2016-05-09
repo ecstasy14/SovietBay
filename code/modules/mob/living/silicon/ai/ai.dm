@@ -376,11 +376,7 @@ var/list/ai_verbs_default = list(
 	if(confirm == "Yes")
 		call_shuttle_proc(src)
 
-	// hack to display shuttle timer
-	if(emergency_shuttle.online())
-		var/obj/machinery/computer/communications/C = locate() in machines
-		if(C)
-			C.post_status("shuttle")
+	post_status("shuttle")
 
 /mob/living/silicon/ai/proc/ai_recall_shuttle()
 	set category = "Silicon Commands"
@@ -756,13 +752,6 @@ var/list/ai_verbs_default = list(
 	return 0
 /mob/living/silicon/ai/proc/is_in_chassis()
 	return istype(loc, /turf)
-
-
-/mob/living/silicon/ai/ex_act(var/severity)
-	if(severity == 1.0)
-		qdel(src)
-		return
-	..()
 
 /mob/living/silicon/ai/proc/multitool_mode()
 	set name = "Toggle Multitool Mode"
