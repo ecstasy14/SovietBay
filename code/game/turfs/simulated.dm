@@ -84,9 +84,6 @@
 	. = ..()
 
 /turf/simulated/Entered(atom/A, atom/OL)
-	if(movement_disabled && usr.ckey != movement_disabled_exception)
-		usr << "<span class='danger'>[translation(src,"movement_disabled")]</span>" //This is to identify lag problems
-		return
 
 	if (istype(A,/mob/living))
 		var/mob/living/M = A

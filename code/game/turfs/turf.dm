@@ -70,9 +70,6 @@
 	return 1
 
 /turf/Enter(atom/movable/mover as mob|obj, atom/forget as mob|obj|turf|area)
-	if(movement_disabled && usr.ckey != movement_disabled_exception)
-		usr << "<span class='warning'>[translation(src,"movement_disabled")]</span>" //This is to identify lag problems
-		return
 
 	..()
 
@@ -116,9 +113,6 @@
 var/const/enterloopsanity = 100
 /turf/Entered(atom/atom as mob|obj)
 
-	if(movement_disabled)
-		usr << "<span class='warning'>[translation(src,"movement_disabled")]</span>" //This is to identify lag problems
-		return
 	..()
 
 	if(!istype(atom, /atom/movable))
@@ -130,7 +124,7 @@ var/const/enterloopsanity = 100
 		var/mob/M = A
 		if(!M.check_solid_ground())
 			inertial_drift(M)
-			//we'll end up checking solid ground again but we still need to check the other things. 
+			//we'll end up checking solid ground again but we still need to check the other things.
 			//Ususally most people aren't in space anyways so hopefully this is acceptable.
 			M.update_floating()
 		else

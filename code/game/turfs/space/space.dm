@@ -60,9 +60,6 @@
 // Ported from unstable r355
 
 /turf/space/Entered(atom/movable/A as mob|obj)
-	if(movement_disabled)
-		usr << "<span class='warning'>[translation(src, "movement_disabled")]</span>" //This is to identify lag problems
-		return
 	..()
 	if(A && A.loc == src && ticker && ticker.mode)
 

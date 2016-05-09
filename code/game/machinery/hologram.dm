@@ -152,7 +152,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 			continue
 
 		if(!(masters[master] in view(src)))
-			shift_holo(master)
+			clear_holo(master)
 			continue
 
 		use_power(power_per_hologram)
@@ -166,17 +166,17 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 		masters[user] = H
 
 		if(!(H in view(src)))
-			shift_holo(user)
+			clear_holo(user)
 			return 0
 
 		if((HOLOPAD_MODE == RANGE_BASED && (get_dist(user.eyeobj, src) > holo_range)))
-			shift_holo(user)
+			clear_holo(user)
 
 		if(HOLOPAD_MODE == AREA_BASED)
 			var/area/holo_area = get_area(src)
 			var/area/hologram_area = get_area(H)
 			if(hologram_area != holo_area)
-				shift_holo(user)
+				clear_holo(user)
 	return 1
 
 /obj/machinery/hologram/holopad/proc/set_dir_hologram(new_dir, mob/living/silicon/ai/user)
