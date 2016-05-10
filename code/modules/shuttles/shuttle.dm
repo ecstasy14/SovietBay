@@ -45,14 +45,6 @@
 		move(departing, interim, direction)
 		arrive_time = world.time + travel_time*10
 		moving_status = SHUTTLE_INTRANSIT
-/*
-		for(var/mob/A in world)
-			A << get_area_name(interim)
-			if(get_area_name(get_area(A)) == get_area_name(interim))
-				A.update_parallax("east")
-*/
-
-
 
 		while (world.time < arrive_time)
 			sleep(5)
