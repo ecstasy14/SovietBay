@@ -6,6 +6,7 @@
 	check_armour = "energy"
 
 
+
 //releases a burst of light on impact or after travelling a distance
 /obj/item/projectile/energy/flash
 	name = "chemical shell"
@@ -50,7 +51,7 @@
 	light_colour = pick("#e58775", "#ffffff", "#90ff90", "#a09030")
 
 	..() //initial flash
-	
+
 	//residual illumination
 	new /obj/effect/effect/smoke/illumination(src.loc, rand(190,240) SECONDS, range=8, power=3, color=light_colour) //same lighting power as flare
 
@@ -63,6 +64,9 @@
 	stun = 10
 	weaken = 10
 	stutter = 10
+	New()
+		set_light(l_range = 3, l_power = 1, l_color = "#FFFF78")
+		..()
 	/*taser_effect = 1
 	agony = 40
 	damage_type = HALLOSS*/
@@ -73,6 +77,9 @@
 	damage = 5
 	taser_effect = 1
 	agony = 80
+	New()
+		set_light(l_range = 3, l_power = 1, l_color = "#FFFF78")
+		..()
 
 /obj/item/projectile/energy/declone
 	name = "declone"
@@ -81,6 +88,9 @@
 	nodamage = 1
 	damage_type = CLONE
 	irradiate = 40
+	New()
+		set_light(l_range = 3, l_power = 1, l_color = "#00FF00")
+		..()
 
 
 /obj/item/projectile/energy/dart
@@ -89,6 +99,9 @@
 	damage = 5
 	damage_type = TOX
 	weaken = 5
+	New()
+		set_light(l_range = 3, l_power = 1, l_color = "#00FF00")
+		..()
 
 
 /obj/item/projectile/energy/bolt
@@ -99,11 +112,17 @@
 	nodamage = 0
 	agony = 40
 	stutter = 10
+	New()
+		set_light(l_range = 3, l_power = 1, l_color = "#00FF00")
+		..()
 
 
 /obj/item/projectile/energy/bolt/large
 	name = "largebolt"
 	damage = 20
+	New()
+		set_light(l_range = 3, l_power = 1, l_color = "#00FF00")
+		..()
 
 
 /obj/item/projectile/energy/neurotoxin
@@ -120,3 +139,9 @@
 	damage = 20
 	damage_type = TOX
 	irradiate = 20
+	New()
+		set_light(l_range = 3, l_power = 1, l_color = "#00FF00")
+		..()
+
+
+
