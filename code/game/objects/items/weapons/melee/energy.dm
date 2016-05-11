@@ -78,7 +78,7 @@
 	attack_verb = list("attacked", "chopped", "cleaved", "torn", "cut")
 	sharp = 1
 	edge = 1
-	light_color = COLOR_RED
+	light_color = "#0000FF"
 
 /obj/item/weapon/melee/energy/axe/activate(mob/living/user)
 	..()
