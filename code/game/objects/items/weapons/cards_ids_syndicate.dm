@@ -41,16 +41,16 @@
 /obj/item/weapon/card/id/syndicate/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
 	var/data[0]
 	var/entries[0]
-	entries[++entries.len] = list("name" = "[fix_rus_nanoui("Возраст")]", 			"value" = age)
-	entries[++entries.len] = list("name" = "[fix_rus_nanoui("Оболочка карты")]",	"value" = "Set")
-	entries[++entries.len] = list("name" = "[fix_rus_nanoui("Назначание")]",		"value" = assignment)
-	entries[++entries.len] = list("name" = "[fix_rus_nanoui("Группа крови")]",		"value" = blood_type)
-	entries[++entries.len] = list("name" = "[fix_rus_nanoui("Хэш ДНК")]", 			"value" = dna_hash)
-	entries[++entries.len] = list("name" = "[fix_rus_nanoui("Хэш отпечатков")]",	"value" = fingerprint_hash)
-	entries[++entries.len] = list("name" = "[fix_rus_nanoui("Имя")]", 				"value" = registered_name)
-	entries[++entries.len] = list("name" = "[fix_rus_nanoui("Фото")]", 				"value" = "Update")
-	entries[++entries.len] = list("name" = "[fix_rus_nanoui("Пол")]", 				"value" = sex)
-	entries[++entries.len] = list("name" = "[fix_rus_nanoui("Сброс настроек")]",	"value" = "Use With Care")
+	entries[++entries.len] = list("name" = "Age", 				"value" = age)
+	entries[++entries.len] = list("name" = "Appearance",		"value" = "Set")
+	entries[++entries.len] = list("name" = "Assignment",		"value" = assignment)
+	entries[++entries.len] = list("name" = "Blood Type",		"value" = blood_type)
+	entries[++entries.len] = list("name" = "DNA Hash", 			"value" = dna_hash)
+	entries[++entries.len] = list("name" = "Fingerprint Hash",	"value" = fingerprint_hash)
+	entries[++entries.len] = list("name" = "Name", 				"value" = registered_name)
+	entries[++entries.len] = list("name" = "Photo", 			"value" = "Update")
+	entries[++entries.len] = list("name" = "Sex", 				"value" = sex)
+	entries[++entries.len] = list("name" = "Factory Reset",		"value" = "Use With Care")
 	data["electronic_warfare"] = electronic_warfare
 	data["entries"] = entries
 
