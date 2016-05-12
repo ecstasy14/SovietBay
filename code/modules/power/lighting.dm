@@ -162,7 +162,7 @@
 	icon_state = "bulb1"
 	base_state = "bulb"
 	fitting = "bulb"
-	brightness_range = 4
+	brightness_range = 3
 	brightness_power = 2
 	brightness_color = "#a0a080"
 	standart_color = "#a0a080"
@@ -177,7 +177,7 @@
 	standart_color = "#da0205"
 
 /obj/machinery/light/small/red
-	brightness_range = 4
+	brightness_range = 3
 	brightness_power = 1
 	brightness_color = "#da0205"
 	standart_color = "#da0205"
