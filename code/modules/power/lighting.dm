@@ -186,7 +186,7 @@
 	name = "spotlight"
 	fitting = "large tube"
 	light_type = /obj/item/weapon/light/tube/large
-	brightness_range = 8
+	brightness_range = 10
 	brightness_power = 4
 	standart_color = "#FFFFFF"
 
