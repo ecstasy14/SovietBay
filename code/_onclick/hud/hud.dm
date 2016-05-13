@@ -36,6 +36,8 @@ var/list/global_huds = list(
 	screen.layer = SCREEN_LAYER
 	screen.mouse_opacity = 0
 	screen.blend_mode = BLEND_MULTIPLY
+	screen.alpha = 180
+
 
 	return screen
 
