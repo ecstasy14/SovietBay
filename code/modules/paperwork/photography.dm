@@ -132,7 +132,7 @@ var/global/photo_count = 0
 	var/on = 1
 	var/icon_on = "camera"
 	var/icon_off = "camera_off"
-	var/size = 3
+	var/size = 1
 /* LAGSHIT
 /obj/item/device/camera/verb/change_size()
 	set name = "Set Photo Focus"
