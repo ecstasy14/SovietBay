@@ -124,7 +124,7 @@ datum/announcement/proc/Log(message as text, message_title as text)
 	command_announcement.Announce("Обнаружена биологическа&#255; опасность на борту [station_name()]. Требуется сдержать вспышку.", "Биологическа&#255; опасность", new_sound = 'sound/AI/outbreak7.ogg')
 
 /proc/ion_storm_announcement()
-	command_announcement.Announce("Станци#255; входит в зону высокой ионной активности. Возможны сбои в работе электроники.", "Аномальна&#255; активность")
+	command_announcement.Announce("Станци&#255; входит в зону высокой ионной активности. Возможны сбои в работе электроники.", "Аномальна&#255; активность")
 
 /proc/AnnounceArrival(var/mob/living/carbon/human/character, var/rank, var/join_message)
 	if (ticker.current_state == GAME_STATE_PLAYING)
