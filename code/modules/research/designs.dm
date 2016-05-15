@@ -1708,3 +1708,44 @@ CIRCUITS BELOW
 	id = "cart_captain"
 	build_path = /obj/item/weapon/cartridge/captain
 	sort_string = "VBAAO"
+
+// Laser Battery
+
+
+/datum/design/item/weapon/cell/device/laser
+	name = "standart-laser-capacity"
+	build_type = PROTOLATHE | MECHFAB
+	id = "standart"
+	req_tech = list(TECH_POWER = 1)
+	materials = list(DEFAULT_WALL_MATERIAL = 700, "glass" = 50)
+	build_path = /obj/item/weapon/cell/device/laser
+	category = "Misc"
+	sort_string = "ZZZZA"
+
+/datum/design/item/weapon/cell/device/laser/high
+	name = "high-laser-capacity"
+	build_type = PROTOLATHE | MECHFAB
+	id = "high"
+	req_tech = list(TECH_POWER = 2)
+	materials = list(DEFAULT_WALL_MATERIAL = 700, "glass" = 60)
+	build_path = /obj/item/weapon/cell/device/laser/high
+	category = "Misc"
+	sort_string = "ZZZZB"
+
+/datum/design/item/weapon/cell/device/laser/super
+	name = "super-laser-capacity"
+	id = "super"
+	req_tech = list(TECH_POWER = 3, TECH_MATERIAL = 2)
+	materials = list(DEFAULT_WALL_MATERIAL = 700, "glass" = 70)
+	build_path = /obj/item/weapon/cell/device/laser/super
+	category = "Misc"
+	sort_string = "ZZZZC"
+
+/datum/design/item/weapon/cell/device/laser/hyper
+	name = "hyper-laser-capacity"
+	id = "hyper"
+	req_tech = list(TECH_POWER = 5, TECH_MATERIAL = 4)
+	materials = list(DEFAULT_WALL_MATERIAL = 400, "gold" = 150, "silver" = 150, "glass" = 70)
+	build_path = /obj/item/weapon/cell/device/laser/hyper
+	category = "Misc"
+	sort_string = "ZZZZD"

@@ -77,9 +77,9 @@
 	icon_state = "tile"
 	force = 6.0
 	matter = list(DEFAULT_WALL_MATERIAL = 937.5)
-	throwforce = 5 //Present for Tilson!
+	throwforce = 15
 	throw_speed = 5
-	throw_range = 20
+	throw_range = 3 //Present for Tilson!
 	flags = CONDUCT
 
 /obj/item/stack/tile/floor_steel

@@ -34,6 +34,51 @@ var/cell_uid = 1		// Unique ID of this power cell. Used to reduce bunch of uglie
 	maxcharge = 1000
 	matter = list("metal" = 350, "glass" = 50)
 
+
+/obj/item/weapon/cell/device/laser/update_icon()
+	var/ratio = charge / maxcharge
+	if(charge)
+		ratio = max(round(ratio, 0.25) * 100, 25)
+		icon_state = "[initial(icon_state)][ratio]"
+	else
+		icon_state = "[initial(icon_state)]0"
+
+/obj/item/weapon/cell/device/laser/New()
+	..()
+	update_icon()
+
+/obj/item/weapon/cell/device/laser
+	icon = 'icons/obj/laser_battery.dmi'
+	icon_state = "standart"
+	name = "standart laser battery"
+	desc = "Standart battery power supply high-intensity."
+	origin_tech = list(TECH_POWER = 1)
+	maxcharge = 1000
+
+/obj/item/weapon/cell/device/laser/high
+	name = "high laser battery"
+	desc = "High battery power supply high-intensity."
+	icon_state = "high"
+	origin_tech = list(TECH_POWER = 2)
+	matter = list(DEFAULT_WALL_MATERIAL = 700, "glass" = 60)
+	maxcharge = 2000
+
+/obj/item/weapon/cell/device/laser/super
+	name = "super laser battery"
+	desc = "Super battery power supply high-intensity."
+	icon_state = "super"
+	origin_tech = list(TECH_POWER = 5)
+	matter = list(DEFAULT_WALL_MATERIAL = 700, "glass" = 70)
+	maxcharge = 3000
+
+/obj/item/weapon/cell/device/laser/hyper
+	name = "hyper laser battery"
+	desc = "Hyper battery power supply high-intensity."
+	icon_state = "hyper"
+	origin_tech = list(TECH_POWER = 6)
+	matter = list(DEFAULT_WALL_MATERIAL = 700, "glass" = 80)
+	maxcharge = 4000
+
 /obj/item/weapon/cell/device/variable/New(newloc, charge_amount)
 	..(newloc)
 	maxcharge = charge_amount
@@ -161,6 +206,7 @@ var/cell_uid = 1		// Unique ID of this power cell. Used to reduce bunch of uglie
 	return use(cell_amt) / CELLRATE
 
 /obj/item/weapon/cell/update_icon()
+//	if(istype(src, /obj/item/weapon/cell/device/laser))		return
 	overlays.Cut()
 
 	if(charge < 0.01)

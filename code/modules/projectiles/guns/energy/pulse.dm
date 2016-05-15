@@ -8,6 +8,7 @@
 	projectile_type = /obj/item/projectile/beam
 	sel_mode = 2
 	max_shots = 10
+	cell_type = /obj/item/weapon/cell/device/laser/high
 
 	firemodes = list(
 		list(mode_name="stun", projectile_type=/obj/item/projectile/energy/electrode, fire_delay=null, charge_cost=null),
@@ -22,7 +23,7 @@
 /obj/item/weapon/gun/energy/pulse_rifle/destroyer
 	name = "pulse destroyer"
 	desc = "A heavy-duty, pulse-based energy weapon. Because of its complexity and cost, it is rarely seen in use except by specialists."
-	cell_type = /obj/item/weapon/cell/super
+	cell_type = /obj/item/weapon/cell/device/laser/hyper
 	fire_delay = 25
 	projectile_type=/obj/item/projectile/beam/pulse
 	charge_cost=400
