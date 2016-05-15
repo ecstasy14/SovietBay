@@ -1714,7 +1714,6 @@ CIRCUITS BELOW
 
 /datum/design/item/weapon/cell/device/laser
 	name = "standart-laser-capacity"
-	build_type = PROTOLATHE | MECHFAB
 	id = "standart"
 	req_tech = list(TECH_POWER = 1)
 	materials = list(DEFAULT_WALL_MATERIAL = 700, "glass" = 50)
@@ -1724,7 +1723,6 @@ CIRCUITS BELOW
 
 /datum/design/item/weapon/cell/device/laser/high
 	name = "high-laser-capacity"
-	build_type = PROTOLATHE | MECHFAB
 	id = "high"
 	req_tech = list(TECH_POWER = 2)
 	materials = list(DEFAULT_WALL_MATERIAL = 700, "glass" = 60)
