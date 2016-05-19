@@ -17,8 +17,25 @@
 	spawn_flags = CAN_JOIN
 	appearance_flags = HAS_HAIR_COLOR | HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR
 
-/datum/species/human/get_bodytype()
-	return "Human"
+	has_limbs = list(
+		"chest" =  list("path" = /obj/item/organ/external/chest/human),
+		"groin" =  list("path" = /obj/item/organ/external/groin/human),
+		"head" =   list("path" = /obj/item/organ/external/head/human),
+		"l_arm" =  list("path" = /obj/item/organ/external/arm/human),
+		"r_arm" =  list("path" = /obj/item/organ/external/arm/right/human),
+		"l_leg" =  list("path" = /obj/item/organ/external/leg/human),
+		"r_leg" =  list("path" = /obj/item/organ/external/leg/right/human),
+		"l_hand" = list("path" = /obj/item/organ/external/hand/human),
+		"r_hand" = list("path" = /obj/item/organ/external/hand/right/human),
+		"l_foot" = list("path" = /obj/item/organ/external/foot/human),
+		"r_foot" = list("path" = /obj/item/organ/external/foot/right/human)
+		)
+
+/datum/species/human/get_bodytype(var/gender)
+	if(gender == "female")
+		return "Human_f"
+	else
+		return "Human"
 
 /datum/species/unathi
 	name = "Unathi"

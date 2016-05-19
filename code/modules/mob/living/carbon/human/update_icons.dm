@@ -476,8 +476,8 @@ var/global/list/damage_icon_parts = list()
 		var/icon/under_icon
 		if(w_uniform.icon_override)
 			under_icon = w_uniform.icon_override
-		else if(w_uniform.sprite_sheets && w_uniform.sprite_sheets[species.get_bodytype()])
-			under_icon = w_uniform.sprite_sheets[species.get_bodytype()]
+		else if(w_uniform.sprite_sheets && w_uniform.sprite_sheets[species.get_bodytype(gender)])
+			under_icon = w_uniform.sprite_sheets[species.get_bodytype(gender)]
 		else if(w_uniform.item_icons && w_uniform.item_icons[slot_w_uniform_str])
 			under_icon = w_uniform.item_icons[slot_w_uniform_str]
 		else
@@ -613,8 +613,8 @@ var/global/list/damage_icon_parts = list()
 		var/image/standing
 		if(shoes.icon_override)
 			standing = image("icon" = shoes.icon_override, "icon_state" = "[shoes.icon_state]")
-		else if(shoes.sprite_sheets && shoes.sprite_sheets[species.get_bodytype()])
-			standing = image("icon" = shoes.sprite_sheets[species.get_bodytype()], "icon_state" = "[shoes.icon_state]")
+		else if(shoes.sprite_sheets && shoes.sprite_sheets[species.get_bodytype(gender)])
+			standing = image("icon" = shoes.sprite_sheets[species.get_bodytype(gender)], "icon_state" = "[shoes.icon_state]")
 		else
 			standing = image("icon" = 'icons/mob/feet.dmi', "icon_state" = "[shoes.icon_state]")
 
@@ -743,8 +743,8 @@ var/global/list/damage_icon_parts = list()
 		var/t_icon = INV_SUIT_DEF_ICON
 		if(wear_suit.icon_override)
 			t_icon = wear_suit.icon_override
-		else if(wear_suit.sprite_sheets && wear_suit.sprite_sheets[species.get_bodytype()] && ("[wear_suit.icon_state]" in icon_states(wear_suit.sprite_sheets[species.get_bodytype()])))
-			t_icon = wear_suit.sprite_sheets[species.get_bodytype()]
+		else if(wear_suit.sprite_sheets && wear_suit.sprite_sheets[species.get_bodytype(gender)] && ("[wear_suit.icon_state]" in icon_states(wear_suit.sprite_sheets[species.get_bodytype(gender)])))
+			t_icon = wear_suit.sprite_sheets[species.get_bodytype(gender)]
 		else if(wear_suit.item_icons && wear_suit.item_icons[slot_wear_suit_str])
 			t_icon = wear_suit.item_icons[slot_wear_suit_str]
 
