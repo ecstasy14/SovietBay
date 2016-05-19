@@ -101,7 +101,6 @@
 			icon_state = "[modifystate][ratio]"
 		else
 			icon_state = "[initial(icon_state)][ratio]"
-	if(!ignore_inhands) update_held_icon()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -126,7 +125,7 @@
 		icon_state = "[initial(icon_state)]0"
 	else
 		icon_state = "[modifystate]0"
-	update_held_icon()
+	update_twohanding()
 	return 0
 /////////////////////////////////////////////////////////////////////////////////
 
