@@ -409,6 +409,7 @@ BLIND     // can't see anything
 	sprite_sheets = list(
 		"Vox" = 'icons/mob/species/vox/shoes.dmi',
 		"Resomi" = 'icons/mob/species/resomi/shoes.dmi',
+		"Human_f" = 'icons/mob/human_female/feet.dmi'
 		)
 
 /obj/item/clothing/shoes/New()
@@ -487,6 +488,7 @@ BLIND     // can't see anything
 
 	sprite_sheets = list(
 		"Vox" = 'icons/mob/species/vox/suit.dmi',
+		"Human_f" = 'icons/mob/human_female/suit.dmi',
 		"Resomi" = 'icons/mob/species/resomi/suit.dmi'
 		)
 
@@ -520,7 +522,8 @@ BLIND     // can't see anything
 	var/rolled_down = -1 //0 = unrolled, 1 = rolled, -1 = cannot be toggled
 	sprite_sheets = list(
 		"Vox" = 'icons/mob/species/vox/uniform.dmi',
-		"Resomi" = 'icons/mob/species/resomi/uniform.dmi'
+		"Resomi" = 'icons/mob/species/resomi/uniform.dmi',
+		"Human_f" = 'icons/mob/human_female/uniform.dmi'
 		)
 
 	//convenience var for defining the icon state for the overlay used when the clothing is worn.

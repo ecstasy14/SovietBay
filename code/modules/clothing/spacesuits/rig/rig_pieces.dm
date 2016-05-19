@@ -50,6 +50,7 @@
 	can_breach = 1
 	sprite_sheets = list(
 		"Tajara" = 'icons/mob/species/tajaran/suit.dmi',
+		"Human_f" = 'icons/mob/human_female/suit.dmi',
 		"Unathi" = 'icons/mob/species/unathi/suit.dmi'
 		)
 	supporting_limbs = list()
