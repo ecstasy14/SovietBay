@@ -14,7 +14,7 @@
 	if(mind && mind.current == src)
 		spellremove(src)
 	ghostize()
-	..()
+	. = ..()
 
 /mob/proc/remove_screen_obj_references()
 	flash = null
@@ -166,10 +166,10 @@
 	if(pulling)
 		if(istype(pulling, /obj))
 			var/obj/O = pulling
-			. += O.w_class / 2
+			. += O.w_class / 5
 		else if(istype(pulling, /mob))
 			var/mob/M = pulling
-			. += M.mob_size / 5
+			. += M.mob_size / MOB_MEDIUM
 		else
 			. += 1
 
@@ -778,10 +778,6 @@
 				if(buckled.buckle_movable)
 					anchored = 0
 					canmove = 1
-		else if(captured)
-			anchored = 1
-			canmove = 0
-			lying = 0
 		else
 			lying = incapacitated(INCAPACITATION_KNOCKDOWN)
 			canmove = !incapacitated(INCAPACITATION_DISABLED)
