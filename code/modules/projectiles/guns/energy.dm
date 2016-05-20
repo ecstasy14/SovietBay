@@ -86,7 +86,8 @@
 	user << "Has [shots_remaining] shot\s remaining."
 	return
 
-/obj/item/weapon/gun/energy/update_icon(var/ignore_inhands)
+/obj/item/weapon/gun/energy/update_icon()
+	..()
 	if(charge_meter)
 		var/ratio = power_supply.charge / power_supply.maxcharge
 
@@ -100,7 +101,6 @@
 			icon_state = "[modifystate][ratio]"
 		else
 			icon_state = "[initial(icon_state)][ratio]"
-	if(!ignore_inhands) update_held_icon()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -125,7 +125,7 @@
 		icon_state = "[initial(icon_state)]0"
 	else
 		icon_state = "[modifystate]0"
-	update_held_icon()
+	update_twohanding()
 	return 0
 /////////////////////////////////////////////////////////////////////////////////
 
