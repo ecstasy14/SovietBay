@@ -142,12 +142,13 @@
 		update_icon()
 /////////////////////////////////////////////////////////////////////////////////
 
-/obj/item/weapon/gun/energy/attack_hand(mob/user as mob)
-	if(user.get_inactive_hand() == src)
-		if(unload_battery(user))
-			..()
-	else
-		return ..()
+/obj/item/weapon/gun/energy/verb/eject_battery(mob/user as mob)
+	set category = null
+	set src in view(0)
+	set name = "Eject battery"
+	if(unload_battery(user))
+		user << "<span class='warning'>Unable to eject battery.</span>"
+
 
 /obj/item/weapon/gun/energy/attackby(var/obj/item/A as obj, mob/user as mob)
 	load_battery(A, user)

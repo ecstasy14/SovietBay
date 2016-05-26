@@ -163,7 +163,7 @@
 
 /mob/proc/movement_delay()
 	. = 0
-	if(pulling)
+/*	if(pulling)
 		if(istype(pulling, /obj))
 			var/obj/O = pulling
 			. += O.w_class / 5
@@ -172,6 +172,7 @@
 			. += M.mob_size / MOB_MEDIUM
 		else
 			. += 1
+*/
 
 /mob/proc/Life()
 //	if(organStructure)

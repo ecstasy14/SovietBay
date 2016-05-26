@@ -272,6 +272,7 @@ datum/preferences
 					head = 'icons/mob/species/resomi/head.dmi'
 					hands = 'icons/mob/species/resomi/gloves.dmi'
 					mask = 'icons/mob/species/resomi/masks.dmi'
+					back = 'icons/mob/species/resomi/back.dmi'
 
 				if("Vox")
 					uniform = 'icons/mob/species/vox/uniform.dmi'

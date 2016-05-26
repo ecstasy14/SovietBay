@@ -275,7 +275,6 @@ var/area/global_space_area = null
 	var/offset_y = 0
 
 /mob/Move()
-	..()
 	if(client)
 		if(!client.first_parallax_create)
 			if(client.spessbg[1] == null)
