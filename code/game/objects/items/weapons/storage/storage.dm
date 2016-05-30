@@ -327,7 +327,7 @@
 		if(other.w_class > src.w_class || other.max_w_class >= src.w_class)
 			if(!stop_messages)
 				usr << "<span class='notice'>\The [src] cannot hold [W].</span>"
-		return 0 //To prevent infinite storage exploits
+			return 0 //To prevent infinite storage exploits
 
 	return 1
 
@@ -432,9 +432,6 @@
 
 	W.add_fingerprint(user)
 	return handle_item_insertion(W)
-
-/obj/item/weapon/storage/dropped(mob/user as mob)
-	return
 
 /obj/item/weapon/storage/attack_hand(mob/user as mob)
 	if(ishuman(user))

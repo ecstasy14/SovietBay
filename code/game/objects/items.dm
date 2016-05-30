@@ -46,7 +46,7 @@
 	var/canremove = 1 //Mostly for Ninja code at this point but basically will not allow the item to be removed if set to 0. /N
 	var/list/armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
 	var/list/allowed = null //suit storage stuff.
-	var/obj/item/device/uplink/hidden/hidden_uplink = null // All items can have an uplink hidden inside, just remember to add the triggers.
+	var/obj/item/device/uplink/hidden_uplink = null // All items can have an uplink hidden inside, just remember to add the triggers.
 	var/zoomdevicename = null //name used for message when binoculars/scope is used
 	var/zoom = 0 //1 if item is actively being used to zoom. For scoped guns and binoculars.
 
@@ -198,7 +198,8 @@
 	if(user.put_in_active_hand(src))
 		if(randpixel)
 			pixel_x = rand(-randpixel, randpixel)
-			pixel_y = rand(-randpixel, 0) - randpixel //an idea borrowed from some of the older pixel_y randomizations. Intended to make items appear to drop at a character's feet
+			pixel_y = rand(-randpixel/2, randpixel/2)
+			pixel_z = 0
 		else if(randpixel == 0)
 			pixel_x = 0
 			pixel_y = 0
@@ -254,7 +255,8 @@
 
 // apparently called whenever an item is removed from a slot, container, or anything else.
 /obj/item/proc/dropped(mob/user as mob)
-	..()
+	if(randpixel)
+		pixel_z = randpixel //an idea borrowed from some of the older pixel_y randomizations. Intended to make items appear to drop at a character
 	if(zoom) zoom() //binoculars, scope, etc
 
 // called just as an item is picked up (loc is not yet changed)

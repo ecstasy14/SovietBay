@@ -63,7 +63,7 @@
 			if(eta_status)
 				stat(null, eta_status)
 
-		if (internal)
+		if (istype(internal))
 			if (!internal.air_contents)
 				qdel(internal)
 			else
@@ -1052,7 +1052,7 @@
 					src << msg
 
 				organ.take_damage(rand(1,3), 0, 0)
-				if(!(organ.status & ORGAN_ROBOT) && !(species.flags & NO_BLOOD)) //There is no blood in protheses.
+				if(!(organ.robotic >= ORGAN_ROBOT) && !(species.flags & NO_BLOOD)) //There is no blood in protheses.
 					organ.status |= ORGAN_BLEEDING
 					src.adjustToxLoss(rand(1,3))
 
@@ -1237,7 +1237,7 @@
 		user << "<span class='warning'>They are missing that limb.</span>"
 		return 0
 
-	if(affecting.status & ORGAN_ROBOT)
+	if(affecting.robotic >= ORGAN_ROBOT)
 		user << "<span class='warning'>That limb is robotic.</span>"
 		return 0
 
@@ -1349,8 +1349,8 @@
 	var/list/limbs = list()
 	for(var/limb in organs_by_name)
 		var/obj/item/organ/external/current_limb = organs_by_name[limb]
-		if(current_limb && current_limb.dislocated == 2)
-			limbs |= limb
+		if(current_limb && current_limb.dislocated > 0 && !current_limb.is_parent_dislocated()) //if the parent is also dislocated you will have to relocate that first
+			limbs |= current_limb
 	var/choice = input(usr,"Which joint do you wish to relocate?") as null|anything in limbs
 
 	if(!choice)
