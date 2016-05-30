@@ -265,15 +265,15 @@
 
 /datum/species/proc/hug(var/mob/living/carbon/human/H,var/mob/living/target)
 
-	var/t_him = "он почувствовал"
+/*	var/t_him = "он почувствовал"
 	switch(target.gender)
 		if(MALE)
 			t_him = "он почувствовал"
 		if(FEMALE)
-			t_him = "она почувствовала"
+			t_him = "она почувствовала"*/
 
-	H.visible_message("<span class='notice'>[H] обнимает [target], что бы [t_him] себ&#255; лучше!</span>", \
-					"<span class='notice'>¬ы обнимаете [target], что бы [t_him] себ&#255; лучше!</span>")
+	H.visible_message("<span class='notice'>[H] обнимает [target]!</span>", \
+					"<span class='notice'>¬ы обнимаете [target]!</span>")
 
 /datum/species/proc/remove_inherent_verbs(var/mob/living/carbon/human/H)
 	if(inherent_verbs)
