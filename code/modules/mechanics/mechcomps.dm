@@ -27,7 +27,7 @@ You should only attach one datum per class
 	master = new_master
 	//Should this part be visible to everyone? If not, I'll have to think about a better solution"
 	master.desc += "\nComponent ID: \ref[master]"
-	set_extension(master, /datum/extension/multitool, /datum/extension/multitool/items/mechcomp)
+	set_extension(master, /datum/extension/interactive/multitool, /datum/extension/interactive/multitool/items/mechcomp)
 	..()
 
 /datum/mechcomp/proc/add_input(input_name as text, func_name as text)

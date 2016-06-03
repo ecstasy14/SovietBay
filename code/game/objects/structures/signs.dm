@@ -437,3 +437,99 @@
 	name = "\improper Infirmary"
 	desc = "A direction sign, pointing out which way the Infirmary is."
 	icon_state = "direction_infirm"
+
+////////////////////////////////
+/obj/structure/sign/oxidants
+	name = "OXIDIZING AGENTS"
+	desc = "Warning: Oxidizing agents in this area, do not start fires!"
+	icon_state = "oxidants"
+
+/obj/structure/sign/atmosplaque
+	name = "\improper FEA atmospherics division plaque"
+	desc = "This plaque commemorates the fall of the Atmos FEA division. For all the charred, dizzy, and brittle men who have died in its hands."
+	icon_state = "plaque_atmos"
+
+/obj/structure/sign/pods
+	name = "\improper ESCAPE PODS"
+	desc = "A warning sign which reads 'ESCAPE PODS'."
+	icon_state = "pods"
+
+/obj/structure/sign/radiation
+	name = "\improper RADIOACTIVE AREA"
+	desc = "A warning sign which reads 'RADIOACTIVE AREA'."
+	icon_state = "radiation1"
+
+/obj/structure/sign/radiation2
+	name = "RADIATION HAZARD"
+	desc = "Warning: Significant levels of radiation present in this area!"
+	icon_state = "radiation2"
+
+/obj/structure/sign/science
+	name = "\improper SCIENCE!"
+	desc = "A warning sign which reads 'SCIENCE!'."
+	icon_state = "science1"
+
+/obj/structure/sign/science2
+	name = "\improper SCIENCE!"
+	desc = "A warning sign which reads 'SCIENCE!'."
+	icon_state = "science2"
+
+/obj/structure/sign/securearea
+	name = "\improper SECURE AREA"
+	desc = "A warning sign which reads 'SECURE AREA'."
+	icon_state = "securearea1"
+
+/obj/structure/sign/securearea2
+	name = "SECURE AREA"
+	desc = "Warning: Secure Area! Do not enter without authorization!"
+	icon_state = "securearea2"
+
+/obj/structure/sign/electricshock
+	name = "\improper HIGH VOLTAGE"
+	desc = "A warning sign which reads 'HIGH VOLTAGE'."
+	icon_state = "shock"
+
+/obj/structure/sign/vacuum
+	name = "\improper HARD VACUUM AHEAD"
+	desc = "A warning sign which reads 'HARD VACUUM AHEAD'."
+	icon_state = "space"
+
+/obj/structure/sign/xenobio
+	name = "\improper XENOBIOLOGY"
+	desc = "A warning sign which reads 'XENOBIOLOGY'."
+	icon_state = "xenobio1"
+
+/obj/structure/sign/xenobio2
+	name = "\improper XENOBIOLOGY"
+	desc = "A warning sign which reads 'XENOBIOLOGY'."
+	icon_state = "xenobio2"
+
+/obj/structure/sign/xenobio3
+	name = "\improper XENOBIOLOGY"
+	desc = "A warning sign which reads 'XENOBIOLOGY'."
+	icon_state = "xenobio3"
+
+/obj/structure/sign/xenobio4
+	name = "\improper XENOBIOLOGY"
+	desc = "A warning sign which reads 'XENOBIOLOGY'."
+	icon_state = "xenobio4"
+
+/obj/structure/sign/redcross
+	name = "Medbay"
+	desc = "The Intergalactic symbol of Medical institutions. You'll probably get help here."
+	icon_state = "redcross"
+
+/obj/structure/sign/greencross
+	name = "Medbay"
+	desc = "The Intergalactic symbol of Medical institutions. You'll probably get help here."
+	icon_state = "greencross"
+
+/obj/structure/sign/bluecross
+	name = "Medbay"
+	desc = "The Intergalactic symbol of Medical institutions. You'll probably get help here."
+	icon_state = "bluecross"
+
+/obj/structure/sign/bluecross2
+	name = "Medbay"
+	desc = "The Intergalactic symbol of Medical institutions. You'll probably get help here."
+	icon_state = "bluecross2"
