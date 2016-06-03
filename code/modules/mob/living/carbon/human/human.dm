@@ -1480,12 +1480,12 @@
 	else
 		return H.pulse
 
-/mob/living/carbon/human/can_devour(mob/victim)
-
 /mob/living/carbon/human/generate_name()
 	name = species.get_random_name(gender,src)
 	real_name = name
 	return name
+
+/mob/living/carbon/human/can_devour(mob/victim)
 	if(src.species.gluttonous && (iscarbon(victim) || isanimal(victim)))
 		if(src.species.gluttonous == GLUT_TINY && (victim.mob_size <= MOB_TINY) && !ishuman(victim)) // Anything MOB_TINY or smaller
 			return DEVOUR_SLOW

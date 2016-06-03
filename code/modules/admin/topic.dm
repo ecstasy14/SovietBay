@@ -1588,10 +1588,6 @@
 
 		log_and_message_admins("created [number] [english_list(paths)]")
 		return
-/*
-<<<<<<< HEAD
-	else if(href_list["secretsfun"])
-		if(!check_rights(R_FUN))	return
 
 	else if(href_list["admin_secrets_panel"])
 		var/datum/admin_secret_category/AC = locate(href_list["admin_secrets_panel"]) in admin_secrets.categories
