@@ -1,4 +1,4 @@
-/datum/extension/multitool/items/mechcomp/get_interact_window(var/obj/item/device/multitool/M, var/mob/user)
+/datum/extension/interactive/multitool/items/mechcomp/get_interact_window(var/obj/item/device/multitool/M, var/mob/user)
 	var/found = 0
 	var/c = 1
 	while(c != holder.vars.len + 1)
@@ -36,7 +36,7 @@
 			. += "<HR>"
 			. += settings
 
-/datum/extension/multitool/items/mechcomp/on_topic(href, href_list, user)
+/datum/extension/interactive/multitool/items/mechcomp/on_topic(href, href_list, user)
 	var/datum/mechcomp/mechcomp
 
 	//Yes, that's a scary construction
