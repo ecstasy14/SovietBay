@@ -86,7 +86,7 @@
 	user << "Has [shots_remaining] shot\s remaining."
 	return
 
-/obj/item/weapon/gun/energy/update_icon()
+/obj/item/weapon/gun/energy/update_icon(var/ignore_inhands)
 	..()
 	if(charge_meter)
 		var/ratio = power_supply.charge / power_supply.maxcharge
@@ -101,6 +101,12 @@
 			icon_state = "[modifystate][ratio]"
 		else
 			icon_state = "[initial(icon_state)][ratio]"
+	if(ismob(src.loc))
+		var/mob/M = src.loc
+		if(M.l_hand == src)
+			M.update_inv_l_hand()
+		else if(M.r_hand == src)
+			M.update_inv_r_hand()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
