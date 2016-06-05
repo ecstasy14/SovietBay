@@ -142,7 +142,7 @@
 		update_icon()
 /////////////////////////////////////////////////////////////////////////////////
 
-/obj/item/weapon/gun/energy/verb/eject_battery(mob/user as mob)
+/obj/item/weapon/gun/energy/verb/eject_battery(mob/user as mob in view(0))
 	set category = null
 	set src in view(0)
 	set name = "Eject battery"
