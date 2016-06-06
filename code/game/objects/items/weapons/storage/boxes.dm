@@ -57,15 +57,15 @@
 
 /obj/item/weapon/storage/box/survival/
 	startswith = list(/obj/item/clothing/mask/breath = 1,
-					/obj/item/weapon/tank/emergency_oxygen = 1)
+					/obj/item/weapon/tank/emergency/oxygen = 1)
 
 /obj/item/weapon/storage/box/vox/
 	startswith = list(/obj/item/clothing/mask/breath = 1,
-					/obj/item/weapon/tank/emergency_nitrogen = 1)
+					/obj/item/weapon/tank/emergency/nitrogen = 1)
 
 /obj/item/weapon/storage/box/engineer/
 	startswith = list(/obj/item/clothing/mask/breath = 1,
-					/obj/item/weapon/tank/emergency_oxygen/engi = 1)
+					/obj/item/weapon/tank/emergency/oxygen/engi = 1)
 
 /obj/item/weapon/storage/box/gloves
 	name = "box of latex gloves"
@@ -210,11 +210,6 @@
 	desc = "This box contains nerd glasses."
 	icon_state = "glasses"
 	startswith = list(/obj/item/clothing/glasses/regular = 7)
-
-/obj/item/weapon/storage/box/drinkingglasses
-	name = "box of drinking glasses"
-	desc = "It has a picture of drinking glasses on it."
-	startswith = list(/obj/item/weapon/reagent_containers/food/drinks/drinkingglass = 6)
 
 /obj/item/weapon/storage/box/cdeathalarm_kit
 	name = "death alarm kit"
