@@ -155,7 +155,8 @@
 	icon_state = initial(icon_state)
 
 /obj/item/weapon/melee/energy/sword/handle_shield(mob/user, var/damage, atom/damage_source = null, mob/attacker = null, var/def_zone = null, var/attack_text = "the attack")
-	if(active && default_parry_check(user, attacker, damage_source) && prob(50))
+	if(active && default_parry_check(user, attacker, damage_source))
+		if(prob(80)) return 0
 		user.visible_message("<span class='danger'>\The [user] parries [attack_text] with \the [src]!</span>")
 
 		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
@@ -163,6 +164,17 @@
 		spark_system.start()
 		playsound(user.loc, 'sound/weapons/blade1.ogg', 50, 1)
 		return 1
+
+	else if(active && prob(70))
+		if(check_shield_arc(user, reverse_direction(user.dir), damage_source, attacker))
+			user.visible_message("<span class='danger'>\The [user] blocks [attack_text] with \the [src]!</span>")
+			var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
+			spark_system.set_up(1, 0, user.loc)
+			spark_system.start()
+			playsound(user.loc, 'sound/weapons/blade1.ogg', 50, 1)
+
+			return 1
+
 	return 0
 
 /obj/item/weapon/melee/energy/sword/pirate
