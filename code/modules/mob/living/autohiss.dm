@@ -15,7 +15,7 @@
 	return species.handle_autohiss(message, L, client.autohiss_mode)
 
 /client
-	var/autohiss_mode = AUTOHISS_OFF
+	var/autohiss_mode = AUTOHISS_FULL
 
 /client/verb/toggle_autohiss()
 	set name = "Toggle Auto-Hiss"
@@ -43,19 +43,53 @@
 /datum/species/unathi
 	autohiss_basic_map = list(
 			"s" = list("ss", "sss", "ssss"),
-			"c" = list("cc", "ccc", "cccc")
+			"c" = list("cc", "ccc", "cccc"),
+			"ס" = list("סס", "ססס", "סססס"),
+			"ר" = list("רר", "ררר", "רררר"),
+			"Ñ" = list("סס", "ססס", "סססס"),
+			"Ø" = list("רר", "ררר", "רררר")
 		)
 	autohiss_extra_map = list(
-			"x" = list("ks", "kss", "ksss")
+			"x" = list("ks", "kss", "ksss"),
+			"ח" = list("סס", "ססס", "סססס"),
+			"ש" = list("רר", "ררר", "רררר"),
+			"Ç" = list("סס", "ססס", "סססס"),
+			"Ù" = list("רר", "ררר", "רררר")
 		)
 	autohiss_exempt = list(LANGUAGE_UNATHI)
 
 /datum/species/tajaran
 	autohiss_basic_map = list(
 			"r" = list("rr", "rrr", "rrrr"),
-			"נ" = list("ננ", "נננ", "ננננ")
+			"נ" = list("ננ", "נננ", "ננננ"),
+			"נ" = list("ננ", "נננ", "ננננ"),
+			"Ð" = list("ננ", "נננ", "ננננ")
+
 		)
 	autohiss_exempt = list(LANGUAGE_SIIK_MAAS)
+
+
+/datum/species/diona
+	autohiss_basic_map = list(
+			"א" = list("אאא", "אאאא", "אאאאא"),
+			"ו" = list("ווו", "וווו", "ווווו"),
+			"ט" = list("טטט", "טטטט", "טטטטט"),
+			"מ" = list("מממ", "ממממ", "מממממ"),
+			"ף" = list("ףףף", "ףףףף", "ףףףףף"),
+			"û" = list("ûûû", "ûûûû", "ûûûûû"),
+			"‎" = list("‎‎‎", "‎‎‎‎", "‎‎‎‎‎"),
+			"‏" = list("‏‏‏", "‏‏‏‏", "‏‏‏‏‏"),
+			"À" = list("אאא", "אאאא", "אאאאא"),
+			"Å" = list("ווו", "וווו", "ווווו"),
+			"È" = list("טטט", "טטטט", "טטטטט"),
+			"Î" = list("מממ", "ממממ", "מממממ"),
+			"Ó" = list("ףףף", "ףףףף", "ףףףףף"),
+			"Û" = list("ûûû", "ûûûû", "ûûûûû"),
+			"Ý" = list("‎‎‎", "‎‎‎‎", "‎‎‎‎‎"),
+			"Þ" = list("‏‏‏", "‏‏‏‏", "‏‏‏‏‏")
+
+		)
+	autohiss_exempt = list(LANGUAGE_ROOTSPEAK)
 
 
 /datum/species/proc/handle_autohiss(message, datum/language/lang, mode)
