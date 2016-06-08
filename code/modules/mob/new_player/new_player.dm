@@ -71,12 +71,8 @@
 	. = ..()
 
 	if(statpanel("Lobby") && ticker)
+		stat("Game Mode:", PUBLIC_GAME_MODE)
 		stat("Currently Playing:", "[ticker.lobby_music[ticker.login_music]]")
-		if(ticker.hide_mode)
-			stat("Game Mode:", "Secret")
-		else
-			if(ticker.hide_mode == 0)
-				stat("Game Mode:", "[master_mode]") // Old setting for showing the game mode
 
 		if(ticker.current_state == GAME_STATE_PREGAME)
 			stat("Time To Start:", "[ticker.pregame_timeleft][round_progressing ? "" : " (DELAYED)"]")

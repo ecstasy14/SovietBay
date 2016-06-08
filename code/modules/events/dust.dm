@@ -3,7 +3,7 @@
 	endWhen		= 30
 
 /datum/event/dust/announce()
-	command_announcement.Announce("—танци&#255; в насто&#255;щее врем&#255; проходит через зону высокого скоплени&#255; космической пыли.", " осмическа&#255; пыль")
+	command_announcement.Announce("¬ насто&#255;щее врем&#255; станци&#255; проходит через зону выского скоплени&#255; космической пыли.", " осмическа&#255; пыль")
 
 /datum/event/dust/start()
 	dust_swarm(get_severity())

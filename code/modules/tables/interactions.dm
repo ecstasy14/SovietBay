@@ -87,7 +87,9 @@
 			if(occupied)
 				user << "<span class='danger'>There's \a [occupied] in the way.</span>"
 				return
-			if (G.state >= GRAB_AGGRESSIVE)
+			if (G.state < GRAB_AGGRESSIVE)
+				user << "<span class='danger'>You need a better grip to do that!</span>"
+			else
 				if(user.a_intent == I_HURT)
 					var/blocked = M.run_armor_check("head", "melee")
 					if (prob(30 * blocked_mult(blocked)))
@@ -101,19 +103,15 @@
 					var/list/L = take_damage(rand(1,5))
 					// Shards. Extra damage, plus potentially the fact YOU LITERALLY HAVE A PIECE OF GLASS/METAL/WHATEVER IN YOUR FACE
 					for(var/obj/item/weapon/material/shard/S in L)
-						if(prob(50))
-							M.visible_message("<span class='danger'>\The [S] slices [M]'s face messily!</span>",
-							                   "<span class='danger'>\The [S] slices your face messily!</span>")
-							M.apply_damage(10, BRUTE, "head", blocked)
-							M.standard_weapon_hit_effects(S, G.assailant, 10, blocked, "head")
+						if(S.sharp && prob(50))
+							M.visible_message("<span class='danger'>\The [S] slices into [M]'s face!</span>",
+							                  "<span class='danger'>\The [S] slices into your face!</span>")
+							M.standard_weapon_hit_effects(S, G.assailant, S.force*2, blocked, "head") //standard weapon hit effects include damage and embedding
 				else
-					user << "<span class='danger'>You need a better grip to do that!</span>"
-					return
-			else
-				G.affecting.loc = src.loc
-				G.affecting.Weaken(5)
-				visible_message("<span class='danger'>[G.assailant] puts [G.affecting] on \the [src].</span>")
-			qdel(W)
+					G.affecting.forceMove(src.loc)
+					G.affecting.Weaken(5)
+					visible_message("<span class='danger'>[G.assailant] puts [G.affecting] on \the [src].</span>")
+				qdel(W)
 			return
 
 	// Handle dismantling or placing things on the table from here on.
@@ -123,15 +121,16 @@
 	if(W.loc != user) // This should stop mounted modules ending up outside the module.
 		return
 
-	if(istype(W, /obj/item/weapon/melee/energy/blade))
-		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
-		spark_system.set_up(5, 0, src.loc)
-		spark_system.start()
-		playsound(src.loc, 'sound/weapons/blade1.ogg', 50, 1)
-		playsound(src.loc, "sparks", 50, 1)
-		user.visible_message("<span class='danger'>\The [src] was sliced apart by [user]!</span>")
-		break_to_parts()
-		return
+	if(istype(W, /obj/item/weapon/melee/energy))
+		if(W.force >= 30)
+			var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
+			spark_system.set_up(5, 0, src.loc)
+			spark_system.start()
+			playsound(src.loc, 'sound/weapons/blade1.ogg', 50, 1)
+			playsound(src.loc, "sparks", 50, 1)
+			user.visible_message("<span class='danger'>\The [src] was sliced apart by [user]!</span>")
+			break_to_parts()
+			return
 
 	if(can_plate && !material)
 		user << "<span class='warning'>There's nothing to put \the [W] on! Try adding plating to \the [src] first.</span>"
