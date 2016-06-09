@@ -28,11 +28,12 @@
 	heat_damage_per_tick = 20
 	cold_damage_per_tick = 20
 	var/poison_per_bite = 5
-	var/poison_type = "toxin"
+	var/poison_type = "lexorin"
 	faction = "spiders"
 	var/busy = 0
 	pass_flags = PASSTABLE
 	move_to_delay = 6
+	var/notarget_move_delay = 6
 	speed = 3
 
 //nursemaids - these create webs and eggs
@@ -46,8 +47,9 @@
 	melee_damage_lower = 5
 	melee_damage_upper = 10
 	poison_per_bite = 10
+	move_to_delay = 4
 	var/atom/cocoon_target
-	poison_type = "stoxin"
+	poison_type = "chloralhydrate"
 	var/fed = 0
 
 //hunters have the most poison and move the fastest, so they can find prey
@@ -61,7 +63,9 @@
 	melee_damage_lower = 10
 	melee_damage_upper = 20
 	poison_per_bite = 5
-	move_to_delay = 4
+	move_to_delay = 2
+	poison_type = "stoxin"
+	var/atom/victim_target
 
 /mob/living/simple_animal/hostile/giant_spider/New(var/location, var/atom/parent)
 	get_light_and_color(parent)
@@ -72,10 +76,10 @@
 	if(isliving(target))
 		var/mob/living/L = target
 		if(L.reagents)
-			L.reagents.add_reagent("toxin", poison_per_bite)
-			if(prob(poison_per_bite))
+			L.reagents.add_reagent("toxin", 20)
+			if(L.canmove)
+				L.reagents.add_reagent(poison_type, poison_per_bite)
 				L << "\red You feel a tiny prick."
-				L.reagents.add_reagent(poison_type, 5)
 
 /mob/living/simple_animal/hostile/giant_spider/nurse/AttackingTarget()
 	var/target = ..()
@@ -84,7 +88,7 @@
 		if(prob(poison_per_bite))
 			var/obj/item/organ/external/O = pick(H.organs)
 			if(!(O.robotic >= ORGAN_ROBOT))
-				var/eggs = PoolOrNew(/obj/effect/spider/eggcluster/, list(O, src))
+				var/eggs = PoolOrNew(/obj/effect/spider/eggcluster, list(O, src))
 				O.implants += eggs
 
 /mob/living/simple_animal/hostile/giant_spider/Life()
@@ -97,7 +101,7 @@
 				for(var/turf/T in orange(20, src))
 					move_targets.Add(T)*/
 				stop_automated_movement = 1
-				walk_to(src, pick(orange(20, src)), 1, move_to_delay)
+				walk_to(src, pick(orange(20, src)), 1, notarget_move_delay)
 				spawn(50)
 					stop_automated_movement = 0
 					walk(src,0)

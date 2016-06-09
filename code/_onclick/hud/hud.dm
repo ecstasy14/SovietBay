@@ -274,13 +274,16 @@ var/area/global_space_area = null
 	var/offset_x = 0
 	var/offset_y = 0
 
-/mob/Move()
+/mob/Life()
+	..()
+	chek_parallax()
+
+/mob/proc/chek_parallax()
 	if(client)
 		if(!client.first_parallax_create)
 			if(client.spessbg[1] == null)
 				client.spessbg.Remove(client.spessbg[1])
 				hud_used.create_parallax()
-	..()
 
 /datum/hud/proc/create_parallax()
 	var/client/C = mymob.client
