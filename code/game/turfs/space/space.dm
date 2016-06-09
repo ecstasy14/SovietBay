@@ -1,7 +1,7 @@
 /turf/space
 	icon = 'icons/turf/space.dmi'
 	name = "\proper space"
-	icon_state = "0"
+	icon_state = "1"
 	dynamic_lighting = 0
 
 	temperature = T20C
@@ -10,8 +10,9 @@
 
 /turf/space/New()
 	if(!istype(src, /turf/space/transit))
-		icon_state = "[((x + y) ^ ~(x * y) + z) % 25]"
-	update_starlight()
+		layer = AREA_LAYER
+		overlays += image(loc=global_space_area, icon='icons/turf/space.dmi', icon_state="white", layer=AREA_LAYER+0.1)
+		update_starlight()
 	..()
 
 // override for space turfs, since they should never hide anything
@@ -59,9 +60,6 @@
 // Ported from unstable r355
 
 /turf/space/Entered(atom/movable/A as mob|obj)
-	if(movement_disabled)
-		usr << "<span class='warning'>[translation(src, "movement_disabled")]</span>" //This is to identify lag problems
-		return
 	..()
 	if(A && A.loc == src && ticker && ticker.mode)
 

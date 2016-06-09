@@ -23,14 +23,16 @@ datum/category_group/underwear/dd_SortValue()
 	sort_order = 2
 	category_item_type = /datum/category_item/underwear/bottom
 
+/*
 /datum/category_group/underwear/socks
 	name = "Socks"
 	sort_order = 3
 	category_item_type = /datum/category_item/underwear/socks
+*/
 
 /datum/category_group/underwear/undershirt
 	name = "Undershirt"
-	sort_order = 4 // Undershirts currently have the highest sort order because they may cover both underwear and socks.
+	sort_order = 3 // Undershirts currently have the highest sort order because they may cover both underwear and socks.
 	category_item_type = /datum/category_item/underwear/undershirt
 
 /*******************
@@ -46,7 +48,7 @@ datum/category_group/underwear/dd_SortValue()
 
 /datum/category_item/underwear/New()
 	if(has_color)
-		tweaks += gear_tweak_free_color_choice
+		tweaks += gear_tweak_free_color_choice()
 
 /datum/category_item/underwear/dd_SortValue()
 	if(always_last)

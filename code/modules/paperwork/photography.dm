@@ -28,6 +28,7 @@ var/global/photo_count = 0
 	icon = 'icons/obj/items.dmi'
 	icon_state = "photo"
 	item_state = "paper"
+	randpixel = 10
 	w_class = 1
 	var/id
 	var/icon/img	//Big photo image
@@ -132,7 +133,7 @@ var/global/photo_count = 0
 	var/on = 1
 	var/icon_on = "camera"
 	var/icon_off = "camera_off"
-	var/size = 3
+	var/size = 1
 /* LAGSHIT
 /obj/item/device/camera/verb/change_size()
 	set name = "Set Photo Focus"
@@ -250,8 +251,6 @@ var/global/photo_count = 0
 	p.tiny = pc
 	p.img = photoimage
 	p.desc = mobs
-	p.pixel_x = rand(-10, 10)
-	p.pixel_y = rand(-10, 10)
 	p.photo_size = size
 
 	return p

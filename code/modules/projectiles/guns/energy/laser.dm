@@ -10,6 +10,7 @@
 	origin_tech = list(TECH_COMBAT = 3, TECH_MAGNET = 2)
 	matter = list(DEFAULT_WALL_MATERIAL = 2000)
 	projectile_type = /obj/item/projectile/beam/midlaser
+	cell_type = /obj/item/weapon/cell/device/laser/high
 
 /obj/item/weapon/gun/energy/laser/mounted
 	self_recharge = 1
@@ -20,6 +21,7 @@
 	name = "practice laser carbine"
 	desc = "A modified version of the HI G40E, this one fires less concentrated energy bolts designed for target practice."
 	projectile_type = /obj/item/projectile/beam/practice
+	cell_type = /obj/item/weapon/cell/device/laser
 
 obj/item/weapon/gun/energy/retro
 	name = "retro laser"
@@ -30,6 +32,7 @@ obj/item/weapon/gun/energy/retro
 	w_class = 3
 	projectile_type = /obj/item/projectile/beam
 	fire_delay = 15 //old technology, and a pistol
+	cell_type = /obj/item/weapon/cell/device/laser
 
 /obj/item/weapon/gun/energy/captain
 	name = "antique laser gun"
@@ -44,6 +47,7 @@ obj/item/weapon/gun/energy/retro
 	max_shots = 5 //to compensate a bit for self-recharging
 	requires_two_hands = 1 //a little bulky
 	self_recharge = 1
+	cell_type = /obj/item/weapon/cell/device/laser
 
 /obj/item/weapon/gun/energy/lasercannon
 	name = "laser cannon"
@@ -53,12 +57,13 @@ obj/item/weapon/gun/energy/retro
 	origin_tech = list(TECH_COMBAT = 4, TECH_MATERIAL = 3, TECH_POWER = 3)
 	slot_flags = SLOT_BELT|SLOT_BACK
 	requires_two_hands = 6 //large and heavy
-	w_class = 4
+	w_class = 5
 	projectile_type = /obj/item/projectile/beam/heavylaser
 	charge_cost = 400
 	max_shots = 6
 	accuracy = 2
 	fire_delay = 20
+	cell_type = /obj/item/weapon/cell/device/laser/high
 
 /obj/item/weapon/gun/energy/lasercannon/mounted
 	name = "mounted laser cannon"
@@ -78,6 +83,7 @@ obj/item/weapon/gun/energy/retro
 	requires_two_hands = 1
 	charge_cost = 150
 	max_shots = 10
+	cell_type = /obj/item/weapon/cell/device/laser/high
 
 /obj/item/weapon/gun/energy/sniperrifle
 	name = "marksman energy rifle"
@@ -92,9 +98,10 @@ obj/item/weapon/gun/energy/retro
 	max_shots = 4
 	fire_delay = 35
 	force = 10
-	w_class = 4
+	w_class = 5
 	accuracy = -3 //shooting at the hip
 	scoped_accuracy = 0
+	cell_type = /obj/item/weapon/cell/device/laser/high
 
 /obj/item/weapon/gun/energy/sniperrifle/verb/scope()
 	set category = "Object"
@@ -114,6 +121,7 @@ obj/item/weapon/gun/energy/retro
 	matter = list(DEFAULT_WALL_MATERIAL = 2000)
 	projectile_type = /obj/item/projectile/beam/lastertag/blue
 	var/required_vest
+	cell_type = /obj/item/weapon/cell/device/laser
 
 /obj/item/weapon/gun/energy/lasertag/special_check(var/mob/living/carbon/human/M)
 	if(ishuman(M))

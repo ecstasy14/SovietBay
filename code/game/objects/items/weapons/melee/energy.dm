@@ -2,7 +2,6 @@
 	var/active = 0
 	var/active_force
 	var/active_throwforce
-	var/active_w_class
 	sharp = 0
 	edge = 0
 	armor_penetration = 50
@@ -17,8 +16,9 @@
 	throwforce = active_throwforce
 	sharp = 1
 	edge = 1
-	w_class = active_w_class
+	slot_flags |= SLOT_DENYPOCKET
 	playsound(user, 'sound/weapons/saberon.ogg', 50, 1)
+	set_light(l_range = 2, l_power = 1, l_color = light_color)
 
 /obj/item/weapon/melee/energy/proc/deactivate(mob/living/user)
 	anchored = 0
@@ -30,7 +30,8 @@
 	throwforce = initial(throwforce)
 	sharp = initial(sharp)
 	edge = initial(edge)
-	w_class = initial(w_class)
+	slot_flags = initial(slot_flags)
+	set_light(l_range = 0, l_power = 1, l_color = light_color)
 
 /obj/item/weapon/melee/energy/attack_self(mob/living/user as mob)
 	if (active)
@@ -50,6 +51,11 @@
 	add_fingerprint(user)
 	return
 
+/obj/item/weapon/melee/energy/get_storage_cost()
+	if(active)
+		return DO_NOT_STORE
+	return ..()
+
 /*
  * Energy Axe
  */
@@ -60,7 +66,6 @@
 	//active_force = 150 //holy...
 	active_force = 60
 	active_throwforce = 35
-	active_w_class = 5
 	//force = 40
 	//throwforce = 25
 	force = 20
@@ -73,6 +78,7 @@
 	attack_verb = list("attacked", "chopped", "cleaved", "torn", "cut")
 	sharp = 1
 	edge = 1
+	light_color = "#0000FF"
 
 /obj/item/weapon/melee/energy/axe/activate(mob/living/user)
 	..()
@@ -94,7 +100,6 @@
 	icon_state = "sword0"
 	active_force = 30
 	active_throwforce = 20
-	active_w_class = 4
 	force = 3
 	throwforce = 5
 	throw_speed = 1
@@ -113,18 +118,27 @@
 
 /obj/item/weapon/melee/energy/sword/New()
 	blade_color = pick("red","blue","green","purple")
+	if(blade_color == "red") light_color = COLOR_RED
+	else if(blade_color == "blue") light_color = "#0000FF"
+	else if(blade_color == "green") light_color = "#13FF00"
+	else if(blade_color == "purple") light_color = "#FF00FF"
+
 
 /obj/item/weapon/melee/energy/sword/green/New()
 	blade_color = "green"
+	light_color = "#13FF00"
 
 /obj/item/weapon/melee/energy/sword/red/New()
 	blade_color = "red"
+	light_color = COLOR_RED
 
 /obj/item/weapon/melee/energy/sword/blue/New()
 	blade_color = "blue"
+	light_color = "#0000FF"
 
 /obj/item/weapon/melee/energy/sword/purple/New()
 	blade_color = "purple"
+	light_color = "#FF00FF"
 
 /obj/item/weapon/melee/energy/sword/activate(mob/living/user)
 	if(!active)
@@ -155,6 +169,7 @@
 	name = "energy cutlass"
 	desc = "Arrrr matey."
 	icon_state = "cutlass0"
+	light_color = COLOR_RED
 
 /obj/item/weapon/melee/energy/sword/pirate/activate(mob/living/user)
 	..()
@@ -177,11 +192,12 @@
 	throwforce = 1  //Throwing or dropping the item deletes it.
 	throw_speed = 1
 	throw_range = 1
-	w_class = 4.0//So you can't hide it in your pocket or some such.
+	w_class = 1 //technically it's just energy or something, I dunno
 	flags = NOBLOODY
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	var/mob/living/creator
 	var/datum/effect/effect/system/spark_spread/spark_system
+	light_color = "#13FF00"
 
 /obj/item/weapon/melee/energy/blade/New()
 
@@ -190,16 +206,21 @@
 	spark_system.attach(src)
 
 	processing_objects |= src
+	set_light(l_range = 2, l_power = 1, l_color = light_color)
 
 /obj/item/weapon/melee/energy/blade/Destroy()
 	processing_objects -= src
 	..()
+
+/obj/item/weapon/melee/energy/blade/get_storage_cost()
+	return DO_NOT_STORE
 
 /obj/item/weapon/melee/energy/blade/attack_self(mob/user as mob)
 	user.drop_from_inventory(src)
 	spawn(1) if(src) qdel(src)
 
 /obj/item/weapon/melee/energy/blade/dropped()
+	..()
 	spawn(1) if(src) qdel(src)
 
 /obj/item/weapon/melee/energy/blade/process()

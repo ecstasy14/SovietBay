@@ -14,7 +14,7 @@ var/roundstart_hour = 0
 var/station_date = ""
 var/next_station_date_change = 1 DAY
 
-#define round_adjusted_time(time) time2text(time + round_duration_in_ticks, "hh:mm")
+#define station_adjusted_time(time) time2text(time + station_time_in_ticks, "hh:mm")
 #define round_duration_in_ticks (round_start_time ? world.time - round_start_time : 0)
 #define station_time_in_ticks (roundstart_hour HOURS + round_duration_in_ticks)
 
@@ -73,3 +73,8 @@ var/round_start_time = 0
 	last_round_duration = "[hours]:[mins]"
 	next_duration_update = world.time + 1 MINUTES
 	return last_round_duration
+
+//Can be useful for things dependent on process timing
+/proc/process_schedule_interval(var/process_name)
+	var/datum/controller/process/process = processScheduler.getProcess(process_name)
+	return process.schedule_interval

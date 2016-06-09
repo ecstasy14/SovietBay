@@ -75,7 +75,7 @@
 
 	update_hair()
 
-/mob/living/carbon/human/proc/change_eye_color(var/red, var/green, var/blue)
+/mob/living/carbon/human/proc/change_eye_color(var/red, var/green, var/blue, var/ignoreblink = 0)
 	if(red == r_eyes && green == g_eyes && blue == b_eyes)
 		return
 
@@ -85,6 +85,8 @@
 
 	update_eyes()
 	update_body()
+	if(ignoreblink == 0)
+		create_eye_blink()
 	return 1
 
 /mob/living/carbon/human/proc/change_hair_color(var/red, var/green, var/blue)
@@ -142,15 +144,15 @@
 	for(var/current_species_name in all_species)
 		var/datum/species/current_species = all_species[current_species_name]
 
-		if(check_whitelist && config.usealienwhitelist && !check_rights(R_ADMIN, 0, src)) //If we're using the whitelist, make sure to check it!
-			if(!(current_species.spawn_flags & CAN_JOIN))
+		if(check_whitelist) //If we're using the whitelist, make sure to check it!
+			if((current_species.spawn_flags & IS_RESTRICTED) && !check_rights(R_ADMIN, 0, src))
 				continue
-			if(whitelist.len && !(current_species_name in whitelist))
+			if(!is_alien_whitelisted(src, current_species))
 				continue
-			if(blacklist.len && (current_species_name in blacklist))
-				continue
-			if((current_species.spawn_flags & IS_WHITELISTED) && !is_alien_whitelisted(src, current_species_name))
-				continue
+		if(whitelist.len && !(current_species_name in whitelist))
+			continue
+		if(blacklist.len && (current_species_name in blacklist))
+			continue
 
 		valid_species += current_species_name
 

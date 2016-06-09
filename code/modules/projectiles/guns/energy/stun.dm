@@ -5,6 +5,7 @@
 	item_state = null	//so the human update icon uses the icon_state instead.
 	max_shots = 5
 	projectile_type = /obj/item/projectile/energy/electrode
+	cell_type = /obj/item/weapon/cell/device/laser
 
 /obj/item/weapon/gun/energy/taser/mounted
 	name = "mounted taser gun"
@@ -24,6 +25,7 @@
 	fire_sound = 'sound/weapons/taser2.ogg'
 	max_shots = 5
 	projectile_type = /obj/item/projectile/beam/stun
+	cell_type = /obj/item/weapon/cell/device/laser
 
 
 /obj/item/weapon/gun/energy/stunrevolver
@@ -34,6 +36,7 @@
 	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 3, TECH_POWER = 2)
 	projectile_type = /obj/item/projectile/energy/electrode
 	max_shots = 8
+	cell_type = /obj/item/weapon/cell/device/laser/high
 
 
 /obj/item/weapon/gun/energy/crossbow
@@ -59,7 +62,7 @@
 /obj/item/weapon/gun/energy/crossbow/largecrossbow
 	name = "energy crossbow"
 	desc = "A weapon favored by mercenary infiltration teams."
-	w_class = 4
+	w_class = 5
 	force = 10
 	requires_two_hands = 1
 	matter = list(DEFAULT_WALL_MATERIAL = 200000)

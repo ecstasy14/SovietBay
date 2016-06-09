@@ -35,6 +35,9 @@ var/list/global_huds = list(
 	screen.icon_state = icon_state
 	screen.layer = SCREEN_LAYER
 	screen.mouse_opacity = 0
+	screen.blend_mode = BLEND_MULTIPLY
+	screen.alpha = 180
+
 
 	return screen
 
@@ -160,7 +163,7 @@ datum/hud/New(mob/owner)
 	hotkeybuttons = null
 //	item_action_list = null // ?
 	mymob = null
-    
+
 /datum/hud/proc/common_hud()
     mymob.client.screen += mymob.client.void
 
@@ -258,8 +261,53 @@ datum/hud/New(mob/owner)
 	var/ui_alpha = mymob.client.prefs.UI_style_alpha
 	if(mymob.mind && mymob.mind.vampire)
 		vampire_hud()
-
 	mymob.instantiate_hud(src, ui_style, ui_color, ui_alpha)
+	create_parallax()
+
+
+/client/var/list/spessbg = list()
+var/list/parallax_on_clients = list()
+var/area/global_space_area = null
+/client/var/first_parallax_create = 1
+
+/obj/screen/spessbg
+	var/offset_x = 0
+	var/offset_y = 0
+
+/mob/Move()
+	if(client)
+		if(!client.first_parallax_create)
+			if(client.spessbg[1] == null)
+				client.spessbg.Remove(client.spessbg[1])
+				hud_used.create_parallax()
+	..()
+
+/datum/hud/proc/create_parallax()
+	var/client/C = mymob.client
+	parallax_on_clients |= C
+	if(C.spessbg.len)
+		for(var/obj/screen/spessbg/bgobj in C.spessbg)
+			bgobj.layer = AREA_LAYER + 0.5
+			C.screen |= bgobj
+		return
+	var/obj/screen/spessbg/bgobj = new /obj/screen/spessbg()
+	bgobj.icon = 'icons/parallax.dmi'
+	bgobj.icon_state = "white"
+	bgobj.name = "spess"
+	bgobj.screen_loc = "1,1"
+	bgobj.layer = AREA_LAYER + 0.5
+	bgobj.blend_mode = BLEND_MULTIPLY
+	bgobj.mouse_opacity = 0
+	C.spessbg += bgobj
+	C.screen += bgobj
+	for(var/obj/screen/spessbg/S in C.spessbg)
+		if(S.name == "spess")
+			for(var/pix_x = 0; pix_x <= 448; pix_x+=32)
+				for(var/pix_y = 0; pix_y <= 448; pix_y+=32)
+					S.overlays += image(icon = 'icons/turf/space.dmi' ,icon_state = "[rand(1,25)]" ,pixel_x=pix_x, pixel_y=pix_y, layer = AREA_LAYER + 0.51)
+			S.icon_state = "white"
+	C.first_parallax_create = 0
+
 
 /mob/proc/instantiate_hud(var/datum/hud/HUD, var/ui_style, var/ui_color, var/ui_alpha)
 	return

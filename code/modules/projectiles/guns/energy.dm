@@ -8,7 +8,7 @@
 	var/obj/item/weapon/cell/power_supply //What type of power cell this uses
 	var/charge_cost = 200 //How much energy is needed to fire.
 	var/max_shots = 10 //Determines the capacity of the weapon's power cell. Specifying a cell_type overrides this value.
-	var/cell_type = null
+	var/cell_type = /obj/item/weapon/cell/device/laser/high
 	var/projectile_type = /obj/item/projectile/beam/practice
 	var/modifystate
 	var/charge_meter = 1	//if set, the icon state will be chosen based on the current charge
@@ -18,7 +18,6 @@
 	var/use_external_power = 0 //if set, the weapon will look for an external power source to draw from, otherwise it recharges magically
 	var/recharge_time = 4
 	var/charge_tick = 0
-
 /obj/item/weapon/gun/energy/switch_firemodes()
 	. = ..()
 	if(.)
@@ -88,6 +87,7 @@
 	return
 
 /obj/item/weapon/gun/energy/update_icon(var/ignore_inhands)
+	..()
 	if(charge_meter)
 		var/ratio = power_supply.charge / power_supply.maxcharge
 
@@ -101,4 +101,60 @@
 			icon_state = "[modifystate][ratio]"
 		else
 			icon_state = "[initial(icon_state)][ratio]"
-	if(!ignore_inhands) update_held_icon()
+	if(ismob(src.loc))
+		var/mob/M = src.loc
+		if(M.l_hand == src)
+			M.update_inv_l_hand()
+		else if(M.r_hand == src)
+			M.update_inv_r_hand()
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/obj/item/weapon/gun/energy/proc/unload_battery(mob/user)
+	if(istype(src, /obj/item/weapon/gun/energy/gun/nuclear))	return 1
+	if(istype(src, /obj/item/weapon/gun/energy/staff))			return 1
+	if(istype(src, /obj/item/weapon/gun/energy/meteorgun))		return 1
+	if(istype(src, /obj/item/weapon/gun/energy/temperature))	return 1
+	if(istype(src, /obj/item/weapon/gun/energy/crossbow))		return 1
+	if(istype(src, /obj/item/weapon/gun/energy/chameleon))		return 1
+
+	if(power_supply)
+		if(charge_cost > power_supply.charge)
+			power_supply.charge = 0
+		user.put_in_hands(power_supply)
+		user.visible_message("[user] removes [power_supply] from [src].", "<span class='notice'>You remove [power_supply] from [src].</span>")
+		power_supply.update_icon()
+		power_supply = null
+	else
+		user << "<span class='warning'>[src] is empty.</span>"
+	if(!modifystate)
+		icon_state = "[initial(icon_state)]0"
+	else
+		icon_state = "[modifystate]0"
+	update_twohanding()
+	return 0
+/////////////////////////////////////////////////////////////////////////////////
+
+/obj/item/weapon/gun/energy/proc/load_battery(var/obj/item/A, mob/user)
+	if(istype(A, /obj/item/weapon/cell/device/laser))
+		var/obj/item/weapon/cell/device/laser/AM = A
+		if(power_supply)
+			user << "<span class='warning'>[src] already has a battery loaded.</span>"
+			return
+		user.remove_from_mob(AM)
+		AM.loc = src
+		power_supply = AM
+		user.visible_message("[user] inserts [AM] into [src].", "<span class='notice'>You insert [AM] into [src].</span>")
+		update_icon()
+/////////////////////////////////////////////////////////////////////////////////
+
+/obj/item/weapon/gun/energy/verb/eject_battery(mob/user as mob in view(0))
+	set category = null
+	set src in view(0)
+	set name = "Eject battery"
+	if(unload_battery(user))
+		user << "<span class='warning'>Unable to eject battery.</span>"
+
+
+/obj/item/weapon/gun/energy/attackby(var/obj/item/A as obj, mob/user as mob)
+	load_battery(A, user)

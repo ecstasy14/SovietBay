@@ -3,7 +3,7 @@
 	anchored = 1
 	density = 1
 	layer = 2
-	w_class = 5
+	w_class = 8
 	var/state = 0
 	var/health = 200
 	var/cover = 50 //how much cover the girder provides against projectiles.
@@ -113,6 +113,17 @@
 			anchored = 0
 			health = 50
 			cover = 25
+
+	else if(istype(W, /obj/item/weapon/melee/energy))
+		if(!reinf_material)
+			if(W.force >= 30)
+				playsound(src.loc, 'sound/weapons/blade1.ogg', 50, 1)
+				user << "<span class='notice'>Now slicing apart the girder...</span>"
+				if(do_after(user, 40,src))
+					if(!src) return
+					user << "<span class='notice'>You slice apart the girder!</span>"
+					dismantle()
+
 
 	else if(istype(W, /obj/item/stack/material))
 		if(reinforcing && !reinf_material)
