@@ -276,9 +276,9 @@ var/area/global_space_area = null
 
 /mob/Life()
 	..()
-	chek_parallax()
+	check_parallax()
 
-/mob/proc/chek_parallax()
+/mob/proc/check_parallax()
 	if(client)
 		if(!client.first_parallax_create)
 			if(client.spessbg[1] == null)
