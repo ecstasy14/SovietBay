@@ -424,7 +424,7 @@
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "[get_visible_gender() == MALE ? "чихнул" : get_visible_gender() == FEMALE ? "чихнула" : "чихнул"]."
+					message = "чихает."
 					m_type = 2
 				else
 					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] странный звук."
