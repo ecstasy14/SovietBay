@@ -173,14 +173,51 @@
 		..()
 
 /obj/item/weapon/storage/fancy/cigarettes/dromedaryco
-	name = "\improper DromedaryCo packet"
+	name = "DromedaryCo packet"
 	desc = "A packet of six imported DromedaryCo cancer sticks. A label on the packaging reads, \"Wouldn't a slow death make a change?\"."
 	icon_state = "Dpacket"
 
 /obj/item/weapon/storage/fancy/cigarettes/killthroat
-	name = "\improper AcmeCo packet"
+	name = "AcmeCo packet"
 	desc = "A packet of six AcmeCo cigarettes. For those who somehow want to obtain the record for the most amount of cancerous tumors."
 	icon_state = "Bpacket"
+
+
+
+/obj/item/weapon/storage/fancy/cigarettes/uplift
+	name = "Uplift Smooth"
+	desc = "Your favorite brand, now menthol flavored."
+	icon_state = "uplift"
+
+/obj/item/weapon/storage/fancy/cigarettes/carp
+	name = "Carp Classic"
+	desc = "Since 2313."
+	icon_state = "carp"
+
+/obj/item/weapon/storage/fancy/cigarettes/robust
+	name = "Robust"
+	desc = "Smoked by the robust."
+	icon_state = "robust"
+
+/obj/item/weapon/storage/fancy/cigarettes/syndie
+	name = "unknown"
+	desc = "An obscure brand of cigarettes."
+	icon_state = "syndie"
+
+/obj/item/weapon/storage/fancy/cigarettes/midori
+	name = "Midori Tabako"
+	desc = "You can't understand the runes, but the packet smells funny."
+	icon_state = "midori"
+
+/obj/item/weapon/storage/fancy/cigarettes/shadyjim
+	name = "Shady Jim's Super Slims"
+	desc = "Is your weight slowing you down? Having trouble running away from gravitational singularities? Can't stop stuffing your mouth? Smoke Shady Jim's Super Slims and watch all that fat burn away. Guaranteed results!"
+	icon_state = "shadyjim"
+
+/obj/item/weapon/storage/fancy/cigarettes/robustg
+	name = "Robust Gold"
+	desc = "Smoked by the truly robust."
+	icon_state = "robustg"
 
 /obj/item/weapon/storage/fancy/cigarettes/killthroat/New()
 	..()
