@@ -43,22 +43,6 @@ datum/track/New(var/title_name, var/audio)
 		new/datum/track("Stayin Alive", 'sound/music/jukebox/Stayin_Alive.ogg'),
 		new/datum/track("Bad Man", 'sound/music/jukebox/One_bad_man.ogg'),
 		new/datum/track("Nightcall", 'sound/music/jukebox/Kavinsky_Nightcall.ogg'),
-		new/datum/track("Ohana", 'sound/music/for_Ren/jukebox/Ohana.ogg'),
-		new/datum/track("Beach", 'sound/music/for_Ren/jukebox/High_by_the_Beach.ogg'),
-		new/datum/track("Love", 'sound/music/for_Ren/jukebox/Come_and_Get_Your_Love.ogg'),
-		new/datum/track("Hand", 'sound/music/for_Ren/jukebox/Devils_Right_Hand.ogg'),
-		new/datum/track("Sinatra", 'sound/music/for_Ren/jukebox/Frank_Sinatra.ogg'),
-		new/datum/track("Rude!", 'sound/music/for_Ren/jukebox/Rude.ogg'),
-		new/datum/track("Sugar", 'sound/music/for_Ren/jukebox/Sugar.ogg'),
-		new/datum/track("Hot Mustard", 'sound/music/for_Ren/jukebox/Hot_Mustard.ogg'),
-		new/datum/track("Wig of Steel", 'sound/music/for_Ren/jukebox/Wig_Of_Steel.ogg'),
-		new/datum/track("Rover", 'sound/music/for_Ren/jukebox/The_Rover.ogg'),
-		new/datum/track("Mambo", 'sound/music/for_Ren/jukebox/Return_of_the_mambo.ogg'),
-		new/datum/track("Slang 42", 'sound/music/for_Ren/jukebox/Slang_42.ogg'),
-		new/datum/track("Care", 'sound/music/for_Ren/jukebox/If_I_Didnt_Care.ogg'),
-		new/datum/track("Fallout", 'sound/music/for_Ren/jukebox/Crawl_Out_Through_The_Fallout.ogg'),
-		new/datum/track("Bad Romance", 'sound/music/for_Ren/jukebox/Bad_romance.ogg'),
-		new/datum/track("Sunlight", 'sound/music/for_Ren/jukebox/Living_In_The_Sunlight.ogg'), //RENAAAAAARD!!!
 	)
 
 /obj/machinery/media/jukebox/New()
@@ -91,11 +75,6 @@ datum/track/New(var/title_name, var/audio)
 	if(playing)
 		if(emagged)
 			overlays += "[state_base]-emagged"
-			/*
-			var/list/datum/track/tracks == list(
-				new/datum/track("Fuck me in the ears", 'sound/music/for_Ren/pizdec.ogg'),
-			)
-			*/
 		else
 			overlays += "[state_base]-running"
 
