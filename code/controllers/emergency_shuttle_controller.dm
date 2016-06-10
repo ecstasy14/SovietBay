@@ -109,7 +109,7 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle
 	//reset the shuttle transit time if we need to
 	shuttle.move_time = SHUTTLE_TRANSIT_DURATION
 
-	priority_announcement.Announce("В св&#255зи с запланированным концом смены на станцию отправлен шаттл. Расчетное врем&#255; прибыти&#255; - [round(estimate_arrival_time()/60)] минут.")
+	priority_announcement.Announce("В св&#255;зи с запланированным концом смены на станцию отправлен шаттл. Расчетное врем&#255; прибыти&#255; - [round(estimate_arrival_time()/60)] минут.")
 
 //recalls the shuttle
 /datum/emergency_shuttle_controller/proc/recall()
