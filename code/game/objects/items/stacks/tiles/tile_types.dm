@@ -78,7 +78,7 @@
 	matter = list(DEFAULT_WALL_MATERIAL = 937.5)
 	throwforce = 5
 	throw_speed = 5
-	throw_range = 3 //Present for Tilson!
+	throw_range = 7 //Present for Tilson!
 	flags = CONDUCT
 
 /obj/item/stack/tile/floor_steel
