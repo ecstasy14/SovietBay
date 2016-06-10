@@ -73,7 +73,7 @@
 	icon_state = "tile"
 	force = 6.0
 	matter = list(DEFAULT_WALL_MATERIAL = 937.5)
-	throwforce = 15
+	throwforce = 5
 	throw_speed = 5
 	throw_range = 3 //Present for Tilson!
 	flags = CONDUCT
