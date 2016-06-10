@@ -165,7 +165,7 @@
 		playsound(user.loc, 'sound/weapons/blade1.ogg', 50, 1)
 		return 1
 
-	else if(active && prob(70))
+	else if(active && prob(50))
 		if(check_shield_arc(user, reverse_direction(user.dir), damage_source, attacker))
 			user.visible_message("<span class='danger'>\The [user] blocks [attack_text] with \the [src]!</span>")
 			var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
