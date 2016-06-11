@@ -62,6 +62,30 @@
 	if(is_broken())
 		owner.eye_blind = 20
 
+/obj/item/organ/eyes/robotize()
+	..()
+	verbs |= /obj/item/organ/eyes/proc/change_eye_color
+
+/obj/item/organ/eyes/proc/change_eye_color()
+	set name = "Change Eye Color"
+	set desc = "Changes your robotic eye color instantly."
+	set category = "IC"
+	set src in usr
+
+	var/current_color = rgb(eye_colour[1],eye_colour[2],eye_colour[3])
+	var/new_color = input("Pick a new color for your eyes.","Eye Color", current_color) as null|color
+	if(new_color && owner)
+		// input() supplies us with a hex color, which we can't use, so we convert it to rbg values.
+		var/list/new_color_rgb_list = hex2rgb(new_color)
+		// First, update mob vars.
+		owner.r_eyes = new_color_rgb_list[1]
+		owner.g_eyes = new_color_rgb_list[2]
+		owner.b_eyes = new_color_rgb_list[3]
+		// Now sync the organ's eye_colour list.
+		update_colour()
+		// Finally, update the eye icon on the mob.
+		owner.update_eyes()
+
 /obj/item/organ/liver
 	name = "liver"
 	icon_state = "liver"
