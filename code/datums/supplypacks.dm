@@ -1640,9 +1640,6 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 					/obj/item/clothing/accessory/storage/black_vest,
 					/obj/item/clothing/accessory/storage/brown_vest,
 					/obj/item/clothing/accessory/storage/white_vest,
-					/obj/item/clothing/accessory/storage/black_drop_pouches,
-					/obj/item/clothing/accessory/storage/brown_drop_pouches,
-					/obj/item/clothing/accessory/storage/white_drop_pouches,
 					/obj/item/clothing/accessory/storage/webbing)
 	cost = 15
 	containertype = /obj/structure/closet/crate
