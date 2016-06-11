@@ -261,3 +261,14 @@
 		user << "<span class='warning'>You need to open the cover to unload [src].</span>"
 		return
 	..()
+
+//Fallout starts here.
+
+/obj/item/weapon/gun/projectile/automatic/sts35/assault_rifle
+	name = "old assault rifle"
+	desc = "An Assault Rifle. An old military model, out of use around the time of the war."
+	icon_state = "assault_rifle"
+	item_state = "assault_rifle"
+	w_class = 5
+	force = 10
+	origin_tech = list(TECH_COMBAT = 5, TECH_MATERIAL = 1, TECH_ILLEGAL = 4)

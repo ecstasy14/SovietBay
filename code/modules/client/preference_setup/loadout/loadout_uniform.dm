@@ -102,6 +102,10 @@
 	display_name = "suit, white-blue"
 	path = /obj/item/clothing/under/lawyer/bluesuit
 
+/datum/gear/uniform/suit/mazor
+	display_name = "suit, dark-blue"
+	path = /obj/item/clothing/under/mazor
+
 /datum/gear/uniform/scrubs
 	display_name = "scrubs, black"
 	path = /obj/item/clothing/under/rank/medical/black
@@ -160,6 +164,10 @@
 	display_name = "uniform, navyblue (Security)"
 	path = /obj/item/clothing/under/rank/security/navyblue
 	allowed_roles = list("Security Officer","Head of Security","Warden")
+
+/datum/gear/uniform/settler
+	display_name = "settler outfit"
+	path = /obj/item/clothing/under/f13/settler
 
 /datum/gear/uniform/skirt
 	display_name = "skirt selection"

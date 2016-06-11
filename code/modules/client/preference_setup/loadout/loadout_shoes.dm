@@ -68,3 +68,7 @@
 /datum/gear/shoes/yellow
 	display_name = "shoes, yellow"
 	path = /obj/item/clothing/shoes/yellow
+
+/datum/gear/shoes/rockboots
+	display_name = "rockboots"
+	path = /obj/item/clothing/shoes/rockboots

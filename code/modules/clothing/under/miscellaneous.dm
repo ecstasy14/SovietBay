@@ -535,3 +535,66 @@
 	item_state = "franklin_pullover_s"
 	worn_state = "franklin_pullover"
 
+/obj/item/clothing/under/mazor
+	name = "dark blue shirt"
+	desc = "A dark-blue dress shirt paired with youth jeans."
+	icon_state = "mazor_shirt"
+	item_state = "mazor_shirt_s"
+	worn_state = "mazor_shirt"
+
+//Fallout starts here
+
+/obj/item/clothing/under/f13/combat
+	name = "combat uniform"
+	desc = "An old combat uniform, out of use around the time of the war."
+	icon_state = "combat_shirt"
+	item_state = "combat_shirt_s"
+	worn_state = "combat_shirt"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+	armor = list(melee = 15, bullet = 15, laser = 5,energy = 5, bomb = 5, bio = 0, rad = 5)
+
+/obj/item/clothing/under/f13/settler
+	name = "settler outfit"
+	desc = "It's more or less a crudely made tan robe with a makeshift belt made from cloth.Paired with worn grey pants."
+	icon_state = "settler"
+	item_state = "settler_s"
+	worn_state = "settler"
+
+/obj/item/clothing/under/f13/vault13
+	name = "vault 13 jumpsuit"
+	desc = "The regulation clothing worn by the vault dwellers of Vault-Tec vaults. It's made of sturdy leather.This jumpsuit has number 13 on the back."
+	icon_state = "vault13"
+	item_state = "vault13_s"
+	worn_state = "vault13"
+
+/obj/item/clothing/under/f13/merccharm
+	name = "merc charmer outfit"
+	desc = "A blue and gray outfit resembling a three piece suit, heavily stitched and reinforced with a small metal cup on the groin area."
+	icon_state = "merc_charm"
+	item_state = "merc_charm_s"
+	worn_state = "merc_charm"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
+	armor = list(melee = 10, bullet = 5, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+
+/obj/item/clothing/under/f13/female/merccharm
+	name = "merc charmer outfit"
+	desc = "A ripped and torn blue female business suit, it still gives ladies a rather sexy look."
+	icon_state = "merc_charm_female"
+	item_state = "merc_charm_female_s"
+	worn_state = "merc_charm_female"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
+	armor = list(melee = 10, bullet = 5, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+
+/obj/item/clothing/under/f13/brahmin
+	name = "brahmin-skin outfit"
+	desc = "A basic outfit consisting of a white shirt and patched trousers with Y-shaped suspenders."
+	icon_state = "brahmin"
+	item_state = "brahmin_s"
+	worn_state = "brahmin"
+
+/obj/item/clothing/under/f13/female/brahmin
+	name = "brahmin-skin outfit"
+	desc = "A basic outfit consisting of a rolled-up long-sleeve shirt and patched trousers with Y-shaped suspenders. Look's like female outfit."
+	icon_state = "brahmin_female"
+	item_state = "brahmin_female_s"
+	worn_state = "brahmin_female"

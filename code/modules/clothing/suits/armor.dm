@@ -341,3 +341,21 @@
 	icon_state = "tdgreen"
 	item_state = "tdgreen"
 	siemens_coefficient = 1
+
+//Fallout starts here
+
+/obj/item/clothing/suit/armor/f13/kit
+	name = "armor kit"
+	desc = "Separate armor parts you can wear over the clothing to get the most basic protection from the dangers of wasteland.<br>It is unable to reflect laser beams and probably won't shield you from a random bullet, but it sure is better than going into the battle without any armor at all."
+	icon_state = "armorkit"
+	item_state = "armorkit"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS
+	armor = list(melee = 25, bullet = 10, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
+
+/obj/item/clothing/suit/armor/f13/combat
+	name = "combat armor"
+	desc = "An old combat armor, out of use around the time of the war."
+	icon_state = "combat_armor"
+	item_state = "combat_armor"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+	armor = list(melee = 50, bullet = 50, laser = 15, energy = 20, bomb = 20, bio = 0, rad = 0)

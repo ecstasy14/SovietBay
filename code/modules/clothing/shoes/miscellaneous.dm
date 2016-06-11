@@ -129,3 +129,11 @@
 /obj/item/clothing/shoes/swimmingfins/New()
 	..()
 	slowdown_per_slot[slot_shoes] = SHOES_SLOWDOWN+1
+
+/obj/item/clothing/shoes/rockboots
+	name = "platform boots"
+	desc = "Fancy female knee high platform boots with shiny steel clasps."
+	icon_state = "rockboots"
+	item_state = "rockboots"
+	force = 0
+	armor = list(melee = 10, bullet = 5, laser = 0, energy = 0, bomb = 5, bio = 0, rad = 0)

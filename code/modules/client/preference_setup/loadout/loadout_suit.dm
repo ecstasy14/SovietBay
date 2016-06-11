@@ -113,3 +113,12 @@
 	display_name = "waistcoat"
 	path = /obj/item/clothing/suit/wcoat
 	cost = 1
+
+/datum/gear/suit/warriors
+	display_name = "vest, ''The Warriors''"
+	path = /obj/item/clothing/suit/storage/toggle/gang/warriors
+
+/datum/gear/suit/wanderer
+	display_name = "leather wanderer jacket"
+	path = /obj/item/clothing/suit/storage/toggle/f13/wanderer
+
