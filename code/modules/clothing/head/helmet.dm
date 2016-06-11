@@ -114,3 +114,13 @@
 	name = "asset protection medical helmet"
 	desc = "An in-atmosphere helmet worn by many corporate and private asset protection forces. Has red and white highlights."
 	icon_state = "erthelmet_med"
+
+//Fallout starts here
+
+obj/item/clothing/head/helmet/f13/combat
+	name = "combat helmet"
+	desc = "An old combat helmet, out of use around the time of the war."
+	icon_state = "combat_helmet"
+	item_state = "combat_helmet"
+	armor = list(melee = 45, bullet = 45, laser = 15,energy = 25, bomb = 10, bio = 0, rad = 0)
+	flags_inv = HIDEEARS
