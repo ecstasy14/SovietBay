@@ -319,7 +319,7 @@
 	else
 		src << "\blue I teleport [I] to the [A]"
 		I << "\red Suddenly, you've been blinded with a flash of light!"
-		flick("e_flash", I.flash)
+		flick("e_flash", I.flash_eyes())
 
 	I.forceMove(pick(L))
 
@@ -649,7 +649,7 @@
 		else
 			src << "\blue I teleport [I] to the [A]"
 			I << "\red Suddenly, you've been blinded with a flash of light!"
-			flick("e_flash", I.flash)
+			flick("e_flash", I.flash_eyes())
 
 		I.forceMove(pick(L))
 
@@ -748,7 +748,7 @@
 		name = "Jirachi-S"	//Change it's sprite!
 
 		for(var/mob/living/carbon/P in view(7,src))
-			flick("e_flash", P.flash)
+			flick("e_flash", P.flash_eyes())
 			P << "\red <b>Jirachi starts to glow very brightly!</b>"
 	else
 		if(star_form)
@@ -1055,7 +1055,7 @@
 				else
 					var/client/C = pick(candidates)
 					for(var/mob/living/P in view(7,get_turf(src.loc)))
-						flick("e_flash", P.flash)
+						flick("e_flash", P.flash_eyes())
 						P << "\red \b Stone starts to glow very brightly, as it starts to transform into some kind of creature..."
 
 

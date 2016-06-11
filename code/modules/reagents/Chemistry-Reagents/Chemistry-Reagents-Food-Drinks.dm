@@ -15,19 +15,21 @@
 
 	if(!islist(newdata) || !newdata.len)
 		return
-	for(var/i in 1 to newdata.len)
-		if(!(newdata[i] in data))
-			data.Add(newdata[i])
-			data[newdata[i]] = 0
-		data[newdata[i]] += newdata[newdata[i]]
+
+	//add the new taste data
+	for(var/taste in newdata)
+		if(taste in data)
+			data[taste] += newdata[taste]
+		else
+			data[taste] = newdata[taste]
+
+	//cull all tastes below 10% of total
 	var/totalFlavor = 0
-	for(var/i in 1 to data.len)
-		totalFlavor += data[data[i]]
-	for(var/i in 1 to data.len) //cull the tasteless
-		if(data[data[i]]/totalFlavor * 100 < 10)
-			data[data[i]] = null
-			data -= data[i]
-			data -= null
+	for(var/taste in data)
+		totalFlavor += data[taste]
+	for(var/taste in data)
+		if(data[taste]/totalFlavor < 0.1)
+			data -= taste
 
 /datum/reagent/nutriment/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	if(!injectable)
@@ -604,6 +606,16 @@
 
 	glass_name = "milk"
 	glass_desc = "White and nutritious goodness!"
+
+/datum/reagent/drink/milk/chocolate
+	name =  "Chocolate Milk"
+	id = "chocolate_milk"
+	description = "A mixture of perfectly healthy milk and delicious chocolate."
+	taste_description = "chocolate milk"
+	color = "#74533b"
+
+	glass_name = "chocolate milk"
+	glass_desc = "Deliciously fattening!"
 
 /datum/reagent/drink/milk/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed)
 	..()
