@@ -38,8 +38,10 @@
 		H.equip_to_slot_or_del(new /obj/item/weapon/gun/energy/gun(H), slot_s_store)
 		if(H.backbag == 1)
 			H.equip_to_slot_or_del(new /obj/item/weapon/handcuffs(H), slot_l_store)
+			H.equip_to_slot_or_del(new /obj/item/weapon/material/kitchen/utensil/knife/boot(H), slot_r_hand)
 		else
 			H.equip_to_slot_or_del(new /obj/item/weapon/handcuffs(H), slot_in_backpack)
+			H.equip_to_slot_or_del(new /obj/item/weapon/material/kitchen/utensil/knife/boot(H.back), slot_in_backpack)
 		H.implant_loyalty(H)
 		return 1
 
