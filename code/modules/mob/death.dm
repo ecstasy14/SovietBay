@@ -47,14 +47,14 @@
 		if(src)			qdel(src)
 
 
-/mob/proc/death(gibbed,deathmessage="seizes up and falls limp...")
+/mob/proc/death(gibbed,deathmessage="seizes up and falls limp...",silent=0)
 
 	if(stat == DEAD)
 		return 0
 
 	facing_dir = null
 
-	if(!gibbed && deathmessage != "no message") // This is gross, but reliable. Only brains use it.
+	if(!gibbed && deathmessage != "no message" && !silent) // This is gross, but reliable. Only brains use it.
 		src.visible_message("<b>\The [src.name]</b> [deathmessage]")
 
 	stat = DEAD

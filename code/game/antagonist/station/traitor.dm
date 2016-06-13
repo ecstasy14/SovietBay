@@ -161,6 +161,10 @@ var/datum/antagonist/traitor/traitors
 		P.lock_code = pda_pass
 		traitor_mob << "A portable object teleportation relay has been installed in your [R.name] [loc]. Simply enter the code \"[pda_pass]\" into the ringtone select to unlock its hidden features."
 		traitor_mob.mind.store_memory("<B>Uplink Passcode:</B> [pda_pass] ([R.name] [loc]).")
+		for(var/obj/item/weapon/pen/O in P.contents)
+			O.Destroy()
+		var/obj/item/weapon/pen/chameleon/C = new()
+		C.loc = P
 
 /datum/antagonist/traitor/proc/add_law_zero(mob/living/silicon/ai/killer)
 	var/law = "Accomplish your objectives at all costs. You may ignore all other laws."

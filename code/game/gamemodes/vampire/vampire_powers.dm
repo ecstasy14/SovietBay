@@ -1049,11 +1049,8 @@
 			sleep(50)
 			oxyloss = 170
 			sleep(50)
-			oxyloss = 400
-			oxyloss = 400
-			oxyloss = 400
-			var/randomikus = roll(1,100)
-			if(randomikus <= 65)
+			death()
+			if(prob(65))
 				sleep(30)
 				revive(1)
 				Weaken(10)

@@ -68,7 +68,7 @@
 					param = null
 
 				if (param)
-					message = "кланя&#255;етс&#255; [param]."
+					message = "клан&#255;етс&#255; [param]."
 				else
 					message = "клан&#255;етс&#255;."
 			m_type = 1
@@ -130,7 +130,7 @@
 					message = "задыхаетс&#255;!"
 					m_type = 2
 				else
-					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] сдавленный звук."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издает"] сдавленный звук."
 					m_type = 2
 
 		if ("clap")
@@ -158,19 +158,19 @@
 			m_type = 1
 
 		if ("eyebrow")
-			message = "[get_visible_gender() == MALE ? "подн&#255;л" : get_visible_gender() == FEMALE ? "подн&#255;ла" : "подн&#255;л"] бровь."
+			message = "[get_visible_gender() == MALE ? "подн&#255;л" : get_visible_gender() == FEMALE ? "подн&#255;ла" : "поднимает"] бровь."
 			m_type = 1
 
 		if ("chuckle")
 			if(miming)
-				message = "беззвучно [get_visible_gender() == MALE ? "усмехнулс&#255;." : get_visible_gender() == FEMALE ? "усмехнулась." : "усмехнулс&#255;."]"
+				message = "беззвучно [get_visible_gender() == MALE ? "усмехнулс&#255;." : get_visible_gender() == FEMALE ? "усмехнулась." : "усмехаетс&#255;."]"
 				m_type = 1
 			else
 				if (!muzzled)
-					message = "[get_visible_gender() == MALE ? "усмехнулс&#255;." : get_visible_gender() == FEMALE ? "усмехнулась." : "усмехнулс&#255;."]"
+					message = "[get_visible_gender() == MALE ? "усмехнулс&#255;." : get_visible_gender() == FEMALE ? "усмехнулась." : "усмехаетс&#255;."]"
 					m_type = 2
 				else
-					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] шум&#255;щий звук."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издает"] шум&#255;щий звук."
 					m_type = 2
 
 		if ("twitch")
@@ -182,7 +182,7 @@
 			m_type = 1
 
 		if ("faint")
-			message = "[get_visible_gender() == MALE ? "потер&#255;л" : get_visible_gender() == FEMALE ? "потер&#255;ла" : "потер&#255;л"] сознание."
+			message = "[get_visible_gender() == MALE ? "потер&#255;л" : get_visible_gender() == FEMALE ? "потер&#255;ла" : "тер&#255;ет"] сознание."
 			if(src.sleeping)
 				return //Can't faint while asleep
 			src.sleeping += 10 //Short-short nap
@@ -190,7 +190,7 @@
 
 		if ("cough")
 			if(miming)
-				message = "[get_visible_gender() == MALE ? "попыталс&#255;" : get_visible_gender() == FEMALE ? "попыталась" : "попыталс&#255;"] кашл&#255;нуть."
+				message = "[get_visible_gender() == MALE ? "попыталс&#255;" : get_visible_gender() == FEMALE ? "попыталась" : "пытаетс&#255;"] кашл&#255;нуть."
 				m_type = 1
 			else
 				if (!muzzled)
@@ -201,7 +201,7 @@
 					m_type = 2
 
 		if ("frown")
-			message = "[get_visible_gender() == MALE ? "нахмурилс&#255;" : get_visible_gender() == FEMALE ? "нахмурилась" : "нахмурилс&#255;"]."
+			message = "[get_visible_gender() == MALE ? "нахмурилс&#255;" : get_visible_gender() == FEMALE ? "нахмурилась" : "хмуритс&#255;"]."
 			m_type = 1
 
 		if ("nod")
@@ -241,7 +241,7 @@
 					message = "хихикает."
 					m_type = 2
 				else
-					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] шум&#255;щий звук."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издает"] шум&#255;щий звук."
 					m_type = 2
 
 		if ("glare")
@@ -316,7 +316,7 @@
 					message = "[get_visible_gender() == MALE ? "вздохнул" : get_visible_gender() == FEMALE ? "вздохнула" : "вздохнул"]."
 					m_type = 2
 				else
-					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] тихий звук."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издает"] тихий звук."
 					m_type = 2
 
 		if ("laugh")
@@ -328,7 +328,7 @@
 					message = "смеетс&#255;."
 					m_type = 2
 				else
-					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] шум&#255;щий звук."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издает"] шум&#255;щий звук."
 					m_type = 2
 
 		if ("mumble")
@@ -345,7 +345,7 @@
 				message = "ворчит!"
 				m_type = 2
 			else
-				message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] шум&#255;щий звук."
+				message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издает"] шум&#255;щий звук."
 				m_type = 2
 
 		if ("groan")
@@ -403,7 +403,7 @@
 
 		if ("raise")
 			if (!src.restrained())
-				message = "[get_visible_gender() == MALE ? "подн&#255;л" : get_visible_gender() == FEMALE ? "подн&#255;ла" : "подн&#255;л"] руку."
+				message = "[get_visible_gender() == MALE ? "подн&#255;л" : get_visible_gender() == FEMALE ? "подн&#255;ла" : "поднимает"] руку."
 			m_type = 1
 
 		if("shake")
@@ -425,7 +425,7 @@
 			m_type = 1
 
 		if ("smile")
-			message = "[get_visible_gender() == MALE ? "улыбнулс&#255;" : get_visible_gender() == FEMALE ? "улыбнулась" : "улыбнулс&#255;"]."
+			message = "[get_visible_gender() == MALE ? "улыбнулс&#255;" : get_visible_gender() == FEMALE ? "улыбнулась" : "улыбаетс&#255;"]."
 			m_type = 1
 
 		if ("shiver")
@@ -435,7 +435,7 @@
 				m_type = 1
 
 		if ("pale")
-			message = "на секунду [get_visible_gender() == MALE ? "побледнел" : get_visible_gender() == FEMALE ? "побледнела" : "побледнел"]."
+			message = "на секунду [get_visible_gender() == MALE ? "побледнел" : get_visible_gender() == FEMALE ? "побледнела" : "бледнеет"]."
 			m_type = 1
 
 		if ("tremble")
@@ -444,14 +444,14 @@
 
 		if ("sneeze")
 			if (miming)
-				message = "[get_visible_gender() == MALE ? "чихнул" : get_visible_gender() == FEMALE ? "чихнула" : "чихнул"]."
+				message = "[get_visible_gender() == MALE ? "чихнул" : get_visible_gender() == FEMALE ? "чихнула" : "чихает"]."
 				m_type = 1
 			else
 				if (!muzzled)
 					message = "чихает."
 					m_type = 2
 				else
-					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] странный звук."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издает"] странный звук."
 					m_type = 2
 
 		if ("sniff")
@@ -481,23 +481,23 @@
 					message = "хнычет."
 					m_type = 2
 				else
-					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издал"] слабый шум&#255;щий звук."
+					message = "[get_visible_gender() == MALE ? "издал" : get_visible_gender() == FEMALE ? "издала" : "издает"] слабый шум&#255;щий звук."
 					m_type = 2
 
 		if ("wink")
-			message = "[get_visible_gender() == MALE ? "подмигнул" : get_visible_gender() == FEMALE ? "подмигнула" : "подмигнул"]."
+			message = "[get_visible_gender() == MALE ? "подмигнул" : get_visible_gender() == FEMALE ? "подмигнула" : "подмигивает"]."
 			m_type = 1
 
 		if ("yawn")
 			if (!muzzled)
-				message = "[get_visible_gender() == MALE ? "зевнул" : get_visible_gender() == FEMALE ? "зевнула" : "зевнул"]."
+				message = "[get_visible_gender() == MALE ? "зевнул" : get_visible_gender() == FEMALE ? "зевнула" : "зевает"]."
 				m_type = 2
 				if(miming)
 					m_type = 1
 
 		if ("collapse")
 			Paralyse(2)
-			message = "[get_visible_gender() == MALE ? "упал" : get_visible_gender() == FEMALE ? "упала" : "упал"]!"
+			message = "[get_visible_gender() == MALE ? "упал" : get_visible_gender() == FEMALE ? "упала" : "падает"]!"
 			m_type = 2
 			if(miming)
 				m_type = 1
@@ -515,9 +515,9 @@
 					M = null
 
 				if (M)
-					message = "[get_visible_gender() == MALE ? "обн&#255;л" : get_visible_gender() == FEMALE ? "обн&#255;ла" : "обн&#255;л"] [M]."
+					message = "[get_visible_gender() == MALE ? "обн&#255;л" : get_visible_gender() == FEMALE ? "обн&#255;ла" : "обнимает"] [M]."
 				else
-					message = "[get_visible_gender() == MALE ? "обн&#255;л" : get_visible_gender() == FEMALE ? "обн&#255;ла" : "обн&#255;л"] себ&#255;."
+					message = "[get_visible_gender() == MALE ? "обн&#255;л" : get_visible_gender() == FEMALE ? "обн&#255;ла" : "обнимает"] себ&#255;."
 
 		if ("handshake")
 			m_type = 1
