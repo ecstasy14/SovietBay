@@ -19,6 +19,12 @@
 	var/cuff_type = "handcuffs"
 	sprite_sheets = list("Resomi" = 'icons/mob/species/resomi/handcuffs.dmi')
 
+/obj/item/weapon/handcuffs/pink
+	icon_state = "handcuffpink"
+	name = "handcuffs"
+	desc = "Pink?.."
+	breakouttime = 200
+
 /obj/item/weapon/handcuffs/attack(var/mob/living/carbon/C, var/mob/living/user)
 
 	if(!user.IsAdvancedToolUser())
