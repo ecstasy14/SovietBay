@@ -268,14 +268,22 @@
 	selection_color = "#515151"
 	access = list(access_janitor, access_maint_tunnels, access_engine, access_research, access_sec_doors, access_medical)
 	minimal_access = list(access_janitor, access_maint_tunnels, access_engine, access_research, access_sec_doors, access_medical)
-
+	alt_titles = list("Custodial Technician", "Maid")
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_service(H), slot_l_ear)
-		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/janitor(H), slot_w_uniform)
-		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
 		H.equip_to_slot_or_del(new /obj/item/device/pda/janitor(H), slot_belt)
+		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
+		if (H.mind.role_alt_title)
+			switch(H.mind.role_alt_title)
+				if("Maid")
+					if(H.gender == "female")
+						H.equip_to_slot_or_del(new /obj/item/clothing/under/maid1(H), slot_w_uniform)
+					else
+						H.equip_to_slot_or_del(new /obj/item/clothing/under/maid2(H), slot_w_uniform)
+				else
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/janitor(H), slot_w_uniform)
 		return 1
 
 
