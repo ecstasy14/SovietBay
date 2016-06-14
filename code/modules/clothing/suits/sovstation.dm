@@ -355,39 +355,15 @@ Location of Barsik's Sprites
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
 	siemens_coefficient = 0.6
 
-/obj/item/clothing/suit/warvest
-	name = "Red Jacket"
-	desc = "Red Jacket. You see a label 'Made by Rorschash Ind.'."
-	var/base_icon_state = "warvest"
-	var/open =1
-	blood_overlay_type = "armor"
+/obj/item/clothing/suit/storage/toggle/gang/warriors
+	name = "red vest"
+	desc = "Vest of gang ''The Warriors''. On the back of the vest, painted wings and skull."
+	icon_state = "warvest"
+	item_state = "warvest"
+	icon_open = "warvest_open"
+	icon_closed = "warvest"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO
-
-	update_icon()
-		if(open)
-			icon_state="[base_icon_state]_open"
-		else
-			icon_state="[base_icon_state]"
-
-	verb/toggle()
-		set name = "Toggle Red Jacket Buttons"
-		set category = "Object"
-		set src in usr
-
-		if(!usr.canmove || usr.stat || usr.restrained())
-			return 0
-
-		if(open)
-			usr << "You button up the jacket."
-		else
-			usr << "You unbutton the jacket."
-		open=!open
-		update_icon()
-		usr.update_inv_wear_suit()
-
-/obj/item/clothing/suit/warvest/New()
-	. = ..()
-	update_icon()
+	armor = list(melee = 10, bullet = 5, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
 
 
 // Other shit.

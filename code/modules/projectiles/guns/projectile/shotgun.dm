@@ -119,3 +119,18 @@
 	w_class = 3
 	force = 5
 	requires_two_hands = 0
+
+//MAD MAX SAWN-OFF //
+
+/obj/item/weapon/gun/projectile/shotgun/doublebarrel/max_sawn_off
+	name = "worn sawn-off"
+	desc = "Someone took the time to chop the last few inches off the barrel and stock of this shotgun. You see word 'Max' engraved on grip"
+	icon_state = "max_sawn_off"
+	item_state = "sawnshotgun"
+	slot_flags = SLOT_BELT|SLOT_HOLSTER
+	ammo_type = /obj/item/ammo_casing/shotgun
+	w_class = 3
+	force = 10
+	requires_two_hands = 0
+	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 2)
+

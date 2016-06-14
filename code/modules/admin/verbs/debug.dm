@@ -415,7 +415,8 @@
 		"emergency response team",
 		"nanotrasen representative",
 		"nanotrasen officer",
-		"nanotrasen captain"
+		"nanotrasen captain",
+		"mad max"
 		)
 	var/dresscode = input("Select dress for [M]", "Robust quick dress shop") as null|anything in dresspacks
 	if (isnull(dresscode))
@@ -782,6 +783,16 @@
 			W.assignment = "Admiral"
 			W.registered_name = M.real_name
 			M.equip_to_slot_or_del(W, slot_wear_id)
+
+		if("mad max")
+			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(M), slot_shoes)
+			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/f13/mfp(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(M), slot_back)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/box/shotgunammo, slot_in_backpack)
+			M.equip_to_slot_or_del(new /obj/item/clothing/under/pants/blackjeans(M), slot_w_uniform)
+			M.equip_to_slot_or_del(new /obj/item/weapon/material/butterfly/switchblade(M), slot_l_store)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/shotgun/doublebarrel/max_sawn_off(M), slot_s_store)
 
 	M.regenerate_icons()
 

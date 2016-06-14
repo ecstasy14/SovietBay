@@ -131,3 +131,16 @@
 	name = "baggy camo pants"
 	desc = "A pair of woodland camouflage pants. Probably not the best choice for a space station."
 	icon_state = "baggy_camopants"
+
+
+//Fallout starts here
+
+/obj/item/clothing/under/pants/f13/cloth
+	name = "cloth pants"
+	desc = "A pair of worn dusty cloth pants made of various textile pieces.<br>Commonly found all over the wasteland."
+	icon_state = "cloth_pants"
+
+/obj/item/clothing/under/pants/f13/caravan
+	name = "caravanner pants"
+	desc = "A pair of wide dusty cargo pants.<br>Commonly worn by caravanners or caravan robbers."
+	icon_state = "caravan_pants"

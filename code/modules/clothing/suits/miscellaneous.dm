@@ -406,3 +406,53 @@
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	siemens_coefficient = 2.0
+
+//Fallout starts here
+
+/obj/item/clothing/suit/f13/mfp //Mad Max 1979 babe!
+	name = "mfp jacket"
+	desc = "A Main Force Patrol leather jacket."
+	icon_state = "mad_max"
+	item_state = "mad_max"
+	body_parts_covered = UPPER_TORSO|ARMS
+	armor = list(melee = 20, bullet = 10, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	allowed = list(/obj/item/weapon/gun/projectile/shotgun/doublebarrel/max_sawn_off,/obj/item/weapon/gun/projectile/shotgun/doublebarrel/sawn)
+
+/obj/item/clothing/suit/f13/elder
+	name = "brotherhood elder's robe"
+	desc = "A blue cloth robe with some scarlet red parts, traditionally worn by the Brotherhood of Steel Elder."
+	icon_state = "brotherhood_elder"
+	item_state = "brotherhood_elder"
+	body_parts_covered = UPPER_TORSO|ARMS
+	armor = list(melee = 20, bullet = 10, laser = 10,energy = 10, bomb = 0, bio = 0, rad = 0)
+	allowed = list(/obj/item/weapon/pen,/obj/item/weapon/paper,/obj/item/weapon/stamp,/obj/item/weapon/reagent_containers/food/drinks/flask,/obj/item/weapon/storage/box/matches,/obj/item/device/flashlight,/obj/item/weapon/gun,/obj/item/weapon/storage/pill_bottle/dice,/obj/item/weapon/dice)
+
+/obj/item/clothing/suit/f13/scribe
+	name = "brotherhood scribe's robe"
+	desc = "A blue cloth robe worn by the Brotherhood of Steel Scribes."
+	icon_state = "brotherhood_scribe"
+	item_state = "brotherhood_scribe"
+	body_parts_covered = UPPER_TORSO|ARMS
+	armor = list(melee = 15, bullet = 5, laser = 10,energy = 10, bomb = 0, bio = 0, rad = 0)
+	allowed = list(/obj/item/weapon/pen,/obj/item/weapon/paper,/obj/item/weapon/stamp,/obj/item/weapon/reagent_containers/food/drinks/flask,/obj/item/weapon/storage/box/matches,/obj/item/device/flashlight,/obj/item/weapon/gun,/obj/item/weapon/storage/pill_bottle/dice,/obj/item/weapon/dice)
+
+/obj/item/clothing/suit/f13/veteran
+	name = "merc veteran coat"
+	desc = "A blue leather coat along with a few war medals.<br>That type of outfit is common for professional mercenaries and bounty hunters."
+	icon_state = "veteran"
+	item_state = "veteran"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+	armor = list(melee = 20, bullet = 20, laser = 10,energy = 10, bomb = 10, bio = 0, rad = 0)
+	allowed = list(/obj/item/weapon/pen,/obj/item/weapon/paper,/obj/item/weapon/stamp,/obj/item/weapon/reagent_containers/food/drinks/flask,/obj/item/weapon/melee,/obj/item/weapon/storage/box/matches,/obj/item/weapon/storage/fancy/cigarettes,/obj/item/device/flashlight,/obj/item/weapon/gun/energy,/obj/item/weapon/gun/projectile,/obj/item/ammo_casing)
+
+obj/item/clothing/suit/storage/toggle/f13/wanderer
+	name = "wanderer's jacket"
+	desc = "A warm, leather jacket."
+	icon_state = "wanderer_jacket"
+	item_state = "wanderer_jacket"
+	icon_open = "wanderer_jacket_open"
+	icon_closed = "wanderer_jacket"
+	armor = list(melee = 5, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
+	min_cold_protection_temperature = T0C - 30
+	cold_protection = UPPER_TORSO|LOWER_TORSO|ARMS
