@@ -432,6 +432,7 @@
 		return
 	client.screen.Cut()
 	client.screen += client.void
+	check_parallax()
 	if(!client)
 		log_game("[usr.key] AM failed due to disconnect.")
 		return

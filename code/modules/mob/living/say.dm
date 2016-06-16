@@ -193,6 +193,12 @@ proc/get_radio_key_from_channel(var/channel)
 	if(!message || message == "")
 		return 0
 
+	if(!(copytext(message, length(message)) in list(".","!","?","~")))
+		message = "[message]."
+
+	if(copytext(message, length(message) - 1) == "!!")
+		message = "<b>[message]</b>"
+
 	var/list/obj/item/used_radios = new
 	if(handle_message_mode(message_mode, message, verb, speaking, used_radios, alt_name))
 		return 1
