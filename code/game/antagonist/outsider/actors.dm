@@ -43,7 +43,9 @@ var/datum/antagonist/actor/actor
 	set name = "Join as Actor"
 	set desc = "Join as an Actor to entertain the crew through television!"
 
-	if(usr.mind.special_role == "NanoTrasen Actor") return
+	if(usr.mind.special_role == "NanoTrasen Actor")
+		usr << "No more actors may spawn at the current time."
+		return
 
 	if(!MayRespawn(1))
 		return
