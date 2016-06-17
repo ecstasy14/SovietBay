@@ -294,7 +294,7 @@ datum/objective/escape
 		var/turf/location = get_turf(owner.current.loc)
 		if(!location)
 			return 0
-		if(location,/turf/simulated/floor/shuttle/red)
+		if(istype(location,/turf/simulated/floor/shuttle/red))
 			return 0
 
 		//Fails traitors if they are in a shuttle but knocked out or cuffed.
