@@ -214,9 +214,8 @@ proc/slur(phrase)
 			if(1,3,5,8)	newletter="[lowertext_alt(newletter)]"
 			if(2,4,6,15)	newletter="[uppertext_alt(newletter)]"
 			if(7)	newletter+="'"
-			//if(9,10)	newletter="<b>[newletter]</b>"
-			//if(11,12)	newletter="<big>[newletter]</big>"
-			//if(13)	newletter="<small>[newletter]</small>"
+			if(9,10)	newletter="<b>[newletter]</b>"
+			if(11,12)	newletter="<small>[newletter]</small>" 	//if(11,12)	newletter="<big>[newletter]</big>" 	//if(13)	newletter="<small>[newletter]</small>"
 		newphrase+="[newletter]";counter-=1
 	return newphrase
 
@@ -226,9 +225,9 @@ proc/slur(phrase)
 	n = length(n)//length of the entire word
 	var/alphabet[0]
 	//"b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","w","x","y","z"
-	alphabet.Add(98,99,100,102,103,104,105,106,107,108,109,110,112,113,114,115,116,118,119,120,121,122)
+	alphabet.Add("b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","w","x","y","z")
 	//"á","â","ã","ä","æ","ç","é","ê","ë","ì","í","ï","ð","ñ","ò","ô","õ","ö","÷","ø","ù"
-	alphabet.Add(225,226,227,228,230,231,233,234,235,236,237,239,240,241,242,244,245,246,247,248,249)
+	alphabet.Add("á","â","ã","ä","æ","ç","é","ê","ë","ì","í","ï","ð","ñ","ò","ô","õ","ö","÷","ø","ù")
 
 	var/p = null
 	p = 1//1 is the start of any word
