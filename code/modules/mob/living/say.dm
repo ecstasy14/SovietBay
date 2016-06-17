@@ -253,6 +253,12 @@ proc/get_radio_key_from_channel(var/channel)
 	var/image/speech_bubble = image('icons/mob/talk.dmi',src,"h[speech_bubble_test]")
 	spawn(30) qdel(speech_bubble)
 
+	if(!(copytext(message, length(message)) in list(".","!","?","~")))
+		message = "[message]."
+
+	if(copytext(message, length(message) - 1) == "!!")
+		message = "<b>[message]</b>"
+
 	for(var/mob/M in listening)
 		M << speech_bubble
 		M.hear_say(message, verb, speaking, alt_name, italics, src, speech_sound, sound_vol)
