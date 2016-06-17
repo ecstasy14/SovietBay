@@ -16,7 +16,7 @@
 	set name = "Me"
 	set category = "IC"
 
-	message = sanitize(message)
+	message = sanitize(lowertext_alt(message))
 
 	set_typing_indicator(0)
 	if(use_me)

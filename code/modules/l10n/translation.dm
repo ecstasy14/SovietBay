@@ -5,7 +5,7 @@ var/global/list/interface_languages = list("main", "ru_RU")
 
 /client/verb/change_language()
 	set name = "Change Language"
-	set category = "Preferences"
+	set category = null
 
 	var/lang_new = input(usr, "Select a language form list") in interface_languages
 	if(!lang_new)
