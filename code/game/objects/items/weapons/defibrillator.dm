@@ -75,7 +75,7 @@
 							C.stat = CONSCIOUS
 					C.tod = null
 					C.timeofdeath = 0
-					dead_mob_list -= C
+					dead_mob_list_ -= C
 
 				/*if(wet)
 					var/turf/T = get_turf(src)

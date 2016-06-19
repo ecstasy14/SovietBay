@@ -279,7 +279,7 @@ var/list/ai_verbs_default = list(
 		aiPDA.ownjob = "AI"
 		aiPDA.owner = pickedName
 		aiPDA.name = pickedName + " (" + aiPDA.ownjob + ")"
-		
+
 	data_core.ResetPDAManifest()
 
 /*
@@ -482,7 +482,7 @@ var/list/ai_verbs_default = list(
 		if(scanning)
 			return
 		var/mob/living/hum = null
-		for(var/mob/living/M in living_mob_list)
+		for(var/mob/living/M in living_mob_list_)
 			if("\ref[M]" == href_list["fullscan"])
 				hum = M
 				break
