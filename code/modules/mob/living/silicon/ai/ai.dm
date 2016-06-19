@@ -280,6 +280,8 @@ var/list/ai_verbs_default = list(
 		aiPDA.owner = pickedName
 		aiPDA.name = pickedName + " (" + aiPDA.ownjob + ")"
 
+	data_core.ResetPDAManifest()
+
 /*
 	The AI Power supply is a dummy object used for powering the AI since only machinery should be using power.
 	The alternative was to rewrite a bunch of AI code instead here we are.
@@ -480,7 +482,7 @@ var/list/ai_verbs_default = list(
 		if(scanning)
 			return
 		var/mob/living/hum = null
-		for(var/mob/living/M in living_mob_list)
+		for(var/mob/living/M in living_mob_list_)
 			if("\ref[M]" == href_list["fullscan"])
 				hum = M
 				break

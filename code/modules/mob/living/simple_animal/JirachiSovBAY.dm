@@ -443,7 +443,7 @@
 		if(processing == 0)
 			return
 
-		if(Z.stat == 2 || !Z in living_mob_list || !Z)
+		if(Z.stat == 2 || !Z in living_mob_list_ || !Z)
 			src << "\red It...died..."
 			processing = 0
 			return
@@ -1062,7 +1062,7 @@
 					var/mob/living/simple_animal/jirachi = new /mob/living/simple_animal/jirachi
 					jirachi.loc = get_turf(src)
 					jirachi.key = C.key
-					dead_mob_list -= C
+					dead_mob_list_ -= C
 					jirachi << "\blue <i><b>Strange feeling...</b></i>"
 					jirachi << "\blue <i><b>I feel energy pulsating from every inch of my body</b></i>"
 					jirachi << "\blue <i><b>Star power begins to emerge from me, breaking my involucre</b></i>"

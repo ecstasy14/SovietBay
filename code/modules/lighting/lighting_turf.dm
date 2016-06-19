@@ -21,6 +21,11 @@
 	for(var/datum/light_source/L in affecting_lights)
 		L.calc_turf(src)
 
+/turf/set_opacity(new_opacity)
+	if(opacity != new_opacity)
+		opacity = new_opacity
+		src.reconsider_lights()
+
 // Used to get a scaled lumcount.
 /turf/proc/get_lumcount(var/minlum = 0, var/maxlum = 1)
 	if(!lighting_overlay) //We're not dynamic, whatever, return 50% lighting.

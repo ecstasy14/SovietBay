@@ -53,14 +53,11 @@ proc/isemptylist(list/list)
 	return 0
 
 //Checks for specific types in a list
-/proc/is_type_in_list(datum/A, list/L)
-	if (!A || !L.len)
-		return 0
-	if (!isnum(L[L[1]]))
-		for(var/type in L)
-			for(var/T in typesof(type))
-				L[T] = 1
-	return L[A.type]
+/proc/is_type_in_list(var/atom/A, var/list/L)
+	for(var/type in L)
+		if(istype(A, type))
+			return 1
+	return 0
 
 /proc/instances_of_type_in_list(var/atom/A, var/list/L)
 	var/instances = 0
@@ -449,7 +446,7 @@ proc/listclearnulls(list/list)
 // Insert an object into a sorted list, preserving sortedness
 /proc/dd_insertObjectList(var/list/L, var/O)
 	var/min = 1
-	var/max = L.len
+	var/max = L.len + 1
 	var/Oval = O:dd_SortValue()
 
 	while(1)
@@ -615,3 +612,9 @@ proc/dd_sortedTextList(list/incoming)
 	return L
 
 #define listequal(A, B) (A.len == B.len && !length(A^B))
+
+/proc/filter_list(var/list/L, var/type)
+	. = list()
+	for(var/entry in L)
+		if(istype(entry, type))
+			. += entry

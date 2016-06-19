@@ -7,7 +7,8 @@
 	force = 10
 	projectile_type = /obj/item/projectile/beam
 	sel_mode = 2
-	max_shots = 10
+	max_shots = 30
+	w_class = 5
 	cell_type = /obj/item/weapon/cell/device/laser/high
 
 	firemodes = list(
@@ -37,4 +38,5 @@
 	desc = "It's not the size of the gun, it's the size of the hole it puts through people."
 	slot_flags = SLOT_BELT|SLOT_HOLSTER
 	icon_state = "m1911-p"
-	max_shots = 5
+	max_shots = 8
+	w_class = 3
