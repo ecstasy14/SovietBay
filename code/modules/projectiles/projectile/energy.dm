@@ -11,10 +11,11 @@
 /obj/item/projectile/energy/flash
 	name = "chemical shell"
 	icon_state = "bullet"
-	fire_sound = 'sound/weapons/Gunshot_light.ogg'
+	fire_sound = 'sound/weapons/gunshot/gunshot_pistol.ogg'
 	damage = 5
 	agony = 10
 	kill_count = 15 //if the shell hasn't hit anything after travelling this far it just explodes.
+	muzzle_type = /obj/effect/projectile/bullet/muzzle
 	var/flash_range = 0
 	var/brightness = 7
 	var/light_colour = "#ffffff"
@@ -43,7 +44,7 @@
 //blinds people like the flash round, but in a small area and can also be used for temporary illumination
 /obj/item/projectile/energy/flash/flare
 	damage = 10
-	fire_sound = 'sound/weapons/Gunshot.ogg'
+	fire_sound = 'sound/weapons/gunshot/shotgun.ogg'
 	flash_range = 2
 	brightness = 15
 
@@ -73,9 +74,8 @@
 	//Damage will be handled on the MOB side, to prevent window shattering.
 
 /obj/item/projectile/energy/electrode/stunshot
-	name = "stunshot"
-	damage = 5
-	taser_effect = 1
+	nodamage = 0
+	damage = 10
 	agony = 80
 	New()
 		set_light(l_range = 3, l_power = 1, l_color = "#FFFF78")
@@ -120,6 +120,7 @@
 /obj/item/projectile/energy/bolt/large
 	name = "largebolt"
 	damage = 20
+	agony = 60
 	New()
 		set_light(l_range = 3, l_power = 1, l_color = "#00FF00")
 		..()

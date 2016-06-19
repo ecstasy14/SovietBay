@@ -463,8 +463,7 @@ default behaviour is:
 
 	// remove the character from the list of the dead
 	if(stat == DEAD)
-		dead_mob_list -= src
-		living_mob_list += src
+		switch_from_dead_to_living_mob_list()
 		tod = null
 		timeofdeath = 0
 
@@ -479,7 +478,7 @@ default behaviour is:
 	BITSET(hud_updateflag, LIFE_HUD)
 
 	failed_last_breath = 0 //So mobs that died of oxyloss don't revive and have perpetual out of breath.
-
+	reload_fullscreen()
 	return
 
 /mob/living/proc/UpdateDamageIcon()

@@ -413,3 +413,9 @@ var/area/global_space_area = null
 	hud_used.hidden_inventory_update()
 	hud_used.persistant_inventory_update()
 	update_action_buttons()
+
+/mob/proc/add_click_catcher()
+	client.screen += client.void
+
+/mob/new_player/add_click_catcher()
+	return

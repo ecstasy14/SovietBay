@@ -30,7 +30,7 @@
 		command_announcement.Announce("Станци&#255; прошла радиационный по&#255;с. Пожалуйста обратитесь в медотсек, если у вас возникли какие-либо необычные симптомы. Технические тоннели в скором времени будут заблокированы вновь.", "Радиационна&#255; безопасность")
 
 /datum/event/radiation_storm/proc/radiate()
-	for(var/mob/living/carbon/C in living_mob_list)
+	for(var/mob/living/carbon/C in living_mob_list_)
 		var/area/A = get_area(C)
 		if(!A)
 			continue

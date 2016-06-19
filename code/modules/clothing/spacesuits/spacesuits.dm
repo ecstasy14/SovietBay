@@ -66,7 +66,7 @@
 		slot_l_hand_str = 'icons/mob/items/lefthand_spacesuits.dmi',
 		slot_r_hand_str = 'icons/mob/items/righthand_spacesuits.dmi',
 		)
-	w_class = 5//bulky item
+	w_class = 4//large item
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.02
 	item_flags = STOPPRESSUREDAMAGE | THICKMATERIAL
@@ -83,7 +83,7 @@
 
 /obj/item/clothing/suit/space/New()
 	..()
-	slowdown_per_slot[slot_wear_suit] = 3
+	slowdown_per_slot[slot_wear_suit] = 1
 
 /obj/item/clothing/suit/space/equipped(mob/M)
 	check_limb_support()
