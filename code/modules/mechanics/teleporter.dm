@@ -53,7 +53,7 @@
 		//2. What about 20 things at a time?
 		//3.If not, should all the items teleport to 1 pad?
 		for(var/atom/movable/what in src.loc)
-			if(!what.anchored)
+			if(!what.anchored || istype(what, /obj/mecha))
 				do_teleport(what, pick(destinations))
 
 /obj/item/mechcomp/teleporter/proc/setID(signal)

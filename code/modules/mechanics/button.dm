@@ -9,9 +9,6 @@
 
 	place_flags = MECH_PLACE_ABOVE
 
-/obj/item/mechcomp/button/attach()
-	density = !density
-
 /obj/item/mechcomp/button/attack_hand(mob/user)
 	if(!ready)
 		return
@@ -23,3 +20,7 @@
 		handler.send_signal()
 	else
 		..()
+
+/obj/item/mechcomp/button/attach()
+	..()
+	density = !density
