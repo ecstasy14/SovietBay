@@ -11,6 +11,12 @@
 		return 0
 	return 1
 
+/turf/simulated/floor/proc/turf_is_crowded()
+	for(var/obj/O in contents)
+		if(O && O.density)
+			return O
+	return 0
+
 /turf/simulated/floor/MouseDrop_T(mob/living/carbon/human/target, mob/living/carbon/human/user)
 	var/mob/living/carbon/human/H = user
 	if(istype(H) && can_crawl_self(H) && target == user)
@@ -20,7 +26,7 @@
 
 /turf/simulated/floor/proc/do_crawl(var/mob/living/carbon/human/user)
 
-	if(!do_after(user,50,src,0,0,(INCAPACITATION_RESTRAINED|INCAPACITATION_BUCKLED_PARTIALLY|INCAPACITATION_STUNNED)))
+	if(!do_after(user,rand(40,60),src,0,0,(INCAPACITATION_RESTRAINED|INCAPACITATION_BUCKLED_PARTIALLY|INCAPACITATION_STUNNED)))
 		return
 	if(!can_crawl_self(user))
 		return
@@ -55,4 +61,10 @@ mob/living/carbon/human
 	else
 		return ..()
 
-
+mob/living/carbon/human/lay_down()
+	..()
+	if(becrawling && (usr.layer != MOB_LAYER))
+		for(var/turf/simulated/floor/F in view(1))
+			if(!F.turf_is_crowded() && F.can_crawl_self(src))
+				Move(F,pick(1,2,4,8))
+				return
