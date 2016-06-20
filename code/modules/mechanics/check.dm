@@ -29,10 +29,8 @@
 		else
 			if(findtextEx(signal, handler.trigger_signal))
 				send = 1
-
 	if(reverse)
 		send = !send
-
 	if(send)
 		if(replace)
 			handler.send_signal()
@@ -58,5 +56,4 @@
 				full_check = !full_check
 			if("set_case")
 				case_sensitive = !case_sensitive
-
 		return MT_REFRESH

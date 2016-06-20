@@ -23,6 +23,7 @@
 	ready = 0
 	spawn(30)
 		ready = 1
+
 	flick(icon_state+"_active",src)
 
 	var/to_send = sanitize(doc.info)
