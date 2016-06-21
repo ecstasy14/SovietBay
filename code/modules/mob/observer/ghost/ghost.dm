@@ -708,6 +708,37 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	seedarkness = !(seedarkness)
 	updateghostsight()
 
+/mob/observer/ghost/verb/controll_hostile()
+	set name = "Take Hostile Control"
+	set desc = "Allowing you to take control of the mob"
+	set category = "Ghost"
+
+	if(config.antag_hud_restricted && has_enabled_antagHUD == 1)
+		src << "<span class='warning'>antagHUD restrictions prevent you from take controll mob.</span>"
+		return
+
+	var/timedifference = world.time - timeofdeath
+	if(timeofdeath && timedifference < 3 MINUTES)
+		var/timedifference_text = time2text(3 MINUTES - timedifference,"mm:ss")
+		src << "<span class='warning'>You must have been dead for 3 minutes to take controll. You have [timedifference_text] left.</span>"
+		return
+
+	var/list/control_mobs = list()
+	for(var/mob/living/simple_animal/hostile/M in world)
+		if(!M.stat && M.controllable && !M.client)
+			control_mobs += M
+
+	var/mob/living/simple_animal/hostile/target = null
+	if(control_mobs.len)
+		target = input("Please, select a hostile!", "Select a hostile!",) as mob in control_mobs
+	else
+		src << "<span class='warning'>Controllable hostile not found.</span>"
+
+	if(target)
+		var/mob/oldmob = src
+		target.ckey = src.ckey
+		qdel(oldmob)
+
 /mob/observer/ghost/proc/updateghostsight()
 	if (!seedarkness)
 		see_invisible = SEE_INVISIBLE_NOLIGHTING

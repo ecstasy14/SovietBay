@@ -278,12 +278,25 @@ var/area/global_space_area = null
 	..()
 	check_parallax()
 
+/mob/forceMove()
+	..()
+	check_parallax()
+
 /mob/proc/check_parallax()
 	if(client)
 		if(!client.first_parallax_create)
 			if(client.spessbg[1] == null)
 				client.spessbg.Remove(client.spessbg[1])
 				hud_used.create_parallax()
+		else if(!client.first_parallax_create)
+			for(var/obj/screen/spessbg/S in client.spessbg)
+				if(S.overlays) return
+				if(S.name == "spess")
+					for(var/pix_x = 0; pix_x <= 448; pix_x+=32)
+						for(var/pix_y = 0; pix_y <= 448; pix_y+=32)
+							S.overlays += image(icon = 'icons/turf/space.dmi' ,icon_state = "[rand(1,25)]" ,pixel_x=pix_x, pixel_y=pix_y, layer = AREA_LAYER + 0.51)
+					S.icon_state = "white"
+
 
 /datum/hud/proc/create_parallax()
 	var/client/C = mymob.client

@@ -208,6 +208,7 @@
 	default_type = "glass"
 
 /obj/item/stack/material/glass/fifty
+	amount = 50
 
 /obj/item/stack/material/glass/reinforced
 	name = "reinforced glass"
