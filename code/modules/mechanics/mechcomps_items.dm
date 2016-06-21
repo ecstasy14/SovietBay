@@ -1,5 +1,7 @@
 //TODO : What about adding an ability to rename the components using a pen?
 //TODO : Add power consumption.
+//TODO : Maybe add non-contraband teleports that have limited range?
+//TODO : add a way to get moar components
 
 /*
 =================
