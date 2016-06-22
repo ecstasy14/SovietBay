@@ -25,11 +25,7 @@
 	code = max(1, src.code)
 
 /obj/item/mechcomp/radiocomp/proc/freq(signal)
-	//For user input
-	var/new_frequency = signal
-	//For mechcomps input
-	if(!isnum(signal))
-		new_frequency = round(text2num(signal))
+	var/new_frequency = round(text2num(signal))
 	if(new_frequency < RADIO_LOW_FREQ || new_frequency > RADIO_HIGH_FREQ)
 		new_frequency = sanitize_frequency(new_frequency, RADIO_LOW_FREQ, RADIO_HIGH_FREQ)
 	set_frequency(new_frequency)
