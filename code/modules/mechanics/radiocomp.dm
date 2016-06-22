@@ -17,8 +17,7 @@
 	handler.add_input("set code", "code")
 	handler.add_input("set frequency", "freq")
 	handler.add_input("send", "send")
-	spawn(40)
-		set_frequency(1457)
+	set_frequency(1457)
 
 /obj/item/mechcomp/radiocomp/proc/code(signal)
 	code = round(text2num(signal))
