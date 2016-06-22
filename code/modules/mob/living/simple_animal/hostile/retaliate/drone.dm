@@ -24,9 +24,14 @@
 	projectilesound = 'sound/weapons/laser3.ogg'
 	destroy_surroundings = 0
 	var/datum/effect/effect/system/trail/ion_trail
+	controllable = 1
+	move_to_delay = 6
 
 	//the drone randomly switches between these states because it's malfunctioning
-	var/hostile_drone = 0
+	var/hostile_drone = 1
+	var/cannon_state = "<span class='alium'><b>ONLINE</b></span>"
+	var/drone_state = "ONLINE"
+	var/forcing_weapon = 0
 	//0 - retaliate, only attack enemies that attack it
 	//1 - hostile, attack everything that comes near
 
@@ -54,6 +59,10 @@
 	if(prob(5))
 		projectiletype = /obj/item/projectile/beam/pulse/drone
 		projectilesound = 'sound/weapons/pulse2.ogg'
+	else if(prob(5))
+		projectiletype = /obj/item/projectile/beam/xray/drone
+		projectilesound = 'sound/weapons/laser3.ogg'
+
 	ion_trail = new /datum/effect/effect/system/trail/ion()
 	ion_trail.set_up(src)
 	ion_trail.start()
@@ -69,6 +78,16 @@
 
 //self repair systems have a chance to bring the drone back to life
 /mob/living/simple_animal/hostile/retaliate/malf_drone/Life()
+	if(client)
+		if(disabled)
+			drone_state = "DISABLE:[disabled]"
+			hostile_drone = 0
+			client.move_delay = world.time + 20
+		else if(stat)
+			drone_state = "OFFLINE"
+		else if(drone_state != "ONLINE")
+			drone_state = "ONLINE"
+
 
 	//emps and lots of damage can temporarily shut us down
 	if(disabled > 0)
@@ -102,9 +121,11 @@
 		if(hostile_drone)
 			src.visible_message("\blue \icon[src] [src] retracts several targetting vanes, and dulls it's running lights.")
 			hostile_drone = 0
+			cannon_state = "<span class='warning'><b>OFFLINE</b></span>"
 		else
 			src.visible_message("\red \icon[src] [src] suddenly lights up, and additional targetting vanes slide into place.")
 			hostile_drone = 1
+			cannon_state = "<span class='alium'><b>ONLINE</b></span>"
 
 	if(health / maxHealth > 0.9)
 		icon_state = "drone3"
@@ -155,6 +176,7 @@
 	health -= rand(3,15) * (severity + 1)
 	disabled = rand(150, 600)
 	hostile_drone = 0
+	cannon_state = "<span class='warning'><b>OFFLINE</b></span>"
 	walk(src,0)
 
 /mob/living/simple_animal/hostile/retaliate/malf_drone/death()
@@ -274,6 +296,48 @@
 
 /obj/item/projectile/beam/drone
 	damage = 15
+	pass_flags = PASSGLASS | PASSGRILLE
 
 /obj/item/projectile/beam/pulse/drone
-	damage = 10
+	damage = 20
+	pass_flags = PASSGLASS | PASSGRILLE
+
+/obj/item/projectile/beam/xray/drone
+	damage = 16
+	pass_flags = PASSGLASS | PASSGRILLE
+
+/mob/living/simple_animal/hostile/retaliate/malf_drone/Stat()
+	..()
+	stat("Main cannon:", cannon_state)
+	stat("Drone status:", "<b>[drone_state]</b>")
+
+/mob/living/simple_animal/hostile/retaliate/malf_drone/RangedAttack(A, params)
+	..()
+	if((firedelayworld > world.time) || stat)
+		return
+	firedelayworld = world.time + 30
+	if(!hostile_drone)
+		src << "\blue Main cannon is offline!"
+	else
+		OpenFire(A)
+
+/mob/living/simple_animal/hostile/retaliate/malf_drone/verb/force_weapon()
+	set name = "Force Weapon"
+	set category = "Drone"
+
+	if(!stat && !forcing_weapon)
+		if(disabled)
+			src << "<span class='warning'>You are disabled.</span>"
+			return
+		else
+			if(!hostile_drone)
+				forcing_weapon = 1
+				cannon_state = "<b>FORCING</b>"
+				src << "<span class='warning'>Forcing weapon...</span>"
+				spawn(1000)
+					forcing_weapon = 0
+					src.visible_message("\red \icon[src] [src] suddenly lights up, and additional targetting vanes slide into place.")
+					cannon_state = "<b>ONLINE</b>"
+					hostile_drone = 1
+			else
+				src << "\blue Cannon alrady online."

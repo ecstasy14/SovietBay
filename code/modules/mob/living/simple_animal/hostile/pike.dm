@@ -11,6 +11,7 @@
 	attack_same = 1
 	speed = 0
 	mob_size = MOB_LARGE
+	move_to_delay = 2
 
 	pixel_x = -16
 
