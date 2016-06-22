@@ -78,6 +78,7 @@
 			if("set_price")
 				price = input(user, "Enter new price:", "Set price") as num
 				price = max(price, 1)
+				//SANITY ENFORCEMENT!!
 				price = min(price, 1000000)
 			if("set_eject")
 				eject_all = !eject_all

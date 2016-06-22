@@ -36,5 +36,4 @@
 				delay = min(delay, 600)
 			if("set_preserve")
 				preserve = !preserve
-
 		return MT_REFRESH

@@ -12,6 +12,10 @@
 
 	var/datum/mechcomp/mechcomp = holder.vars[holder.vars[found]]
 
+	if(!mechcomp.master.allowed(user))
+		user << "<span class='warning'>\The [mechcomp.master] is locked!</span>"
+		return
+
 	. += "<B>[holder] - Component ID: \ref[holder]</B><HR>"
 
 	. += "Send signal: <A href='?src=\ref[src];change=send;mechcomp=[found]'>[mechcomp.send_signal]</A><BR>"
@@ -25,8 +29,8 @@
 	if(mechcomp.outgoing.len > 0)
 		. += "<HR>"
 		. += "Outputs:"
-		for (var/outputName in mechcomp.outgoing)
-			. += "[outputName] - Component ID: <B>\ref[outputName]</B> on input <B>[mechcomp.outgoing[outputName]]</B><BR>"
+		for (var/datum/mechcomp/output in mechcomp.outgoing)
+			. += "<B>[output.master.name]</B> - Component ID: <B>\ref[output]</B> on input <B>[mechcomp.outgoing[output]]</B><BR>"
 
 	//Snowflake code. It's either this or tons of verbs for each component. I prefer this
 	if(istype(holder, /obj/item/mechcomp))
