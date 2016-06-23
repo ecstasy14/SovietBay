@@ -289,7 +289,7 @@
 
 	if(!stat && !busy && client)
 		var/obj/effect/spider/eggcluster/E = locate() in get_turf(src)
-		if(E)
+		if(!E)
 			if(fed > 0)
 				busy = LAYING_EGGS
 				src.visible_message("<span class='notice'>\The [src] begins to lay a cluster of eggs.</span>")
