@@ -597,6 +597,15 @@
 		return
 	else if (istype(W, /obj/item/weapon/weldingtool) && opened && has_electronics==0 && !terminal)
 		var/obj/item/weapon/weldingtool/WT = W
+		switch (WT.welding)
+			if (0)
+				user << "<span class='warning'>Turn on \the [WT] first!</span>"
+				return
+			//Seems like nothing is using welding = 2, but it's better to check it anyway
+			if (2)
+				user << "<span class='warning'>Stop welding first!</span>"
+				return
+
 		if (WT.get_fuel() < 3)
 			user << "<span class='warning'>You need more welding fuel to complete this task.</span>"
 			return

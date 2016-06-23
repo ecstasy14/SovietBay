@@ -2,6 +2,10 @@
 //TODO : Add power consumption.
 //TODO : Maybe add non-contraband teleports that have limited range?
 //TODO : add a way to get moar components
+//TODO : add a keyboard
+//TODO : add a small non-solid button
+//TODO : add a "chameleon" mode to microphones
+//TODO : make components breakable with heavy objects, because WALLS OF BUTTONS would be indestructible
 
 /*
 =================
@@ -118,6 +122,9 @@ This a base class forphysical representation of mechomps.
 	return ..()
 
 /obj/item/mechcomp/MouseDrop(var/atom/target)
+	//No ghost fer you!
+	if(!isliving(usr))
+		return
 	if(!handler.accept)
 		return
 	if(!target)
