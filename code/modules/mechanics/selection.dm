@@ -140,11 +140,9 @@
 	dat += "<HR>"
 	dat += "<B>Current buffer:</B><BR>"
 	for(var/c = 1 to buffer.len)
-		dat += "[buffer[c]]<BR>"
-	if(buffer.len)
-		if(buffer.len != 10)
-			dat += "<A href='?src=\ref[source];select_action=add'>Add a new item</A><BR>"
-		dat += "<A href='?src=\ref[source];select_action=remove'>Remove the topmost item</A><BR>"
+		dat += "[buffer[c]] <A href='?src=\ref[source];select_action=remove;remove=[buffer[c]]'>\[Remove]</A><BR> "
+	if(buffer.len != 10)
+		dat += "<A href='?src=\ref[source];select_action=add'>Add a new item</A><BR>"
 	return dat
 
 /obj/item/mechcomp/selectcomp/set_settings(href, href_list, user)
@@ -158,8 +156,6 @@
 					var/new_item = inputText(user, "Enter a new item:", "New item")
 					additem(new_item)
 			if("remove")
-				if(buffer.len > 0)
-					//Seems like this is a normal thing
-					buffer.len--
+				remitem(href_list["remove"])
 
 		return MT_REFRESH

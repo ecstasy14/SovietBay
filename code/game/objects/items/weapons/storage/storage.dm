@@ -290,7 +290,7 @@
 				user << "<span class='notice'>\The [src] cannot hold [W].</span>"
 			return 0
 		var/max_instances = can_hold[W.type]
-		if(max_instances && instances_of_type_in_list(W, contents) >= max_instances)
+		if(max_instances != null && instances_of_type_in_list(W, contents) >= max_instances)
 			if(!stop_messages && !istype(W, /obj/item/weapon/hand_labeler))
 				user << "<span class='notice'>\The [src] has no more space specifically for [W].</span>"
 			return 0

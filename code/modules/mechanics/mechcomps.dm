@@ -1,16 +1,26 @@
-//TODO : switch from custom-built signal to radio signals, I totally forgot about them
-//But I really want to finish these components so the current system stays
-
-//TODO : Document everything
+//TODO : maybe switch from custom-built signal to radio signals?
 
 /*
-You can attach this datum to nearly anything, then wire it up nearly seamlessly into the whole system
+=================
+	MECHCOMPS
+=================
+This is a class for "holder" objects. You can attach it to pretty much any /obj by adding
+a new variable and initializing it
+
+Mechcomps have a number of "inputs" - i.e. "ports" which can receive special strings - "signals"
+Mechomps also have one output with data
 
 You should only attach one datum per class
 */
+
+#define DEFAULT_SIGNAL "1"
+
 /datum/mechcomp
-	var/send_signal = "1"
-	var/trigger_signal = "1"
+	//Send signal is the string which is sent by the component
+	//It might also contain data passed to other components
+	var/send_signal = DEFAULT_SIGNAL
+	//Trigger signal is the string to which the component MIGHT react.
+	var/trigger_signal = DEFAULT_SIGNAL
 
 	//Not all components can have inputs, so we can cut on memory consumption a teeny-tiny bit
 	var/list/inputs = null
@@ -21,21 +31,31 @@ You should only attach one datum per class
 	// max_outputs<0 = unlimited number of outputs (probably a REALLY bad idea)
 	var/max_outputs = 5
 
-	var/atom/master = null
+	//If accept is true(e.g. 1) then the mechomp can receive additional connections
+	var/accept = 1
+
+	//The master object - the physical component
+	//Limiting to obj. Humans and stuff probably shouldn't be components
+	var/obj/master = null
 
 /datum/mechcomp/New(var/atom/new_master)
 	master = new_master
 	//Should this part be visible to everyone? If not, I'll have to think about a better solution"
 	master.desc += "\nComponent ID: \ref[master]"
+	//The settings are controlled by a multitool extension
+	//See code\datums\extensions\multitool\items\mechcomps.dm
 	set_extension(master, /datum/extension/interactive/multitool, /datum/extension/interactive/multitool/items/mechcomp)
 	..()
 
+//This function is used to bind an input (string) to a function controlling said input
 /datum/mechcomp/proc/add_input(input_name as text, func_name as text)
 	// Lazy initialization? Why not.
 	if(inputs == null)
 		inputs = new/list()
 	inputs[input_name] = func_name
 
+//Adds an outgoing connection
+//Terrible name
 /datum/mechcomp/proc/add_output(var/datum/mechcomp/what, to_input)
 	var/added = 0
 	if(outgoing.Find(what))
@@ -47,17 +67,19 @@ You should only attach one datum per class
 		outgoing[what] = to_input
 		what.incoming.Add(src)
 		added = 1
-
 	return added
 
+//Removes an outgoing connection
 /datum/mechcomp/proc/remove_output(datum/mechcomp/what)
 	outgoing.Remove(what)
 
+//Sends a signal
 /datum/mechcomp/proc/send_signal(signal = send_signal)
 	if(outgoing.len > 0)
 		for(var/datum/mechcomp/receiver in outgoing)
 			receiver.receive_signal(signal, outgoing[receiver])
 
+//Called when a signal is received
 /datum/mechcomp/proc/receive_signal(signal, input_name)
 	spawn(1) call(master, inputs[input_name])(signal)
 
@@ -78,3 +100,5 @@ You should only attach one datum per class
 		if(signal == 1) return 1
 	return 0
 */
+
+#undef DEFAULT_SIGNAL

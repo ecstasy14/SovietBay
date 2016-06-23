@@ -18,6 +18,8 @@
 
 	var/shuttletarget = null
 	var/enroute = 0
+	var/controllable = 0
+	var/firedelayworld
 
 /mob/living/simple_animal/hostile/proc/FindTarget()
 
@@ -64,19 +66,23 @@
 /mob/living/simple_animal/hostile/proc/Found(var/atom/A)
 	return
 
+/mob/living/simple_animal/hostile/movement_delay()
+	return	(move_to_delay - 3)
+
 /mob/living/simple_animal/hostile/proc/MoveToTarget()
-	stop_automated_movement = 1
-	if(!target_mob || SA_attackable(target_mob))
-		stance = HOSTILE_STANCE_IDLE
-	if(target_mob in ListTargets(10))
-		if(ranged)
-			if(get_dist(src, target_mob) <= 6)
-				OpenFire(target_mob)
+	if(!client)
+		stop_automated_movement = 1
+		if(!target_mob || SA_attackable(target_mob))
+			stance = HOSTILE_STANCE_IDLE
+		if(target_mob in ListTargets(10))
+			if(ranged)
+				if(get_dist(src, target_mob) <= 6)
+					OpenFire(target_mob)
+				else
+					walk_to(src, target_mob, 1, move_to_delay)
 			else
+				stance = HOSTILE_STANCE_ATTACKING
 				walk_to(src, target_mob, 1, move_to_delay)
-		else
-			stance = HOSTILE_STANCE_ATTACKING
-			walk_to(src, target_mob, 1, move_to_delay)
 
 /mob/living/simple_animal/hostile/proc/AttackTarget()
 	stop_automated_movement = 1
@@ -179,7 +185,7 @@
 
 /mob/living/simple_animal/hostile/proc/OpenFire(target_mob)
 	var/target = target_mob
-	visible_message("\red <b>[src]</b> fires at [target]!", 1)
+	visible_message("\red <b>[src]</b> fires at [target]!")
 
 	if(rapid)
 		spawn(1)
@@ -258,3 +264,7 @@
 		spawn(10)
 			if(!src.stat)
 				horde()
+
+mob/living/simple_animal/hostile/Login()
+	..()
+	walk(src,0)

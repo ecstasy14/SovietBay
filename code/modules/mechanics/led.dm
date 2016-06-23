@@ -62,6 +62,7 @@
 	cur_range = min(cur_range, 10)
 
 /obj/item/mechcomp/led/attach()
+	..()
 	if(!anchored)
 		turn_off()
 

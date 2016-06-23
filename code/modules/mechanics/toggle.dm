@@ -9,6 +9,8 @@
 	var/signal_on = "1"
 	var/signal_off = "0"
 
+	var/sendChange = 0
+
 /obj/item/mechcomp/toggle/update_icon()
 	..()
 	if(active)
@@ -24,13 +26,15 @@
 /obj/item/mechcomp/toggle/proc/turn_on(signal)
 	if(signal == handler.trigger_signal)
 		active = 1
-		handler.send_signal(signal_on)
+		if(sendChange)
+			handler.send_signal(signal_on)
 		update_icon()
 
 /obj/item/mechcomp/toggle/proc/turn_off(signal)
 	if(signal == handler.trigger_signal)
 		active = 0
-		handler.send_signal(signal_off)
+		if(sendChange)
+			handler.send_signal(signal_off)
 		update_icon()
 
 /obj/item/mechcomp/toggle/proc/toggle(signal)
@@ -48,6 +52,7 @@
 	var/dat = "<B>Toggle component settings:</B><BR>"
 	dat += "'On' signal: <A href='?src=\ref[source];toggle_action=set_on'>[signal_on]</A><BR>"
 	dat += "'Off' signal: <A href='?src=\ref[source];toggle_action=set_off'>[signal_off]</A><BR>"
+	dat += "Send signal on change : <A href='?src=\ref[source];toggle_action=set_change'>[sendChange ? "true" : "false"]</A><BR>"
 	dat += "<HR>"
 	dat += "Current state : [active ? "on" : "off"]<BR>"
 	return dat
@@ -59,5 +64,7 @@
 				signal_on = inputText(user, "Enter a new 'on' signal:", "Set 'on' signal", "1")
 			if("set_off")
 				signal_off = inputText(user, "Enter a new 'off' signal:", "Set 'off' signal", "0")
+			if("set_change")
+				sendChange = !sendChange
 
 		return MT_REFRESH

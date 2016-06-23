@@ -11,15 +11,12 @@
 /obj/item/mechcomp/handscanner/attack_hand(var/mob/user as mob)
 	if(!ready)
 		return
-
 	if (ishuman(user))
 		if (mFingerprints in user.mutations)
 			return
-
 		var/mob/living/carbon/human/H = user
 		if (H.gloves)
 			return
-
 		flick(icon_state + "_active",src)
 		if(send_name)
 			handler.send_signal(H.name)
@@ -27,7 +24,6 @@
 		else
 			handler.send_signal(H.get_full_print())
 			return
-
 	..()
 
 /obj/item/mechcomp/handscanner/get_settings(var/source)
@@ -40,5 +36,4 @@
 		switch(href_list["hand_action"])
 			if("set_name")
 				send_name = !send_name
-
 		return MT_REFRESH
