@@ -209,7 +209,9 @@
 
 				var/target = locate(href_list["target"])
 				if(target)
-					P.pda.create_message(P, target, 1)
+					//WHY WAS TAP SET TO 1?!
+					//PAIs tapping themselves?!
+					P.pda.create_message(P, target, 0)
 				else
 					return alert("Failed to send message: the recipient could not be reached.")
 				return 1
