@@ -179,8 +179,8 @@
 
 /datum/job/artist
 	title = "Artist"
-	flag = MIME
-	department_flag = CIVILIAN
+	department = "Civilian"
+	department_flag = CIV
 	faction = "Station"
 	total_positions = 3
 	spawn_positions = 3
