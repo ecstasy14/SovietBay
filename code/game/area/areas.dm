@@ -150,7 +150,7 @@
 	return
 
 /area/proc/updateicon()
-	if ((fire || eject || party) && (!requires_power||power_environ) && !istype(src, /area/space))//If it doesn't require power, can still activate this proc.
+	if ((fire || eject || party) && (!requires_power||power_environ))//If it doesn't require power, can still activate this proc.
 		if(fire && !eject && !party)
 			icon_state = "blue"
 		/*else if(atmosalm && !fire && !eject && !party)
@@ -164,7 +164,6 @@
 	else
 	//	new lighting behaviour with obj lights
 		icon_state = null
-
 
 /*
 #define EQUIP 1
@@ -221,6 +220,16 @@
 			used_light += amount
 		if(ENVIRON)
 			used_environ += amount
+
+/area/proc/set_lightswitch(var/new_switch)
+	if(lightswitch != new_switch)
+		lightswitch = new_switch
+		updateicon()
+		power_change()
+
+/area/proc/set_emergency_lighting(var/enable)
+	for(var/obj/machinery/light/M in src)
+		M.set_emergency_lighting(enable)
 
 
 var/list/mob/living/forced_ambiance_list = new

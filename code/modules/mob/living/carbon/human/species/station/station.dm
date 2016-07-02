@@ -53,6 +53,7 @@
 	num_alternate_languages = 2
 	secondary_langs = list(LANGUAGE_UNATHI)
 	name_language = LANGUAGE_UNATHI
+	health_hud_intensity = 4
 
 	min_age = 18
 	max_age = 60
@@ -113,6 +114,7 @@
 	num_alternate_languages = 2
 	secondary_langs = list(LANGUAGE_SIIK_MAAS)
 	name_language = LANGUAGE_SIIK_MAAS
+	health_hud_intensity = 3
 
 	min_age = 17
 	max_age = 80
@@ -169,6 +171,7 @@
 	num_alternate_languages = 2
 	secondary_langs = list(LANGUAGE_SKRELLIAN)
 	name_language = null
+	health_hud_intensity = 2.5
 
 	min_age = 19
 	max_age = 90
@@ -198,6 +201,8 @@
 	show_ssd = "completely quiescent"
 	num_alternate_languages = 1
 	name_language = LANGUAGE_ROOTSPEAK
+	spawns_with_stack = 0
+	health_hud_intensity = 1.5
 
 	min_age = 1
 	max_age = 300
