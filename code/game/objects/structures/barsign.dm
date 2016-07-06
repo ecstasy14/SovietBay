@@ -460,5 +460,5 @@
 
 /datum/barsign/barsek
 	name = "Barsique de Fighter"
-	desc = "GLORY TO BARSTOTZKA!"
+	desc = "GLORY TO BARSTOTZKA!!"
 	icon_state = "barsek"
