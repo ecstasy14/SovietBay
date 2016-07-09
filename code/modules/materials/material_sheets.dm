@@ -6,6 +6,7 @@
 	throw_speed = 3
 	throw_range = 3
 	max_amount = 60
+	center_of_mass = null
 	randpixel = 3
 
 	var/default_type = DEFAULT_WALL_MATERIAL
