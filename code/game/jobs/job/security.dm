@@ -24,7 +24,6 @@
 /datum/job/hos/equip(var/mob/living/carbon/human/H)
 	. = ..()
 	if(.)
-			H.equip_to_slot_or_del(new /obj/item/weapon/material/kitchen/utensil/knife/boot(H.back), slot_in_backpack)
 		H.implant_loyalty(H)
 
 /datum/job/warden
