@@ -438,3 +438,28 @@
 	name = "Whiskey Implant"
 	desc = null
 	icon_state = "whiskeyimplant"
+
+/datum/barsign/queenstone
+	name = "Queen Stone"
+	desc = "The greatest stone it the stoneworld."
+	icon_state = "queenstone"
+
+/datum/barsign/wyderar
+	name = "Why the RAR?"
+	desc = "When 7zip is not enough to COMPRESS."
+	icon_state = "wyderar"
+
+/datum/barsign/doktors
+	name = "Doctor's Who-light"
+	desc = "He makes you healthy for a second."
+	icon_state = "doktors"
+
+/datum/barsign/wingman
+	name = "The W-sh-ingman"
+	desc = "Try our new Mountain Wind with wingman."
+	icon_state = "wingman"
+
+/datum/barsign/barsek
+	name = "Barsique de Fighter"
+	desc = "GLORY TO BARSTOTZKA!"
+	icon_state = "barsek"
