@@ -4,6 +4,7 @@
 	desc = "A bar sign with no writing on it"
 	icon = 'icons/obj/barsigns.dmi'
 	icon_state = "empty"
+	appearance_flags = 0
 	anchored = 1
 	req_access = list(access_bar)
 	var/no_change = 0

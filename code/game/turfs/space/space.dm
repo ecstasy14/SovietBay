@@ -10,9 +10,8 @@
 
 /turf/space/New()
 	if(!istype(src, /turf/space/transit))
-		layer = AREA_LAYER
-		overlays += image(loc=global_space_area, icon='icons/turf/space.dmi', icon_state="white", layer=AREA_LAYER+0.1)
-		update_starlight()
+		icon_state = "[((x + y) ^ ~(x * y) + z) % 25]"
+	update_starlight()
 	..()
 
 // override for space turfs, since they should never hide anything
