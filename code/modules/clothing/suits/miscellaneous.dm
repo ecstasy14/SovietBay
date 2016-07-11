@@ -365,7 +365,7 @@
 	desc = "A black fleece cloak."
 	icon_state = "halatik"
 	item_state = "halatik"
-	body_parts_covered = UPPER_TORSO|ARMS|HANDS|LOWER_TORSO|LEGS|FEET
+	body_parts_covered = UPPER_TORSO|ARMS|HANDS|LOWER_TORSO|LEGS
 	min_cold_protection_temperature = T0C - 20
 
 /obj/item/clothing/suit/storage/leather_jacket/nanotrasen
