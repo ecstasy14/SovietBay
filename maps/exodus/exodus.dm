@@ -10,7 +10,6 @@
 	#include "exodus-4.dmm"
 	#include "exodus-5.dmm"
 	#include "exodus-6.dmm"
-	#include "exodus-7.dmm"
 
 	#define USING_MAP_DATUM /datum/map/exodus
 
