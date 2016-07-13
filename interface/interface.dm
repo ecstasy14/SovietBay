@@ -40,6 +40,15 @@
 	src << link("http://sovietstation.ru/index.php?showtopic=145")
 	return
 
+/client/verb/discord()
+	set name = "discord"
+	set desc = "Official communication to the Community."
+	set hidden = 1
+	if(alert("This will open the donate page in your browser. Are you sure?",,"Yes","No")=="No")
+		return
+	src << link("https://discordapp.com/invite/0w1vKJ5uh8NNKKwi")
+	return
+
 /client/verb/github()
 	set name = "github"
 	set desc = "GitHub."
