@@ -101,6 +101,10 @@
 	path = /obj/item/clothing/under/resomi/white
 	whitelisted = "Resomi"
 
+/datum/gear/uniform/resomi/black
+	display_name = "smock, black (Resomi)"
+	path = /obj/item/clothing/under/resomi/black
+
 /datum/gear/uniform/resomi/eng
 	display_name = "uniform, Engineering (Resomi)"
 	path = /obj/item/clothing/under/resomi/yellow
