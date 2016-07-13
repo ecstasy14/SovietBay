@@ -294,6 +294,53 @@
 		name = "Overeye Long"
 		icon_state = "hair_longovereye"
 
+	longbedhead                          //Renard Queenston's spizhennoe
+		name = "Long Bedhead"
+		icon_state = "hair_long_bedhead_s"
+		gender = FEMALE
+		species_allowed = list("Human")
+
+	longtails                              //Renard Queenston's spizhennoe
+		name = "Long Tails"
+		icon_state = "hair_long_d_tails_s"
+		gender = FEMALE
+		species_allowed = list("Human")
+
+	flutter                                //Renard Queenston's spizhennoe
+		name = "Flutter"
+		icon_state = "hair_fluttershy_s"
+		gender = FEMALE
+		species_allowed = list("Human")
+
+	nia                                    //Renard Queenston's spizhennoe
+		name = "Nia"
+		icon_state = "hair_nia_s"
+		gender = FEMALE
+		species_allowed = list("Human")
+
+	eightcentury                           //Renard Queenston's spizhennoe
+		name = "80s"
+		icon_state = "hair_80s_s"
+		gender = FEMALE
+		species_allowed = list("Human")
+
+	applejack                              //Renard Queenston's spizhennoe
+		name = "Applejack"
+		icon_state = "hair_applejack_s"
+		gender = FEMALE
+		species_allowed = list("Human")
+
+	judehair                               //Renard Queenston's spizhennoe
+		name = "Judge Hair"
+		icon_state = "hair_judge_s"
+		gender = FEMALE
+		species_allowed = list("Human")
+
+
+
+
+
+
 	fag
 		name = "Flow Hair"
 		icon_state = "hair_f"
@@ -457,7 +504,7 @@
 	bun
 		name = "Low Bun"
 		icon_state = "hair_bun"
-		
+
 	bun2
 		name = "High Bun"
 		icon_state = "hair_bun2"
