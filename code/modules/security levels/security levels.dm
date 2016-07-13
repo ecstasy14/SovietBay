@@ -46,13 +46,6 @@
 		for(var/obj/machinery/firealarm/FA in machines)
 			if(FA.z in using_map.contact_levels)
 				FA.set_security_level(newlevel)
-		for(var/obj/machinery/light/LT in machines)
-			if(security_level == 0 || security_level == 1 )
-				LT.alert_collor()
-			else
-				LT.set_light(l_range = LT.light_range, l_power = LT.light_power, l_color = LT.standart_color)
-				if(pick(1,0) == 1)
-					LT.alert_collor()
 
 
 /proc/get_security_level()

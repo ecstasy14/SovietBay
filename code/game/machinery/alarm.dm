@@ -1078,10 +1078,9 @@ FIRE ALARM
 	var/area/area = get_area(src)
 	for(var/obj/machinery/firealarm/FA in area)
 		fire_alarm.clearAlarm(loc, FA)
-	for(var/obj/machinery/light/LT in area)
-		LT.alert_collor(0, 1)
 	update_icon()
 	return
+
 
 /obj/machinery/firealarm/proc/alarm(var/duration = 0)
 	if (!( src.working))
@@ -1089,12 +1088,9 @@ FIRE ALARM
 	var/area/area = get_area(src)
 	for(var/obj/machinery/firealarm/FA in area)
 		fire_alarm.triggerAlarm(loc, FA, duration)
-	for(var/obj/machinery/light/LT in area)
-		LT.alert_collor(1)
 	update_icon()
 	//playsound(src.loc, 'sound/ambience/signal.ogg', 75, 0)
 	return
-
 
 
 /obj/machinery/firealarm/New(loc, dir, building)
