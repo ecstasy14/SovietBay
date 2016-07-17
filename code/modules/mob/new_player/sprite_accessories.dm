@@ -294,10 +294,16 @@
 		name = "Overeye Long"
 		icon_state = "hair_longovereye"
 
-	longbedhead                            //Renard Queenston's spizhennoe
+	longbedheadfemale                      //Renard Queenston's spizhennoe
 		name = "Long Bedhead Female"
 		icon_state = "hair_long_bedheadfemale"
 		gender = FEMALE
+		species_allowed = list("Human")
+
+	longbedheadmale                      //Renard Queenston's spizhennoe
+		name = "Long Bedhead Male"
+		icon_state = "hair_long_bedheadmale"
+		gender = MALE
 		species_allowed = list("Human")
 
 	longtails                              //Renard Queenston's spizhennoe
