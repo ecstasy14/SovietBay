@@ -2111,6 +2111,34 @@ window "rpane"
 		macro = ""
 		menu = ""
 		on-close = ""
+	elem "discord"
+		type = BUTTON
+		pos = 468,0
+		size = 60x16
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = none
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Discord"
+		image = ""
+		command = "Discord"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "rpanemode"
+		button-type = pushbutton
 	elem "rpanewindow"
 		type = CHILD
 		pos = 0,0
