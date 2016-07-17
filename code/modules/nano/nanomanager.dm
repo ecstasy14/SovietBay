@@ -256,3 +256,7 @@
 	oldMob.open_uis.Cut()
 
 	return 1 // success
+
+/datum/nanomanager/proc/send_resources(client)
+	for(var/file in asset_files_manual_list)//asset_files
+		client << browse_rsc(file)	// send the file to the client

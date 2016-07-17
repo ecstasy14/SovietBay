@@ -320,3 +320,10 @@ client/verb/character_setup()
 	set category = "OOC"
 	if(prefs)
 		prefs.ShowChoices(usr)
+
+/client/verb/resend_resources()
+	set name = "Send Resources"
+	set category = "Preference"
+
+	nanomanager.close_uis(src)
+	nanomanager.send_resources(src)
